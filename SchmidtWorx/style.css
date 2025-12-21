@@ -21,6 +21,21 @@ body {
   line-height: 1.6;
 }
 
+/* --- Global Links --- */
+
+a {
+  color: var(--fg);
+  text-decoration: none;
+}
+
+a:visited {
+  color: var(--fg);
+}
+
+a:hover {
+  opacity: 0.85;
+}
+
 /* --- Header & Navigation --- */
 
 header {
@@ -68,12 +83,6 @@ nav.open {
 nav a {
   display: block;
   padding: 0.9rem 1.5rem;
-  color: var(--fg);
-  text-decoration: none;
-}
-
-nav a:hover {
-  background-color: #181b21;
 }
 
 /* --- Content --- */
