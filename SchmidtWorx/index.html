@@ -6,7 +6,23 @@
   <title>SchmidtWorx</title>
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
+
+  <header>
+    <div class="nav-container">
+      <div class="site-title">SchmidtWorx</div>
+      <div class="hamburger" onclick="toggleMenu()">☰</div>
+    </div>
+
+    <nav id="menu">
+      <a href="#what-this-is">What This Is</a>
+      <a href="#systems">Systems</a>
+      <a href="#projects">Projects</a>
+      <a href="#legacy">Legacy</a>
+      <a href="#letters">Letters and Recordings</a>
+    </nav>
+  </header>
 
   <main class="container">
 
@@ -17,8 +33,7 @@
       </p>
     </section>
 
-
-    <section>
+    <section id="what-this-is">
       <h2>What This Is</h2>
       <p>
         SchmidtWorx is a personal workspace.
@@ -32,8 +47,7 @@
       </p>
     </section>
 
-
-    <section>
+    <section id="systems">
       <h2>Systems</h2>
       <p>
         I build and manage systems for a living, but more importantly, I try to understand how
@@ -48,8 +62,7 @@
       </p>
     </section>
 
-
-    <section>
+    <section id="projects">
       <h2>Projects</h2>
       <p>
         Projects here range from practical to experimental.
@@ -62,8 +75,7 @@
       </p>
     </section>
 
-
-    <section>
+    <section id="legacy">
       <h2>Legacy</h2>
       <p>
         I am in possession of writings and records created by those who came before me.
@@ -78,8 +90,7 @@
       </p>
     </section>
 
-
-    <section>
+    <section id="letters">
       <h2>Letters and Recordings</h2>
       <p>
         Some thoughts are better spoken than written.
@@ -93,7 +104,6 @@
       </p>
     </section>
 
-
     <footer>
       <p>
         SchmidtWorx exists to build, preserve, and pass forward what matters.
@@ -101,6 +111,12 @@
     </footer>
 
   </main>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById("menu").classList.toggle("open");
+    }
+  </script>
 
 </body>
 </html>
