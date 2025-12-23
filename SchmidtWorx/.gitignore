@@ -1,0 +1,73 @@
+############################
+# Secrets / Environment
+############################
+
+# Global env files (never commit secrets)
+.env
+.env.*
+**/.env
+**/*.env
+
+# Secret directories (Syncthing / backups)
+Env/
+Secrets/
+Docker-Secrets/
+
+############################
+# Runtime / App State
+############################
+
+# Unraid appdata (never version control runtime state)
+appdata/
+**/appdata/
+mnt/
+**/mnt/
+
+# Docker runtime artifacts
+**/docker-data/
+**/docker-volumes/
+
+############################
+# OS / Editor Noise
+############################
+
+# macOS
+.DS_Store
+.AppleDouble
+._*
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# Editors / IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+############################
+# Logs / Temp
+############################
+
+*.log
+*.tmp
+*.bak
+*.old
+
+############################
+# Build / Cache
+############################
+
+# Node / Python caches (just in case)
+node_modules/
+__pycache__/
+*.pyc
+
+############################
+# Allow Explicit Examples
+############################
+
+# Keep env templates tracked
+!**/.env.example
+!Env/**/*.example
