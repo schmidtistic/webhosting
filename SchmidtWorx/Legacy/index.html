@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Legacy | SchmidtWorx</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+
+<body>
+
+  <header>
+    <div class="nav-container">
+      <div class="site-title">SchmidtWorx</div>
+      <div class="hamburger" onclick="toggleMenu()">☰</div>
+    </div>
+
+    <nav id="menu">
+      <a href="../index.html">Home</a>
+      <a href="#legacy">Legacy</a>
+    </nav>
+  </header>
+
+  <main class="container">
+
+    <section class="hero">
+      <h1>Legacy</h1>
+      <p class="tagline">
+        Writings and records created by those who came before.
+      </p>
+    </section>
+
+    <section id="legacy">
+      <h2>Preserved Works</h2>
+
+      <p>
+        This section contains original writings, documents, and records
+        preserved in their original form.
+      </p>
+
+      <p>
+        Context is added sparingly.
+        Interpretation is avoided.
+      </p>
+
+      <p>
+        These materials are kept not for nostalgia,
+        but to prevent voices from disappearing.
+      </p>
+    </section>
+
+    <section>
+      <h2>Archive</h2>
+
+      <p>
+        <a href="schmidt-reunion-1995.html">
+          Schmidt Family Reunion – 1995
+        </a><br />
+        A collection of writings prepared for a family gathering,
+        preserved as originally distributed.
+      </p>
+
+      <!--
+      Future entries follow this pattern.
+
+      <p>
+        <a href="artifact-file-name.html">
+          Artifact Title
+        </a><br />
+        One sentence describing what it is and why it exists.
+      </p>
+      -->
+
+    </section>
+
+    <footer>
+      <p>
+        Legacy exists to preserve what was written
+        without reshaping it to fit the present.
+      </p>
+    </footer>
+
+  </main>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById("menu").classList.toggle("open");
+    }
+  </script>
+
+</body>
+</html>
