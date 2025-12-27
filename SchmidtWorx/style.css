@@ -21,7 +21,7 @@ body {
   line-height: 1.6;
 }
 
-/* --- Global Links --- */
+/* ---------------- Links ---------------- */
 
 a {
   color: var(--fg);
@@ -38,8 +38,7 @@ a:visited {
   color: var(--fg);
 }
 
-
-/* --- Header & Navigation --- */
+/* ---------------- Header ---------------- */
 
 header {
   position: fixed;
@@ -57,25 +56,24 @@ header {
   align-items: center;
   max-width: var(--max-width);
   margin: 0 auto;
-  padding: 1rem 1.5rem;
+  padding: 0.75rem 1.25rem;
 }
 
 .site-title {
   font-weight: 600;
   letter-spacing: 0.05em;
-  color: var(--fg);
 }
 
 .hamburger {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   cursor: pointer;
   user-select: none;
-  color: var(--fg);
 }
+
+/* ---------------- Nav ---------------- */
 
 nav {
   display: none;
-  background-color: var(--bg);
   border-top: 1px solid #222;
 }
 
@@ -85,93 +83,100 @@ nav.open {
 
 nav a {
   display: block;
-  padding: 0.9rem 1.5rem;
+  padding: 0.6rem 1.25rem;
 }
 
-/* --- Content --- */
+/* ---------------- Layout ---------------- */
 
 .container {
   max-width: var(--max-width);
-  padding: 3rem 1.5rem;
   margin: 0 auto;
+  padding: 2.5rem 1.25rem;
+}
+
+section {
+  margin-bottom: 1.25rem;
 }
 
 .hero {
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 h1 {
-  font-size: 2.4rem;
-  margin-bottom: 0.5rem;
+  font-size: 2.2rem;
+  margin-bottom: 0.25rem;
   font-weight: 600;
 }
 
 .tagline {
   color: var(--muted);
-  font-size: 1.1rem;
-}
-
-section {
-  margin-bottom: 2rem;
+  font-size: 1rem;
 }
 
 h2 {
-  font-size: 1.4rem;
-  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
   font-weight: 500;
   color: var(--accent);
 }
 
 p {
-  margin-bottom: 1rem;
+  margin-bottom: 0.9rem;
 }
 
-/* Collapsible section styling */
+/* ---------------- Collapsible Sections ---------------- */
 
 details {
-  margin: 2.5rem 0;
+  margin: 0.75rem 0;
 }
 
 summary {
   cursor: pointer;
-  font-size: 1.35rem;
-  font-weight: 600;
+  font-size: 1.05rem;
+  font-weight: 500;
   list-style: none;
   display: flex;
   align-items: center;
-}
-
-summary::-webkit-details-marker {
-  display: none;
+  justify-content: space-between;
+  gap: 1rem;
 }
 
 summary::before {
+  content: none;
+}
+
+summary::after {
   content: "+";
-  display: inline-block;
-  margin-right: 0.75rem;
-  font-weight: bold;
+  font-size: 0.9rem;
+  font-weight: 600;
+  opacity: 0.65;
+}
+
+details[open] summary::after {
+  content: "−";
 }
 
 details[open] summary::before {
-  content: "-";
+  content: "−";
 }
 
 details > *:not(summary) {
-  margin-left: 1.75rem;
-  margin-top: 1rem;
+  margin-left: 1.1rem;
+  margin-top: 0.75rem;
 }
 
-/* Optional subtle hover cue */
+/* Subtle hover cue */
 
 summary:hover {
   opacity: 0.85;
 }
 
+/* ---------------- Footer ---------------- */
 
 footer {
-  margin-top: 4rem;
-  padding-top: 2rem;
+  margin-top: 3rem;
+  padding-top: 1.5rem;
   border-top: 1px solid #222;
   color: var(--muted);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
 }
