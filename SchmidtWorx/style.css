@@ -138,11 +138,13 @@ summary {
   cursor: pointer;
   font-size: 1.05rem;
   font-weight: 500;
+  font-style: italic;
   list-style: none;
   display: flex;
   justify-content: space-between;
   gap: 1rem;
 }
+
 
 summary::after {
   content: "+";
