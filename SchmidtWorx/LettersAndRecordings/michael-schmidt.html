@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Letters – Michael Schmidt</title>
+    <link rel="stylesheet" href="../style.css" />
+</head>
+
+<body>
+
+    <header>
+        <div class="nav-container">
+            <div class="site-title">SchmidtWorx</div>
+            <div class="hamburger" onclick="toggleMenu()">☰</div>
+        </div>
+
+        <nav id="menu">
+            <a href="../index.html">Home</a>
+            <a href="../Reflections/index.html">Reflections</a>
+            <a href="index.html">Letters and Recordings</a>
+        </nav>
+    </header>
+
+    <main class="container">
+
+        <section class="hero">
+            <h1>Letters and Recordings of Michael Schmidt (1981-)</h1>
+            <p class="tagline">
+                Messages spoken in real time. Preserved without revision.
+            </p>
+        </section>
+
+        <section id="context">
+            <h2>Context</h2>
+
+            <p>
+                These recordings are not arguments.
+                They are not explanations.
+            </p>
+
+            <p>
+                They are conversations offered forward.
+                Some recorded in quiet rooms.
+                Some recorded in ordinary moments.
+            </p>
+
+            <p>
+                They exist so that voice survives memory.
+            </p>
+        </section>
+
+        <section id="recordings">
+            <h2>Recorded Messages</h2>
+
+            <details>
+                <summary>Message to Cooper</summary>
+
+                <p>Recorded 2026.</p>
+
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/n4VKtFWZsXQ" title="Message to Cooper"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen>
+                    </iframe>
+                </div>
+
+            </details>
+
+        </section>
+
+        <section id="interviews">
+            <h2>Documentary Interviews</h2>
+
+            <p>
+                Long-form reflections recorded as structured interviews.
+                Intended to preserve context, not just memory.
+            </p>
+
+            <details>
+                <summary>On Work and Responsibility</summary>
+            </details>
+
+        </section>
+
+        <section id="readings">
+            <h2>Readings</h2>
+
+            <p>
+                Books read aloud, preserved for repetition.
+            </p>
+
+            <details>
+                <summary>Favorite Stories</summary>
+            </details>
+
+        </section>
+
+        <footer>
+            <p>
+                Recorded without certainty of when they will be heard.
+            </p>
+        </footer>
+
+    </main>
+
+    <script>
+        function toggleMenu() {
+            document.getElementById("menu").classList.toggle("open");
+        }
+    </script>
+
+</body>
+
+</html>
