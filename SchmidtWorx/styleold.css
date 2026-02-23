@@ -1,0 +1,171 @@
+:root {
+  --bg: #0f1115;
+  --fg: #e6e6e6;
+  --muted: #a0a4ab;
+  --accent: #c9c9c9;
+  --max-width: 720px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding-top: 10px;
+  background-color: var(--bg);
+  color: var(--fg);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+               Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue",
+               Arial, sans-serif;
+  line-height: 1.6;
+}
+
+/* Links */
+
+a {
+  color: var(--fg);
+  text-decoration: none;
+  border-bottom: 1px dotted rgba(255,255,255,0.35);
+}
+
+a:hover {
+  border-bottom-color: var(--fg);
+}
+
+/* Header */
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--bg);
+  border-bottom: 1px solid #222;
+  z-index: 1000;
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0.75rem 1.25rem;
+}
+
+.site-title {
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.hamburger {
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+
+/* Nav */
+
+nav {
+  display: none;
+  border-top: 1px solid #222;
+}
+
+nav.open {
+  display: block;
+}
+
+nav a {
+  display: block;
+  padding: 0.6rem 1.25rem;
+}
+
+/* Layout */
+
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem;
+}
+
+section {
+  margin-bottom: 1.5rem;
+}
+
+.hero {
+  margin-bottom: 2rem;
+}
+
+h1 {
+  font-size: 2.2rem;
+  margin-bottom: 0.25rem;
+  font-weight: 600;
+}
+
+.tagline {
+  color: var(--muted);
+  font-size: 1rem;
+}
+
+h2 {
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
+  font-weight: 500;
+  color: var(--accent);
+}
+
+p {
+  margin-bottom: 0.9rem;
+}
+
+/* Lists */
+
+ul {
+  padding-left: 1.25rem;
+}
+
+li {
+  margin-bottom: 0.5rem;
+}
+
+/* Collapsible */
+
+details {
+  margin: 0.75rem 0;
+}
+
+summary {
+  cursor: pointer;
+  font-size: 1.05rem;
+  font-weight: 500;
+  font-style: italic;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+
+summary::after {
+  content: "+";
+  opacity: 0.6;
+}
+
+details[open] summary::after {
+  content: "−";
+}
+
+details > *:not(summary) {
+  margin-left: 1.1rem;
+  margin-top: 0.75rem;
+}
+
+/* Footer */
+
+footer {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #222;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
