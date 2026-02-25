@@ -178,6 +178,15 @@ details>*:not(summary) {
     margin-top: 0.75rem;
 }
 
+.audio-wrapper {
+    margin-top: 1rem;
+}
+
+audio {
+    width: 100%;
+    max-width: 500px;
+}
+
 /* Footer */
 
 footer {
