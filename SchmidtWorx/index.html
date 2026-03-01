@@ -12,13 +12,18 @@
 
   <div id="header-placeholder"></div>
 
-  <script>
-    fetch("/components/header.html")
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById("header-placeholder").innerHTML = data;
-      });
-  </script>
+  <header>
+    <div class="nav-container">
+      <div class="site-title">SchmidtWorx</div>
+      <div class="hamburger" onclick="toggleMenu()">☰</div>
+    </div>
+
+    <nav id="menu">
+      <a href="index.html">Home</a>
+      <a href="Reflections/index.html">Reflections</a>
+      <a href="LettersAndRecordings/index.html">Letters and Recordings</a>
+    </nav>
+  </header>
 
   <main class="container">
 
