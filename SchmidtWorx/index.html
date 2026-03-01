@@ -10,20 +10,26 @@
 
 <body>
 
+  <!-- Header loads here -->
   <div id="header-placeholder"></div>
 
-  <header>
-    <div class="nav-container">
-      <div class="site-title">SchmidtWorx</div>
-      <div class="hamburger" onclick="toggleMenu()">☰</div>
-    </div>
+  <main class="container">
+    <!-- Your page content goes here -->
+  </main>
 
-    <nav id="menu">
-      <a href="index.html">Home</a>
-      <a href="Reflections/index.html">Reflections</a>
-      <a href="LettersAndRecordings/index.html">Letters and Recordings</a>
-    </nav>
-  </header>
+  <!-- Load header -->
+  <script>
+    fetch("/components/header.html")
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById("header-placeholder").innerHTML = data;
+      });
+  </script>
+
+  <!-- Load hamburger logic -->
+  <script src="/scripts/menu.js"></script>
+
+
 
   <main class="container">
 
