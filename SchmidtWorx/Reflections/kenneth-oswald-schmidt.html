@@ -10,18 +10,9 @@
 
 <body>
 
-  <header>
-    <div class="nav-container">
-      <div class="site-title">SchmidtWorx</div>
-      <div class="hamburger" onclick="toggleMenu()">☰</div>
-    </div>
-
-    <nav id="menu">
-      <a href="index.html">Home</a>
-      <a href="Reflections/index.html">Reflections</a>
-      <a href="LettersAndRecordings/index.html">Letters and Recordings</a>
-    </nav>
-  </header>
+  <!-- Header loads here -->
+  <div id="header-placeholder"></div>
+  <!-- Header ends here -- Populate Body starting right below -->
 
   <main class="container">
 
@@ -2266,11 +2257,21 @@
 
   </main>
 
+  <!-- Paste as Last Thing in body on each page for consistent appearance -->
+  <!-- Load header -->
   <script>
-    function toggleMenu() {
-      document.getElementById("menu").classList.toggle("open");
-    }
+    document.addEventListener("DOMContentLoaded", function () {
+      fetch("/components/header.html")
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById("header-placeholder").innerHTML = data;
+        });
+    });
   </script>
+
+  <!-- Hamburger logic -->
+  <script src="/scripts/menu.js"></script>
+  <!-- End Entire Paste Section... This should be last line before </body> -->
 
 </body>
 
