@@ -14,24 +14,6 @@
   <div id="header-placeholder"></div>
 
   <main class="container">
-    <!-- Your page content goes here -->
-  </main>
-
-  <!-- Load header -->
-  <script>
-    fetch("/components/header.html")
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById("header-placeholder").innerHTML = data;
-      });
-  </script>
-
-  <!-- Load hamburger logic -->
-  <script src="/scripts/menu.js"></script>
-
-
-
-  <main class="container">
 
     <section class="hero">
       <h1>SchmidtWorx</h1>
@@ -49,7 +31,7 @@
 
       <p>
         Some belongs to those who came before.<br />
-        Some of what lives here reflects the present.<br />
+        Some reflects the present.<br />
         Some is meant for those who will come after.
       </p>
 
@@ -60,7 +42,7 @@
 
     <section id="reflections">
       <h2>
-        <a href="Reflections/index.html">Reflections and Legacy</a>
+        <a href="/Reflections/index.html">Reflections and Legacy</a>
       </h2>
 
       <p>
@@ -75,7 +57,7 @@
 
     <section id="letters">
       <h2>
-        <a href="LettersAndRecordings/index.html">Recordings and Artifacts</a>
+        <a href="/LettersAndRecordings/index.html">Recordings and Artifacts</a>
       </h2>
 
       <p>
@@ -92,11 +74,19 @@
 
   </main>
 
+  <!-- Load header -->
   <script>
-    function toggleMenu() {
-      document.getElementById("menu").classList.toggle("open");
-    }
+    document.addEventListener("DOMContentLoaded", function () {
+      fetch("/components/header.html")
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById("header-placeholder").innerHTML = data;
+        });
+    });
   </script>
+
+  <!-- Hamburger logic -->
+  <script src="/scripts/menu.js"></script>
 
 </body>
 
