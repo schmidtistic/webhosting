@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reflections – Michael Schmidt</title>
+    <link rel="stylesheet" href="/style.css" />
+</head>
+
+<body>
+
+    <!-- Header loads here -->
+    <div id="header-placeholder"></div>
+    <!-- Header ends here -- Populate Body starting right below -->
+
+    <main class="container">
+
+        <section class="hero">
+            <h1>Reflections of Gregory Schmidt (1956-)</h1>
+            <p class="tagline">
+                Subtitle
+            </p>
+        </section>
+
+        <section id="context">
+            <h2>Context</h2>
+            <p>
+                What's the context of these reflections?
+            </p>
+
+        </section>
+
+        <footer>
+            <p>Here is my footer</p>
+        </footer>
+
+    </main>
+
+    <!-- Paste as Last Thing in body on each page for consistent appearance -->
+    <!-- Load header -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch("/components/header.html")
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById("header-placeholder").innerHTML = data;
+                });
+        });
+    </script>
+
+    <!-- Hamburger logic -->
+    <script src="/scripts/menu.js"></script>
+    <!-- End Entire Paste Section... This should be last line before </body> -->
+
+</body>
+
+</html>
