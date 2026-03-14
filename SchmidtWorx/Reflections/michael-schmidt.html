@@ -2214,16 +2214,18 @@
 
           const summary = item.querySelector("summary");
 
-          setTimeout(() => {
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
 
-            const y = summary.getBoundingClientRect().top + window.pageYOffset;
+              const y = summary.getBoundingClientRect().top + window.scrollY;
 
-            window.scrollTo({
-              top: y - 20,   // small breathing space from very top
-              behavior: "smooth"
+              window.scrollTo({
+                top: y - 40,   // slightly larger buffer
+                behavior: "smooth"
+              });
+
             });
-
-          }, 120);
+          });
 
         }
 
