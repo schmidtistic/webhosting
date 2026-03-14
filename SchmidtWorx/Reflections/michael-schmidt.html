@@ -2204,6 +2204,28 @@
   <script src="/scripts/menu.js"></script>
   <!-- End Entire Paste Section... This should be last line before </body> -->
 
+  <!-- Logic for Large Reflections to Center -->
+  <script>
+    document.querySelectorAll("details").forEach((item) => {
+
+      item.addEventListener("toggle", function () {
+
+        if (item.open) {
+
+          setTimeout(() => {
+            item.scrollIntoView({
+              behavior: "smooth",
+              block: "start"
+            });
+          }, 100);
+
+        }
+
+      });
+
+    });
+  </script>
+
 </body>
 
 </html>
