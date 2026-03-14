@@ -2212,12 +2212,18 @@
 
         if (item.open) {
 
+          const summary = item.querySelector("summary");
+
           setTimeout(() => {
-            item.scrollIntoView({
-              behavior: "smooth",
-              block: "start"
+
+            const y = summary.getBoundingClientRect().top + window.pageYOffset;
+
+            window.scrollTo({
+              top: y - 20,   // small breathing space from very top
+              behavior: "smooth"
             });
-          }, 100);
+
+          }, 120);
 
         }
 
