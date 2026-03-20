@@ -5,16 +5,19 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Reflections – Michael Schmidt</title>
+  <meta name="description"
+    content="Personal reflections in the SchmidtWorx archive, written across different stages of life and organized by relationship rather than chronology." />
   <link rel="stylesheet" href="/style.css" />
 </head>
 
 <body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
 
   <!-- Header loads here -->
   <div id="header-placeholder"></div>
   <!-- Header ends here -- Populate Body starting right below -->
 
-  <main class="container page-shell">
+  <main id="main-content" class="container page-shell">
 
     <section class="hero">
       <p class="eyebrow">Personal Archive</p>
@@ -2444,34 +2447,7 @@
   </main>
 
   <script src="/scripts/menu.js"></script>
-  <script>
-    document.querySelectorAll("details").forEach((item) => {
-
-      item.addEventListener("toggle", function () {
-
-        if (item.open) {
-
-          const summary = item.querySelector("summary");
-
-          requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-
-              const y = summary.getBoundingClientRect().top + window.scrollY;
-
-              window.scrollTo({
-                top: y - 40,   // slightly larger buffer
-                behavior: "smooth"
-              });
-
-            });
-          });
-
-        }
-
-      });
-
-    });
-  </script>
+  <script src="/scripts/archive.js"></script>
 
 </body>
 

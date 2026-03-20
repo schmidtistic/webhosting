@@ -35,6 +35,23 @@ body {
     text-rendering: optimizeLegibility;
 }
 
+.skip-link {
+    position: absolute;
+    left: 1rem;
+    top: -4rem;
+    z-index: 2000;
+    padding: 0.75rem 1rem;
+    border-radius: 999px;
+    background: var(--accent-strong);
+    color: #111315;
+    border-bottom: none;
+    font-weight: 700;
+}
+
+.skip-link:focus {
+    top: 1rem;
+}
+
 body::before {
     content: "";
     position: fixed;
@@ -171,6 +188,171 @@ header {
 .page-shell {
     display: grid;
     gap: 1.5rem;
+}
+
+.utility-grid {
+    display: grid;
+    gap: 1rem;
+}
+
+.utility-card {
+    padding: 1.25rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: rgba(255, 255, 255, 0.025);
+    box-shadow: var(--shadow);
+}
+
+.utility-label,
+.jump-label,
+.filter-status,
+.result-meta,
+.related-kind {
+    color: var(--muted);
+    font-size: 0.84rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.utility-title {
+    margin: 0;
+    font-size: 1.2rem;
+    line-height: 1.15;
+}
+
+.utility-copy {
+    margin: 0.75rem 0 0;
+    max-width: var(--reading-width);
+}
+
+.meta-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    margin-top: 1rem;
+}
+
+.meta-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.45rem 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--fg);
+    font-size: 0.88rem;
+}
+
+.breadcrumbs {
+    margin-top: 0.4rem;
+}
+
+.breadcrumb-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.breadcrumb-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.breadcrumb-item:not(:last-child)::after {
+    content: "/";
+    color: var(--muted);
+}
+
+.breadcrumb-link,
+.breadcrumb-current {
+    border-bottom: none;
+}
+
+.breadcrumb-current {
+    color: var(--muted);
+}
+
+.filter-input {
+    width: 100%;
+    margin-top: 0.85rem;
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: rgba(6, 8, 10, 0.34);
+    color: var(--fg);
+    font: inherit;
+}
+
+.filter-input::placeholder {
+    color: rgba(180, 173, 159, 0.78);
+}
+
+.tool-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 0.85rem;
+}
+
+.tool-button {
+    padding: 0.7rem 0.95rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--fg);
+    font: inherit;
+    cursor: pointer;
+}
+
+.tool-button:hover,
+.tool-button:focus-visible {
+    border-color: var(--border-strong);
+    background: rgba(255, 255, 255, 0.07);
+}
+
+.jump-label,
+.filter-status {
+    margin: 0.9rem 0 0;
+}
+
+.jump-list,
+.search-results {
+    list-style: none;
+    padding: 0;
+    margin: 0.8rem 0 0;
+    display: grid;
+    gap: 0.65rem;
+}
+
+.jump-link,
+.result-link,
+.related-card {
+    display: grid;
+    gap: 0.2rem;
+    padding: 0.85rem 0.95rem;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.02);
+    border-bottom-style: solid;
+}
+
+.result-title,
+.related-title {
+    font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
+    font-size: 1.02rem;
+    color: var(--fg);
+}
+
+.related-copy {
+    color: var(--muted);
+}
+
+.hidden-by-filter {
+    display: none !important;
 }
 
 section {
@@ -496,6 +678,16 @@ audio {
     color: var(--muted);
 }
 
+.related-nav {
+    display: grid;
+    gap: 1rem;
+}
+
+.related-grid {
+    display: grid;
+    gap: 0.8rem;
+}
+
 footer {
     padding: 1rem 0 0;
     font-size: 0.92rem;
@@ -504,6 +696,11 @@ footer {
 
 @media (min-width: 720px) {
     .intro-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .utility-grid,
+    .related-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
@@ -530,6 +727,11 @@ footer {
     .nav-link {
         padding: 0.75rem 1rem;
     }
+
+    .utility-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        align-items: start;
+    }
 }
 
 @media (max-width: 719px) {
@@ -549,5 +751,18 @@ footer {
     .archive-card,
     .content-panel {
         padding: 1.2rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition: none !important;
     }
 }
