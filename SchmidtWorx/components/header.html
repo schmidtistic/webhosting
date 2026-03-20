@@ -1,12 +1,18 @@
 <header>
     <div class="nav-container">
-        <div class="site-title">SchmidtWorx</div>
-        <div class="hamburger" id="hamburger">☰</div>
+        <a class="site-title" href="/index.html" aria-label="SchmidtWorx home">
+            <span class="site-title-mark">Archive</span>
+            <span class="site-title-text">SchmidtWorx</span>
+        </a>
+        <button class="hamburger" id="hamburger" type="button" aria-expanded="false" aria-controls="menu"
+            aria-label="Open navigation">
+            <span aria-hidden="true">☰</span>
+        </button>
     </div>
 
-    <nav id="menu">
-        <a href="/index.html">Home</a>
-        <a href="/Reflections/index.html">Reflections</a>
-        <a href="/LettersAndRecordings/index.html">Recordings and Artifacts</a>
+    <nav id="menu" aria-label="Primary navigation">
+        <a class="nav-link" href="/index.html">Home</a>
+        <a class="nav-link" href="/Reflections/index.html">Reflections</a>
+        <a class="nav-link" href="/LettersAndRecordings/index.html">Recordings and Artifacts</a>
     </nav>
 </header>

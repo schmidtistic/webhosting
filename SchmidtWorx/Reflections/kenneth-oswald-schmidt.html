@@ -14,17 +14,19 @@
   <div id="header-placeholder"></div>
   <!-- Header ends here -- Populate Body starting right below -->
 
-  <main class="container">
+  <main class="container page-shell">
 
     <section class="hero">
+      <p class="eyebrow">Preserved Document</p>
       <h1>Reflections of Kenneth Oswald Schmidt (1905-1997)</h1>
       <p class="tagline">
         A collection of writings preserved as they were written.
       </p>
     </section>
 
-    <section id="context">
-      <h2>Context</h2>
+    <section id="context" class="section-card">
+      <p class="section-kicker">Context</p>
+      <h2 class="section-heading">A primary family document preserved from the 1995 Schmidt Family Reunion.</h2>
 
       <p>
         The majority of this was prepared for the 1995 Schmidt Family Reunion in Chicago, IL.
@@ -39,7 +41,7 @@
         The original document has been preserved in its entirety.
       </p>
 
-      <p>
+      <p class="pdf-link">
         <strong>
           <a href="../assets/Schmidt-Reunion-1995.pdf" target="_blank">
             View or download the complete original document (PDF)
@@ -48,10 +50,10 @@
       </p>
     </section>
 
-    <section id="contents">
-      <h2>Contents</h2>
+    <section id="contents" class="content-panel">
+      <h2 class="content-title">Contents</h2>
 
-      <ul>
+      <ul class="content-list">
 
         <!-- I -->
         <li>
@@ -2257,21 +2259,7 @@
 
   </main>
 
-  <!-- Paste as Last Thing in body on each page for consistent appearance -->
-  <!-- Load header -->
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      fetch("/components/header.html")
-        .then(response => response.text())
-        .then(data => {
-          document.getElementById("header-placeholder").innerHTML = data;
-        });
-    });
-  </script>
-
-  <!-- Hamburger logic -->
   <script src="/scripts/menu.js"></script>
-  <!-- End Entire Paste Section... This should be last line before </body> -->
 
 </body>
 

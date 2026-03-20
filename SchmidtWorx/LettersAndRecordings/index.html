@@ -14,17 +14,19 @@
     <div id="header-placeholder"></div>
     <!-- Header ends here -- Populate Body starting right below -->
 
-    <main class="container">
+    <main class="container page-shell">
 
         <section class="hero">
+            <p class="eyebrow">Preserved Presence</p>
             <h1>Recordings and Artifacts</h1>
             <p class="tagline">
                 Addressed forward. Preserved intentionally.
             </p>
         </section>
 
-        <section id="purpose">
-            <h2>Purpose</h2>
+        <section id="purpose" class="section-card">
+            <p class="section-kicker">Purpose</p>
+            <h2 class="section-heading">Messages, readings, and evidence of ordinary life.</h2>
 
             <p>
                 Some things are better spoken than written.
@@ -38,16 +40,16 @@
 
         </section>
 
-        <section id="voices">
-            <h2>Voices</h2>
+        <section id="voices" class="content-panel">
+            <h2 class="content-title">Voices</h2>
 
-            <ul>
-                <li>
-                    <a href="michael-schmidt.html">
+            <ul class="archive-list">
+                <li class="archive-card">
+                    <p class="archive-meta">Available now</p>
+                    <a class="archive-link archive-title" href="michael-schmidt.html">
                         Michael Schmidt (1981- )
                     </a>
-                    <br />
-                    Recordings, Videos, and Artifacts
+                    <p>Recordings, videos, readings, and artifacts gathered into a single personal archive.</p>
                 </li>
             </ul>
         </section>
@@ -60,21 +62,7 @@
 
     </main>
 
-    <!-- Paste as Last Thing in body on each page for consistent appearance -->
-    <!-- Load header -->
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            fetch("/components/header.html")
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById("header-placeholder").innerHTML = data;
-                });
-        });
-    </script>
-
-    <!-- Hamburger logic -->
     <script src="/scripts/menu.js"></script>
-    <!-- End Entire Paste Section... This should be last line before </body> -->
 
 </body>
 

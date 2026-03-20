@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Reflections – Michael Schmidt</title>
+    <title>Reflections – Gregory Schmidt</title>
     <link rel="stylesheet" href="/style.css" />
 </head>
 
@@ -14,44 +14,32 @@
     <div id="header-placeholder"></div>
     <!-- Header ends here -- Populate Body starting right below -->
 
-    <main class="container">
+    <main class="container page-shell">
 
         <section class="hero">
+            <p class="eyebrow">Family Archive</p>
             <h1>Reflections of Gregory Schmidt (1956-)</h1>
             <p class="tagline">
-                Subtitle
+                Perspective and experience, with more of this archive still to come.
             </p>
         </section>
 
-        <section id="context">
-            <h2>Context</h2>
+        <section id="context" class="section-card">
+            <p class="section-kicker">Context</p>
+            <h2 class="section-heading">A place reserved for reflections that are still being gathered.</h2>
             <p>
-                What's the context of these reflections?
+                This section is being prepared to hold Gregory Schmidt's reflections, stories, and perspective.
             </p>
 
         </section>
 
         <footer>
-            <p>Here is my footer</p>
+            <p>More of this archive will appear here as it is prepared.</p>
         </footer>
 
     </main>
 
-    <!-- Paste as Last Thing in body on each page for consistent appearance -->
-    <!-- Load header -->
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            fetch("/components/header.html")
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById("header-placeholder").innerHTML = data;
-                });
-        });
-    </script>
-
-    <!-- Hamburger logic -->
     <script src="/scripts/menu.js"></script>
-    <!-- End Entire Paste Section... This should be last line before </body> -->
 
 </body>
 

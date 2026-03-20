@@ -14,17 +14,19 @@
   <div id="header-placeholder"></div>
   <!-- Header ends here -- Populate Body starting right below -->
 
-  <main class="container">
+  <main class="container page-shell">
 
     <section class="hero">
+      <p class="eyebrow">Personal Archive</p>
       <h1>Reflections of Michael Schmidt (1981-)</h1>
       <p class="tagline">
         Raw thoughts, preserved as they were understood at the time.
       </p>
     </section>
 
-    <section id="context">
-      <h2>Context</h2>
+    <section id="context" class="section-card">
+      <p class="section-kicker">Context</p>
+      <h2 class="section-heading">Writing used to understand, not to persuade.</h2>
       <p>
         This page collects written reflections produced over time.
         They were written in an attempt to understand something, not to persuade.
@@ -35,10 +37,10 @@
       </p>
     </section>
 
-    <section id="contents">
-      <h2>Contents</h2>
+    <section id="contents" class="content-panel">
+      <h2 class="content-title">Contents</h2>
 
-      <ul>
+      <ul class="content-list">
 
         <!-- I -->
         <li>
@@ -2441,23 +2443,7 @@
 
   </main>
 
-  <!-- Paste as Last Thing in body on each page for consistent appearance -->
-  <!-- Load header -->
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      fetch("/components/header.html")
-        .then(response => response.text())
-        .then(data => {
-          document.getElementById("header-placeholder").innerHTML = data;
-        });
-    });
-  </script>
-
-  <!-- Hamburger logic -->
   <script src="/scripts/menu.js"></script>
-  <!-- End Entire Paste Section... This should be last line before </body> -->
-
-  <!-- Logic for Large Reflections to Center -->
   <script>
     document.querySelectorAll("details").forEach((item) => {
 

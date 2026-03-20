@@ -14,26 +14,26 @@
   <div id="header-placeholder"></div>
   <!-- Header ends here -- Populate Body starting right below -->
 
-  <main class="container">
+  <main class="container page-shell">
 
     <section class="hero">
+      <p class="eyebrow">Family Archive</p>
       <h1>SchmidtWorx</h1>
       <p class="tagline">
         Built slowly. Meant to last.
       </p>
     </section>
 
-    <section id="what-this-is">
-      <h2>What This Is</h2>
+    <section id="what-this-is" class="section-card">
+      <p class="section-kicker">What This Is</p>
+      <h2 class="section-heading">A workspace for memory, voice, and what should outlast us.</h2>
 
       <p>
         SchmidtWorx is a family workspace.
       </p>
 
       <p>
-        Some belongs to those who came before.<br />
-        Some reflects the present.<br />
-        Some is meant for those who will come after.
+        Some belongs to those who came before. Some reflects the present. Some is meant for those who will come after.
       </p>
 
       <p>
@@ -41,29 +41,36 @@
       </p>
     </section>
 
-    <section id="reflections">
-      <h2>
-        <a href="/Reflections/index.html">Reflections and Legacy</a>
-      </h2>
+    <section class="intro-grid" aria-label="Site sections">
+      <article id="reflections" class="section-card">
+        <p class="section-kicker">Writings</p>
+        <h2 class="section-heading">Reflections and Legacy</h2>
 
-      <p>
-        Writings and records created by those who came before.
-      </p>
+        <p>
+          Writings and records created by those who came before.
+        </p>
 
-      <p>
-        This section exists to keep those voices from disappearing
-        and to acknowledge that today’s work eventually becomes someone else’s history.
-      </p>
-    </section>
+        <p>
+          This section exists to keep those voices from disappearing and to acknowledge that today’s work eventually becomes someone else’s history.
+        </p>
 
-    <section id="letters">
-      <h2>
-        <a href="/LettersAndRecordings/index.html">Recordings and Artifacts</a>
-      </h2>
+        <a class="section-link" href="/Reflections/index.html">Enter the reflections archive</a>
+      </article>
 
-      <p>
-        Addressed forward. Proof of Presence
-      </p>
+      <article id="letters" class="section-card">
+        <p class="section-kicker">Audio and Video</p>
+        <h2 class="section-heading">Recordings and Artifacts</h2>
+
+        <p>
+          Messages, readings, and preserved moments addressed forward.
+        </p>
+
+        <p>
+          Some things are better spoken than written. This section holds the pieces where presence matters as much as words.
+        </p>
+
+        <a class="section-link" href="/LettersAndRecordings/index.html">Open recordings and artifacts</a>
+      </article>
     </section>
 
     <footer>
@@ -75,21 +82,7 @@
 
   </main>
 
-  <!-- Paste as Last Thing in body on each page for consistent appearance -->
-  <!-- Load header -->
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      fetch("/components/header.html")
-        .then(response => response.text())
-        .then(data => {
-          document.getElementById("header-placeholder").innerHTML = data;
-        });
-    });
-  </script>
-
-  <!-- Hamburger logic -->
   <script src="/scripts/menu.js"></script>
-  <!-- End Entire Paste Section... This should be last line before </body> -->
 
 </body>
 

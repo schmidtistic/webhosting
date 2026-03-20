@@ -14,44 +14,45 @@
   <div id="header-placeholder"></div>
   <!-- Header ends here -- Populate Body starting right below -->
 
-  <main class="container">
+  <main class="container page-shell">
 
     <section class="hero">
+      <p class="eyebrow">Archive of Voices</p>
       <h1>Reflections and Legacy</h1>
       <p class="tagline">
         Personal thoughts, observations, and meaning drawn from lived experience.
       </p>
     </section>
 
-    <section id="reflections">
-      <h2>Collected Voices</h2>
+    <section id="reflections" class="content-panel">
+      <h2 class="content-title">Collected Voices</h2>
 
-      <p>
+      <p class="content-intro">
         This section contains reflective writings focused on perspective
         and lessons learned, offered as one person’s thoughts among many.
       </p>
 
-      <ul>
-        <li>
-          <a href="michael-schmidt.html">
+      <ul class="archive-list">
+        <li class="archive-card">
+          <p class="archive-meta">Living reflections</p>
+          <a class="archive-link archive-title" href="michael-schmidt.html">
             Michael Schmidt (1981- )
           </a>
-          <br />
-          Personal reflections written across different stages of life.
+          <p>Personal reflections written across different stages of life.</p>
         </li>
-        <li>
-          <a href="gregory-schmidt.html">
+        <li class="archive-card">
+          <p class="archive-meta">Family perspective</p>
+          <a class="archive-link archive-title" href="gregory-schmidt.html">
             Gregory Schmidt (1956-)
           </a>
-          <br />
-          Subtitle
+          <p>Reflections held in place while this part of the archive is still being expanded.</p>
         </li>
-        <li>
-          <a href="kenneth-oswald-schmidt.html">
-            Kenneth Oswald Schmidt (1905-1996)
+        <li class="archive-card">
+          <p class="archive-meta">Preserved writing</p>
+          <a class="archive-link archive-title" href="kenneth-oswald-schmidt.html">
+            Kenneth Oswald Schmidt (1905-1997)
           </a>
-          <br />
-          Written for the 1995 Schmidt Family Reunion
+          <p>Written for the 1995 Schmidt Family Reunion and preserved as a primary document.</p>
         </li>
       </ul>
     </section>
@@ -64,21 +65,7 @@
 
   </main>
 
-  <!-- Paste as Last Thing in body on each page for consistent appearance -->
-  <!-- Load header -->
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      fetch("/components/header.html")
-        .then(response => response.text())
-        .then(data => {
-          document.getElementById("header-placeholder").innerHTML = data;
-        });
-    });
-  </script>
-
-  <!-- Hamburger logic -->
   <script src="/scripts/menu.js"></script>
-  <!-- End Entire Paste Section... This should be last line before </body> -->
 
 </body>
 
