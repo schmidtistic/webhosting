@@ -236,6 +236,14 @@ h1 {
     border-radius: var(--radius);
     background: linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0.015));
     box-shadow: var(--shadow);
+    transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+
+.section-card:hover,
+.archive-card:hover {
+    border-color: var(--border-strong);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.03));
+    transform: translateY(-2px);
 }
 
 .section-card,
