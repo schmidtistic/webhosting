@@ -71,3 +71,4 @@ __pycache__/
 # Keep env templates tracked
 !**/.env.example
 !Env/**/*.example
+.aider*
