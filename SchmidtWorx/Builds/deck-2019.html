@@ -8,8 +8,8 @@
   <link rel="stylesheet" href="/style.css" />
   <style>
 
-    /* Contain horizontal overflow without killing child scroll contexts */
-    body { overflow-x: clip; }
+    /* Clip overflow at the container level — not on html/body which breaks mobile scroll */
+    .container { overflow-x: hidden; }
 
     /* ── Before/After Slider ─────────────────────────────── */
     .before-after {
