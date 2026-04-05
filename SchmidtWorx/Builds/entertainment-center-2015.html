@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Entertainment Center 2015 — SchmidtWorx</title>
+  <link rel="stylesheet" href="/style.css" />
+  <style>
+
+    /* Clip overflow at the container level — not on html/body which breaks mobile scroll */
+    .container { overflow-x: hidden; }
+
+    /* ── Before/After Slider ─────────────────────────────── */
+    .before-after {
+      position: relative;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      user-select: none;
+      cursor: ew-resize;
+      aspect-ratio: 4 / 3;
+      touch-action: none;
+    }
+
+    .ba-after,
+    .ba-before {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+    }
+
+    .ba-after {
+      background-position: center 30%;
+    }
+
+    .ba-before {
+      clip-path: inset(0 50% 0 0);
+      background-position: center 30%;
+    }
+
+    .ba-divider {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 2px;
+      background: var(--accent-strong);
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+
+    .ba-handle {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--accent-strong);
+      border: 3px solid #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 16px rgba(0, 0, 0, 0.55);
+      pointer-events: none;
+    }
+
+    .ba-label {
+      position: absolute;
+      bottom: 1rem;
+      padding: 0.3rem 0.8rem;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: rgba(18, 20, 22, 0.78);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(8px);
+      pointer-events: none;
+    }
+
+    .ba-label-before { left: 1rem; }
+    .ba-label-after  { right: 1rem; }
+
+    /* ── Stats bar ───────────────────────────────────────── */
+    .build-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 1rem;
+    }
+
+    .stat {
+      padding: 1.25rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0.015));
+      text-align: center;
+    }
+
+    .stat-value {
+      display: block;
+      font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--accent-strong);
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ── Phase timeline ──────────────────────────────────── */
+    .phases {
+      display: grid;
+      gap: 2.75rem;
+      min-width: 0;
+    }
+
+    .phase {
+      min-width: 0;
+    }
+
+    .phase-header {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .phase-number {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      white-space: nowrap;
+    }
+
+    .phase-title {
+      margin: 0;
+      font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--fg);
+    }
+
+    .phase-desc {
+      margin: 0 0 1rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+      max-width: 58ch;
+    }
+
+    /* ── Horizontal photo strip ──────────────────────────── */
+    .photo-strip {
+      display: flex;
+      gap: 0.75rem;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 0.75rem;
+      min-width: 0;
+      width: 100%;
+    }
+
+    .photo-strip::-webkit-scrollbar { height: 3px; }
+    .photo-strip::-webkit-scrollbar-track { background: rgba(255,255,255,0.04); }
+    .photo-strip::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 2px; }
+
+    .strip-photo {
+      flex: 0 0 auto;
+      width: 288px;
+      height: 216px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      scroll-snap-align: start;
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .strip-photo:hover {
+      transform: translateY(-3px);
+      border-color: var(--border-strong);
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+    }
+
+    .strip-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+
+    .strip-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 0.6rem 0.8rem 0.5rem;
+      background: linear-gradient(transparent, rgba(0, 0, 0, 0.75));
+      font-size: 0.76rem;
+      color: var(--accent);
+      letter-spacing: 0.02em;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .strip-photo:hover .strip-caption { opacity: 1; }
+
+    /* ── Room tour GIF ───────────────────────────────────── */
+    .room-tour {
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      width: 100%;
+      display: block;
+    }
+
+    .room-tour img {
+      width: 100%;
+      display: block;
+    }
+
+    /* ── Mobile overrides ────────────────────────────────── */
+    @media (max-width: 600px) {
+
+      .before-after {
+        aspect-ratio: 4 / 3;
+      }
+
+      .build-stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .phase-header {
+        flex-wrap: wrap;
+        gap: 0.25rem;
+      }
+
+      .photo-strip {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
+        overflow-x: visible;
+        overflow-y: visible;
+        scroll-snap-type: none;
+        padding-bottom: 0;
+        width: 100%;
+      }
+
+      .strip-photo {
+        width: 100%;
+        height: 44vw;
+        border-radius: 10px;
+      }
+
+      .strip-caption {
+        opacity: 1;
+      }
+    }
+
+    /* ── Lightbox ────────────────────────────────────────── */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(0, 0, 0, 0.92);
+      backdrop-filter: blur(14px);
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lightbox.open { display: flex; }
+
+    .lightbox-inner {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      max-width: 90vw;
+    }
+
+    .lightbox img {
+      max-width: 90vw;
+      max-height: 80vh;
+      object-fit: contain;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      display: block;
+    }
+
+    .lightbox-caption {
+      color: var(--muted);
+      font-size: 0.9rem;
+      text-align: center;
+      margin: 0;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: -3.25rem;
+      right: 0;
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--fg);
+      cursor: pointer;
+      font-size: 1.4rem;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .lightbox-close:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: var(--border-strong);
+    }
+
+    .lightbox-nav {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: rgba(18, 20, 22, 0.8);
+      color: var(--fg);
+      cursor: pointer;
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(8px);
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .lightbox-nav:hover {
+      background: rgba(18, 20, 22, 1);
+      border-color: var(--border-strong);
+    }
+
+    .lightbox-prev { left: 1.25rem; }
+    .lightbox-next { right: 1.25rem; }
+
+    .lightbox-counter {
+      position: fixed;
+      top: 1.25rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      background: rgba(18, 20, 22, 0.7);
+      padding: 0.3rem 0.9rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      backdrop-filter: blur(8px);
+    }
+
+    .phase + .phase {
+      border-top: 1px solid var(--border);
+      padding-top: 2.75rem;
+    }
+
+    @media (max-width: 719px) {
+      .strip-photo { width: 240px; height: 180px; }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <div id="header-placeholder"></div>
+
+  <main class="container page-shell">
+
+    <!-- ── Hero ──────────────────────────────────────────── -->
+    <section class="hero">
+      <p class="eyebrow">Built Work · 2015</p>
+      <h1>Entertainment Center</h1>
+      <p class="tagline">
+        A brick fireplace that had never been used was eating the whole wall — wires everywhere,
+        bay window buried, a foot of raised hearth doing nothing. Tore it down to the brick,
+        framed it out, drywalled it flat, and built a proper home theater into the wall:
+        floating TV, hidden center channel inside the old firebox, bookshelf flanks, and the
+        bay window back where it belonged.
+      </p>
+    </section>
+
+    <!-- ── Before / After slider ─────────────────────────── -->
+    <section class="section-card" style="padding: 1.5rem; gap: 1.1rem; display: grid;">
+      <div>
+        <p class="section-kicker" style="margin:0 0 0.4rem;">The Transformation</p>
+        <h2 class="section-heading" style="margin:0 0 0.3rem;">Before &amp; After</h2>
+        <p style="color:var(--muted); margin:0; font-size:0.9rem;">Drag the handle to compare.</p>
+      </div>
+
+      <div class="before-after" id="beforeAfter">
+        <div class="ba-after"  style="background-image: url('/assets/ec-2015/IMG_0357.jpg');"></div>
+        <div class="ba-before" id="baBefore" style="background-image: url('/assets/ec-2015/IMG_0277.jpg');"></div>
+        <div class="ba-divider" id="baDivider"></div>
+        <div class="ba-handle"  id="baHandle">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+            <path d="M6 5L2 9L6 13M12 5L16 9L12 13" stroke="#121416" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <span class="ba-label ba-label-before">Before</span>
+        <span class="ba-label ba-label-after">After</span>
+      </div>
+    </section>
+
+    <!-- ── Stats ─────────────────────────────────────────── -->
+    <div class="build-stats">
+      <div class="stat">
+        <span class="stat-value">7</span>
+        <span class="stat-label">Phases</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">2015</span>
+        <span class="stat-label">Year Built</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">0</span>
+        <span class="stat-label">Visible Wires</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">Solo</span>
+        <span class="stat-label">Build</span>
+      </div>
+    </div>
+
+    <!-- ── Phase timeline ─────────────────────────────────── -->
+    <section class="section-card" style="padding: 1.5rem 1.25rem; gap: 0; display: grid;">
+      <div style="margin-bottom: 2.25rem;">
+        <p class="section-kicker" style="margin:0 0 0.4rem;">Project Walkthrough</p>
+        <h2 class="section-heading" style="margin:0;">Phase by Phase</h2>
+      </div>
+
+      <div class="phases">
+
+        <!-- Phase 01 — The Before -->
+        <div class="phase">
+          <div class="phase-header">
+            <span class="phase-number">Phase 01</span>
+            <h3 class="phase-title">The Before</h3>
+          </div>
+          <p class="phase-desc">
+            The living room had two problems in one wall. First: the TV sat on a stand in the
+            corner with every wire exposed — consoles, receivers, and a subwoofer all stacked up
+            and trailing cables across the floor. Second: right beside it, a full brick fireplace
+            that had never been used was commanding the entire feature wall, complete with a
+            raised brick hearth that jutted out nearly a foot. The bay window on the other side
+            was obscured by the TV furniture and equipment. Bane approved of the setup. The
+            humans were less enthusiastic.
+          </p>
+          <div class="photo-strip">
+            <div class="strip-photo" data-src="/assets/ec-2015/OriginalEntertainmentCenter.png" data-caption="The original setup — TV on a stand, every wire visible">
+              <img src="/assets/ec-2015/OriginalEntertainmentCenter.png" alt="Original TV setup with wires" loading="lazy">
+              <span class="strip-caption">Original setup — TV on a stand, wires everywhere</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/ec-2015/Bane2tv.jpg" data-caption="Bane's review of the old setup: four stars">
+              <img src="/assets/ec-2015/Bane2tv.jpg" alt="Bane the dog in front of old TV" loading="lazy">
+              <span class="strip-caption">Bane's review of the old setup: four stars</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/ec-2015/BaneTv.jpg" data-caption="Bane on the couch — old TV stand setup in background">
+              <img src="/assets/ec-2015/BaneTv.jpg" alt="Bane on couch, old TV in background" loading="lazy">
+              <span class="strip-caption">Bane supervising from the couch</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/ec-2015/before-fireplace-phone.jpg" data-caption="The brick fireplace as it stood — mantel, raised hearth, never used">
+              <img src="/assets/ec-2015/before-fireplace-phone.jpg" alt="Original brick fireplace with mantle" loading="lazy">
+              <span class="strip-caption">Brick fireplace — mantel, raised hearth, never used</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/ec-2015/IMG_0273.jpg" data-caption="Full fireplace wall — the brass doors, raised hearth, and all that brick">
+              <img src="/assets/ec-2015/IMG_0273.jpg" alt="Full brick fireplace wall before demo" loading="lazy">
+              <span class="strip-caption">Full wall view — brick hearth jutting out nearly a foot</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/ec-2015/IMG_0277.jpg" data-caption="Wider shot of the fireplace wall — this is what the whole room was oriented around">
+              <img src="/assets/ec-2015/IMG_0277.jpg" alt="Wide shot of original fireplace wall" loading="lazy">
+              <span class="strip-caption">The whole wall — what needed to change</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phase 02 — Hearth Demo & Steel Framing -->
+        <div class="phase">
+          <div class="phase-header">
+            <span class="phase-number">Phase 02</span>
+            <h3 class="phase-title">Hearth Demo &amp; Steel Framing</h3>
+          </div>
+          <p class="phase-desc">
+            The raised brick hearth came out first — chisels, hammers, and a lot of trips to the
+            dumpster. With the hearth gone, steel stud framing went up directly over the brick
+            face to create a flat wall surface. The TV mount bracket was bolted into the studs
+            at the right height before any drywall went up, so there was no guesswork later.
+            The firebox opening was left accessible — it would serve a purpose.
+          </p>
+          <div class="photo-strip">
+            <div class="strip-photo" data-src="/assets/ec-2015/IMG_0284.jpg" data-caption="Steel stud framing over the brick — TV mount bracket already in place">
+              <img src="/assets/ec-2015/IMG_0284.jpg" alt="Steel framing over brick with TV mount" loading="lazy">
+              <span class="strip-caption">Steel framing over brick — TV mount bracket set</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/ec-2015/IMG_0290.jpg" data-caption="Wider view of the framing — full wall blocked out, mount centered">
+              <img src="/assets/ec-2015/IMG_0290.jpg" alt="Wider view of steel framing" loading="lazy">
+              <span class="strip-caption">Full wall framing — mount centered, firebox still open</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phase 03 — Drywall -->
+        <div class="phase">
+          <div class="phase-header">
+            <span class="phase-number">Phase 03</span>
+            <h3 class="phase-title">Drywall</h3>
+          </div>
+          <p class="phase-desc">
+            Drywall went over the steel framing, transforming a hundred-year-old brick wall into
+            a clean flat surface. Two openings were left rough: one for the TV mount bracket,
+            and one lower down — centered in the firebox — for the center channel speaker that
+            would eventually live in there. The fireplace opening itself stayed open at the
+            bottom for now; the granite would cap it off later.
+          </p>
+          <div class="photo-strip">
+            <div class="strip-photo" data-src="/assets/ec-2015/IMG_0297.jpg" data-caption="Drywall up — TV mount bracket exposed, speaker cavity rough opening visible below">
+              <img src="/assets/ec-2015/IMG_0297.jpg" alt="Drywall up with rough openings" loading="lazy">
+              <span class="strip-caption">Drywall up — rough openings for mount and speaker cavity</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/ec-2015/20150412_200043.jpg" data-caption="Wider drywall view — full wall taking shape, fireplace still open at bottom">
+              <img src="/assets/ec-2015/20150412_200043.jpg" alt="Wider drywall shot" loading="lazy">
+              <span class="strip-caption">Wider view — full wall taking shape</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phase 04 — Paint & Wiring -->
+        <div class="phase">
+          <div class="phase-header">
+            <span class="phase-number">Phase 04</span>
+            <h3 class="phase-title">Paint &amp; Wiring</h3>
+          </div>
+          <p class="phase-desc">
+            The wall went dark — a deep blue-grey that made the TV and speakers disappear into it.
+            Behind the scenes: power was run to an outlet at TV height so no cord would drop down
+            the wall. HDMI and optical audio cables were routed through the attic and down inside
+            the wall to an equipment rack in the corner, keeping all the source devices out of
+            sight entirely. Bane monitored progress from the floor, skeptical of the TV mount
+            floating in the wall with nothing around it yet.
+          </p>
+          <div class="photo-strip">
+            <div class="strip-photo" data-src="/assets/ec-2015/20150519_204832.jpg" data-caption="Paint done — deep blue-grey wall, TV mount rough opening exposed, Bane supervising">
+              <img src="/assets/ec-2015/20150519_204832.jpg" alt="Painted wall with Bane in foreground" loading="lazy">
+              <span class="strip-caption">Paint done — Bane approves of the colour</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phase 05 — TV & Bookshelves -->
+        <div class="phase">
+          <div class="phase-header">
+            <span class="phase-number">Phase 05</span>
+            <h3 class="phase-title">TV &amp; Bookshelves</h3>
+          </div>
+          <p class="phase-desc">
+            The TV went up on the mount — no stand, no console underneath, just the screen floating
+            on the wall. Dark espresso bookshelves were placed on either side to flank the TV,
+            creating a built-in look without any actual built-in carpentry. The center channel
+            speaker sat on top of the TV temporarily while the final speaker solution was
+            worked out. Equipment rack in the corner handled all source components out of sight.
+          </p>
+          <div class="photo-strip">
+            <div class="strip-photo" data-src="/assets/ec-2015/IMG_0357.jpg" data-caption="TV mounted, bookshelves in place, center channel on top temporarily">
+              <img src="/assets/ec-2015/IMG_0357.jpg" alt="TV mounted with bookshelves flanking" loading="lazy">
+              <span class="strip-caption">TV up, bookshelves flanking — center channel on top for now</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/ec-2015/IMG_0364.jpg" data-caption="Wider angle — the full wall taking its final shape">
+              <img src="/assets/ec-2015/IMG_0364.jpg" alt="Wider angle of TV wall with bookshelves" loading="lazy">
+              <span class="strip-caption">Wider angle — the full wall coming together</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phase 06 — The Hidden Speaker -->
+        <div class="phase">
+          <div class="phase-header">
+            <span class="phase-number">Phase 06</span>
+            <h3 class="phase-title">The Hidden Speaker</h3>
+          </div>
+          <p class="phase-desc">
+            Having a center channel speaker sitting on top of a floating TV defeated the whole
+            point. The old firebox solved it: the center channel was moved down into the fireplace
+            cavity itself, which turned out to be acoustically solid and perfectly centered below
+            the screen. A custom magnetic fabric screen was fitted over the opening — flush with
+            the wall, visually seamless, and removable for adjustments. From across the room
+            you'd never know it was there. Bane figured it out immediately.
+          </p>
+          <div class="photo-strip">
+            <div class="strip-photo" data-src="/assets/ec-2015/SpeakerIn.jpg" data-caption="Bane finds the hidden center channel — the magnetic screen panel in the old firebox opening">
+              <img src="/assets/ec-2015/SpeakerIn.jpg" alt="Bane discovering the hidden speaker panel" loading="lazy">
+              <span class="strip-caption">Bane finds the hidden center channel</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phase 07 — Finished Room -->
+        <div class="phase">
+          <div class="phase-header">
+            <span class="phase-number">Phase 07</span>
+            <h3 class="phase-title">Finished Room</h3>
+          </div>
+          <p class="phase-desc">
+            With the center channel hidden and the TV wall complete, the room became what it was
+            supposed to be. The bay window — which had been obscured by furniture for years —
+            was back, open, with dark wood blinds. Leather sectional, recessed lights, surround
+            sound. The equipment rack sat in the corner with all cables running invisibly through
+            the wall and attic. Zero visible wires. The room finally matched the
+            effort that went into it.
+          </p>
+          <div class="photo-strip">
+            <div class="strip-photo" data-src="/assets/ec-2015/IMG_0367.jpg" data-caption="Finished room — bay window restored, leather sectional, TV wall complete">
+              <img src="/assets/ec-2015/IMG_0367.jpg" alt="Full finished room with bay window" loading="lazy">
+              <span class="strip-caption">Finished — bay window back, room finally open</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/ec-2015/IMG_0369.jpg" data-caption="Alternate angle — the wall from slightly to the right">
+              <img src="/assets/ec-2015/IMG_0369.jpg" alt="Finished room alternate angle" loading="lazy">
+              <span class="strip-caption">Alternate angle — TV wall from the right side</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/ec-2015/Final.png" data-caption="First movie night — Encino Man. Bane approves. Speaker panel invisible below the TV.">
+              <img src="/assets/ec-2015/Final.png" alt="First movie night with Bane" loading="lazy">
+              <span class="strip-caption">First movie night. Speaker panel hidden. Bane approves.</span>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /phases -->
+    </section>
+
+    <!-- ── Room Tour GIF ─────────────────────────────────── -->
+    <section class="section-card" style="padding: 1.5rem; gap: 1rem; display: grid;">
+      <div>
+        <p class="section-kicker" style="margin:0 0 0.4rem;">Finished</p>
+        <h2 class="section-heading" style="margin:0 0 0.35rem;">Room Tour</h2>
+        <p style="color:var(--muted); margin:0; font-size:0.9rem;">
+          Left to right — bay window, equipment corner, TV wall, bookshelves.
+        </p>
+      </div>
+      <div class="room-tour">
+        <img src="/assets/ec-2015/Final.gif" alt="Room tour panning left to right across the finished entertainment center" loading="lazy">
+      </div>
+    </section>
+
+    <footer>
+      <p>Hide the wires. Earn the room.</p>
+    </footer>
+
+  </main>
+
+  <!-- ── Lightbox ───────────────────────────────────────── -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
+    <span class="lightbox-counter" id="lightboxCounter">1 / 1</span>
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close">×</button>
+    <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Previous">‹</button>
+    <div class="lightbox-inner">
+      <img id="lightboxImg" src="" alt="">
+      <p class="lightbox-caption" id="lightboxCaption"></p>
+    </div>
+    <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Next">›</button>
+  </div>
+
+  <script src="/scripts/menu.js"></script>
+  <script>
+    /* ── Before/After Slider ─────────────────────────── */
+    (function () {
+      const slider   = document.getElementById('beforeAfter');
+      const baBefore = document.getElementById('baBefore');
+      const divider  = document.getElementById('baDivider');
+      const handle   = document.getElementById('baHandle');
+      let dragging   = false;
+
+      function move(clientX) {
+        const r   = slider.getBoundingClientRect();
+        const pct = Math.max(0.03, Math.min(0.97, (clientX - r.left) / r.width));
+        baBefore.style.clipPath = `inset(0 ${((1 - pct) * 100).toFixed(2)}% 0 0)`;
+        divider.style.left = handle.style.left = (pct * 100).toFixed(2) + '%';
+      }
+
+      slider.addEventListener('mousedown',  e => { dragging = true; move(e.clientX); });
+      slider.addEventListener('touchstart', e => { dragging = true; move(e.touches[0].clientX); }, { passive: true });
+      window.addEventListener('mousemove',  e => { if (dragging) move(e.clientX); });
+      window.addEventListener('touchmove',  e => { if (dragging) move(e.touches[0].clientX); }, { passive: true });
+      window.addEventListener('mouseup',    () => dragging = false);
+      window.addEventListener('touchend',   () => dragging = false);
+    })();
+
+    /* ── Lightbox ─────────────────────────────────────── */
+    (function () {
+      const lb      = document.getElementById('lightbox');
+      const lbImg   = document.getElementById('lightboxImg');
+      const lbCap   = document.getElementById('lightboxCaption');
+      const lbCount = document.getElementById('lightboxCounter');
+      let photos = [], idx = 0;
+
+      function buildList() {
+        photos = Array.from(document.querySelectorAll('.strip-photo')).map(el => ({
+          src:     el.dataset.src,
+          caption: el.dataset.caption,
+          alt:     el.querySelector('img').alt
+        }));
+      }
+
+      function show(i) {
+        idx = (i + photos.length) % photos.length;
+        lbImg.src = photos[idx].src;
+        lbImg.alt = photos[idx].alt;
+        lbCap.textContent = photos[idx].caption;
+        lbCount.textContent = `${idx + 1} / ${photos.length}`;
+      }
+
+      function open(i) {
+        buildList(); show(i);
+        lb.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function close() {
+        lb.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+
+      document.querySelectorAll('.strip-photo').forEach((el, i) => {
+        el.addEventListener('click', () => open(i));
+        el.setAttribute('tabindex', '0');
+        el.setAttribute('role', 'button');
+        el.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(i); }
+        });
+      });
+
+      document.getElementById('lightboxClose').addEventListener('click', close);
+      document.getElementById('lightboxPrev').addEventListener('click', () => show(idx - 1));
+      document.getElementById('lightboxNext').addEventListener('click', () => show(idx + 1));
+      lb.addEventListener('click', e => { if (e.target === lb) close(); });
+
+      document.addEventListener('keydown', e => {
+        if (!lb.classList.contains('open')) return;
+        if (e.key === 'Escape')     close();
+        if (e.key === 'ArrowLeft')  show(idx - 1);
+        if (e.key === 'ArrowRight') show(idx + 1);
+      });
+    })();
+  </script>
+
+</body>
+</html>
