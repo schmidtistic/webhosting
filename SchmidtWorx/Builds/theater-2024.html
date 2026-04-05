@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home Theater — SchmidtWorx</title>
+  <link rel="stylesheet" href="/style.css" />
+  <style>
+
+    /* Clip overflow at the container level */
+    .container { overflow-x: hidden; }
+
+    /* ── Before/After Slider (shared styles) ─────────────── */
+    .before-after {
+      position: relative;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      user-select: none;
+      cursor: ew-resize;
+      aspect-ratio: 16 / 9;
+      touch-action: none;
+    }
+
+    /* Still image slider */
+    .ba-after,
+    .ba-before {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center center;
+    }
+
+    .ba-before {
+      clip-path: inset(0 50% 0 0);
+    }
+
+    /* Video slider */
+    .bav-after,
+    .bav-before {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .bav-before {
+      clip-path: inset(0 50% 0 0);
+    }
+
+    .ba-divider {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 2px;
+      background: var(--accent-strong);
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+
+    .ba-handle {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--accent-strong);
+      border: 3px solid #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 16px rgba(0, 0, 0, 0.55);
+      pointer-events: none;
+    }
+
+    .ba-label {
+      position: absolute;
+      bottom: 1rem;
+      padding: 0.3rem 0.8rem;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: rgba(18, 20, 22, 0.78);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(8px);
+      pointer-events: none;
+    }
+
+    .ba-label-before { left: 1rem; }
+    .ba-label-after  { right: 1rem; }
+
+    /* ── Stats bar ───────────────────────────────────────── */
+    .build-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 1rem;
+    }
+
+    .stat {
+      padding: 1.25rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0.015));
+      text-align: center;
+    }
+
+    .stat-value {
+      display: block;
+      font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--accent-strong);
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ── Phase timeline ──────────────────────────────────── */
+    .phases {
+      display: grid;
+      gap: 2.75rem;
+      min-width: 0;
+    }
+
+    .phase { min-width: 0; }
+
+    .phase-header {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .phase-number {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      white-space: nowrap;
+    }
+
+    .phase-title {
+      margin: 0;
+      font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--fg);
+    }
+
+    .phase-desc {
+      margin: 0 0 1rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+      max-width: 58ch;
+    }
+
+    /* ── Horizontal photo strip ──────────────────────────── */
+    .photo-strip {
+      display: flex;
+      gap: 0.75rem;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 0.75rem;
+      min-width: 0;
+      width: 100%;
+    }
+
+    .photo-strip::-webkit-scrollbar { height: 3px; }
+    .photo-strip::-webkit-scrollbar-track { background: rgba(255,255,255,0.04); }
+    .photo-strip::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 2px; }
+
+    .strip-photo {
+      flex: 0 0 auto;
+      width: 288px;
+      height: 216px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      scroll-snap-align: start;
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .strip-photo:hover {
+      transform: translateY(-3px);
+      border-color: var(--border-strong);
+      box-shadow: 0 8px 28px rgba(0,0,0,0.35);
+    }
+
+    .strip-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+
+    .strip-caption {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 0.6rem 0.8rem 0.5rem;
+      background: linear-gradient(transparent, rgba(0,0,0,0.75));
+      font-size: 0.76rem;
+      color: var(--accent);
+      letter-spacing: 0.02em;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .strip-photo:hover .strip-caption { opacity: 1; }
+
+    /* ── Future Vision card ──────────────────────────────── */
+    .vision-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .vision-item {
+      padding: 1rem 1.1rem;
+      border: 1px solid var(--border);
+      border-radius: calc(var(--radius) - 4px);
+      background: rgba(215, 195, 160, 0.04);
+    }
+
+    .vision-item-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 0 0 0.35rem;
+    }
+
+    .vision-item-desc {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    /* ── Mobile overrides ────────────────────────────────── */
+    @media (max-width: 600px) {
+      .before-after { aspect-ratio: 4 / 3; }
+
+      .build-stats { grid-template-columns: repeat(2, 1fr); }
+
+      .phase-header { flex-wrap: wrap; gap: 0.25rem; }
+
+      .photo-strip {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
+        overflow-x: visible;
+        overflow-y: visible;
+        scroll-snap-type: none;
+        padding-bottom: 0;
+        width: 100%;
+      }
+
+      .strip-photo { width: 100%; height: 44vw; border-radius: 10px; }
+      .strip-caption { opacity: 1; }
+
+      .vision-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── Lightbox ────────────────────────────────────────── */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(0,0,0,0.92);
+      backdrop-filter: blur(14px);
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lightbox.open { display: flex; }
+
+    .lightbox-inner {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      max-width: 90vw;
+    }
+
+    .lightbox img {
+      max-width: 90vw;
+      max-height: 80vh;
+      object-fit: contain;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      display: block;
+    }
+
+    .lightbox-caption { color: var(--muted); font-size: 0.9rem; text-align: center; margin: 0; }
+
+    .lightbox-close {
+      position: absolute;
+      top: -3.25rem; right: 0;
+      width: 2.5rem; height: 2.5rem;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.06);
+      color: var(--fg);
+      cursor: pointer;
+      font-size: 1.4rem; line-height: 1;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+    .lightbox-close:hover { background: rgba(255,255,255,0.12); border-color: var(--border-strong); }
+
+    .lightbox-nav {
+      position: fixed; top: 50%; transform: translateY(-50%);
+      width: 3rem; height: 3rem;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: rgba(18,20,22,0.8);
+      color: var(--fg); cursor: pointer; font-size: 1.5rem;
+      display: flex; align-items: center; justify-content: center;
+      backdrop-filter: blur(8px);
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+    .lightbox-nav:hover { background: rgba(18,20,22,1); border-color: var(--border-strong); }
+    .lightbox-prev { left: 1.25rem; }
+    .lightbox-next { right: 1.25rem; }
+
+    .lightbox-counter {
+      position: fixed; top: 1.25rem; left: 50%; transform: translateX(-50%);
+      font-size: 0.8rem; letter-spacing: 0.08em; color: var(--muted);
+      background: rgba(18,20,22,0.7);
+      padding: 0.3rem 0.9rem; border-radius: 999px;
+      border: 1px solid var(--border); backdrop-filter: blur(8px);
+    }
+
+    .phase + .phase { border-top: 1px solid var(--border); padding-top: 2.75rem; }
+
+    @media (max-width: 719px) {
+      .strip-photo { width: 240px; height: 180px; }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <div id="header-placeholder"></div>
+
+  <main class="container page-shell">
+
+    <!-- ── Hero ──────────────────────────────────────────── -->
+    <section class="hero">
+      <p class="eyebrow">Built Work · 2024–Present</p>
+      <h1>Home Theater</h1>
+      <p class="tagline">
+        A large basement room with a screen nook, a wire problem, and a clear vision.
+        A custom raised platform for stadium seating, a 120" acoustically transparent screen
+        that rises from the floor, a Bowers &amp; Wilkins 5.1 surround setup, and every cable
+        hidden behind walls, above ceilings, or inside the platform itself. Neat, clean,
+        high-tech, and classy — or it stays open until it is.
+      </p>
+    </section>
+
+    <!-- ── Still before/after slider ─────────────────────── -->
+    <section class="section-card" style="padding: 1.5rem; gap: 1.1rem; display: grid;">
+      <div>
+        <p class="section-kicker" style="margin:0 0 0.4rem;">The Transformation</p>
+        <h2 class="section-heading" style="margin:0 0 0.3rem;">Before &amp; After</h2>
+        <p style="color:var(--muted); margin:0; font-size:0.9rem;">Drag the handle to compare.</p>
+      </div>
+
+      <div class="before-after" id="baStill">
+        <div class="ba-after"  style="background-image: url('/assets/theater-2024/20251214_101535.jpg'); background-position: center top;"></div>
+        <div class="ba-before" id="baStillBefore" style="background-image: url('/assets/theater-2024/20240907_144430.jpg'); background-position: center center;"></div>
+        <div class="ba-divider" id="baStillDivider"></div>
+        <div class="ba-handle"  id="baStillHandle">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+            <path d="M6 5L2 9L6 13M12 5L16 9L12 13" stroke="#121416" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <span class="ba-label ba-label-before">Before</span>
+        <span class="ba-label ba-label-after">After</span>
+      </div>
+
+      <!-- ── Video before/after slider ──────────────────── -->
+      <div>
+        <p style="color:var(--muted); margin:0 0 0.75rem; font-size:0.9rem;">Walkthrough — drag to compare.</p>
+      </div>
+
+      <div class="before-after" id="baVideo">
+        <video class="bav-after" autoplay muted loop playsinline>
+          <source src="/assets/theater-2024/theater-after.mp4" type="video/mp4">
+        </video>
+        <video class="bav-before" id="baVideoBefore" autoplay muted loop playsinline>
+          <source src="/assets/theater-2024/theater-before.mp4" type="video/mp4">
+        </video>
+        <div class="ba-divider" id="baVideoDivider"></div>
+        <div class="ba-handle"  id="baVideoHandle">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+            <path d="M6 5L2 9L6 13M12 5L16 9L12 13" stroke="#121416" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <span class="ba-label ba-label-before">Before</span>
+        <span class="ba-label ba-label-after">After</span>
+      </div>
+    </section>
+
+    <!-- ── Stats ─────────────────────────────────────────── -->
+    <div class="build-stats">
+      <div class="stat">
+        <span class="stat-value">120″</span>
+        <span class="stat-label">Screen</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">5.1</span>
+        <span class="stat-label">Surround</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">14″</span>
+        <span class="stat-label">Platform rise</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">0</span>
+        <span class="stat-label">Visible wires</span>
+      </div>
+    </div>
+
+    <!-- ── Phase timeline ─────────────────────────────────── -->
+    <section class="section-card" style="padding: 1.5rem 1.25rem; gap: 0; display: grid;">
+      <div style="margin-bottom: 2.25rem;">
+        <p class="section-kicker" style="margin:0 0 0.4rem;">Project Walkthrough</p>
+        <h2 class="section-heading" style="margin:0;">Phase by Phase</h2>
+      </div>
+
+      <div class="phases">
+
+        <!-- Phase 01 — The Before -->
+        <div class="phase">
+          <div class="phase-header">
+            <span class="phase-number">Phase 01</span>
+            <h3 class="phase-title">The Before</h3>
+          </div>
+          <p class="phase-desc">
+            The basement had a large open room and a nook at the far end that was always
+            destined to be a screen wall. The AWOL Vision UST projector and 120" motorized
+            floor-rise screen were already in place, running on a Denon receiver through
+            Bowers &amp; Wilkins bookshelves, rears, center, and a Definitive SuperCube
+            for bass. But the room wasn't a theater yet — it was a room with expensive
+            equipment in it. Seating was at ground level, kids sat on the floor to get
+            a straight-on view, wires were everywhere, and the screen table was a T-shaped
+            assembly of brackets that looked like an afterthought. Starting point noted.
+          </p>
+          <div class="photo-strip">
+            <div class="strip-photo" data-src="/assets/theater-2024/20240907_144331.jpg" data-caption="Ground-level viewing — the before state, September 2024">
+              <img src="/assets/theater-2024/20240907_144331.jpg" alt="Kid watching projector on floor, September 2024" loading="lazy">
+              <span class="strip-caption">Floor-level viewing — September 2024</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/theater-2024/20240907_144430.jpg" data-caption="Wide room view — projector playing, no platform, no proper theater seating">
+              <img src="/assets/theater-2024/20240907_144430.jpg" alt="Wide room view before platform build" loading="lazy">
+              <span class="strip-caption">Wide room view — no platform, no stadium seating</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phase 02 — Platform Design & Framing -->
+        <div class="phase">
+          <div class="phase-header">
+            <span class="phase-number">Phase 02</span>
+            <h3 class="phase-title">Platform Design &amp; Framing</h3>
+          </div>
+          <p class="phase-desc">
+            Commercial platforms were looked at and ruled out — overpriced, cheap-looking,
+            and none of them would accommodate hidden wiring for powered recliners. Building
+            custom was the only path that allowed for a 14" raised platform, receptacles
+            on the front face for a front row, a top outlet under the second row, RGB deck
+            lights on the risers, and full electrical integration with Home Assistant.
+            The perimeter frame was laid out on the carpet first, then raised on 4×4 posts
+            and leveled. Joists went across for proper floor support. Cooper helped — his
+            name is on a joist inside the platform, which is where it will stay.
+          </p>
+          <div class="photo-strip">
+            <div class="strip-photo" data-src="/assets/theater-2024/20241227_152729.jpg" data-caption="Planning the footprint — perimeter laid out in the room, December 2024">
+              <img src="/assets/theater-2024/20241227_152729.jpg" alt="Platform perimeter laid out on carpet" loading="lazy">
+              <span class="strip-caption">Planning the footprint — December 2024</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/theater-2024/20241227_152745.jpg" data-caption="Perimeter frame assembled on the carpet">
+              <img src="/assets/theater-2024/20241227_152745.jpg" alt="Perimeter frame on carpet" loading="lazy">
+              <span class="strip-caption">Perimeter frame assembled on the carpet</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/theater-2024/20241227_152758.jpg" data-caption="Outer frame together, sitting flat before being raised">
+              <img src="/assets/theater-2024/20241227_152758.jpg" alt="Assembled outer frame before raising" loading="lazy">
+              <span class="strip-caption">Outer frame together, about to go up</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/theater-2024/20241229_191654.jpg" data-caption="Frame raised on 4×4 posts, leveled — joists spanning across, December 29">
+              <img src="/assets/theater-2024/20241229_191654.jpg" alt="Raised frame with joists" loading="lazy">
+              <span class="strip-caption">Raised and leveled on 4×4 posts — joists in</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/theater-2024/20241229_191708.jpg" data-caption="Wider view of the raised frame — moisture barrier underneath, screen nook visible behind">
+              <img src="/assets/theater-2024/20241229_191708.jpg" alt="Wider frame view with screen nook behind" loading="lazy">
+              <span class="strip-caption">Full frame — moisture barrier down, nook visible behind</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/theater-2024/20241229_201345.jpg" data-caption="Cooper on the job — holding scrap lumber, drill on the floor, grinning">
+              <img src="/assets/theater-2024/20241229_201345.jpg" alt="Cooper helping with platform build" loading="lazy">
+              <span class="strip-caption">Cooper on the job</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/theater-2024/20241229_201409.jpg" data-caption="Cooper at the corner of the platform — his name is on a joist inside">
+              <img src="/assets/theater-2024/20241229_201409.jpg" alt="Cooper at platform corner" loading="lazy">
+              <span class="strip-caption">His name is on a joist inside — it stays there</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/theater-2024/early-frame.jpg" data-caption="Early framing — joists spanning the full platform">
+              <img src="/assets/theater-2024/early-frame.jpg" alt="Early platform framing" loading="lazy">
+              <span class="strip-caption">Early framing — full span of the platform</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phase 03 — Wiring, Insulation & Step Lights -->
+        <div class="phase">
+          <div class="phase-header">
+            <span class="phase-number">Phase 03</span>
+            <h3 class="phase-title">Wiring, Insulation &amp; Step Lights</h3>
+          </div>
+          <p class="phase-desc">
+            Everything that would ever need power ran inside the platform now, before the
+            top went on. A receptacle on the front face for the front-row recliners. A
+            second outlet on top, tucked under the back row, so powered chairs would have
+            no visible cord dropping to the floor — just floating chairs with no plug in
+            sight. RGB deck lights were cut into each riser and wired to a Shelly relay,
+            tied into Home Assistant. They come on at dusk every night on their own. The
+            entire cavity was packed with Rockwool — not for warmth, for sound. A platform
+            this size sitting on carpet over a concrete slab can become a resonance box
+            at high bass levels. The Rockwool killed that. Steps were framed on the left
+            and front so the platform is accessible from either direction.
+            Cooper's name went on a joist before it was sealed in.
+          </p>
+          <div class="photo-strip">
+            <div class="strip-photo" data-src="/assets/theater-2024/20241231_155222.jpg" data-caption="Steps framed in — movie playing in the background while work continues">
+              <img src="/assets/theater-2024/20241231_155222.jpg" alt="Steps framed, movie playing" loading="lazy">
+              <span class="strip-caption">Steps framed — movie running while work continues</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/theater-2024/20241231_155735.jpg" data-caption="Cooper's name on the joist — red wire alongside, sealed in when the top goes on">
+              <img src="/assets/theater-2024/20241231_155735.jpg" alt="Cooper's name written on internal joist" loading="lazy">
+              <span class="strip-caption">"Cooper ♡" — sealed inside the platform permanently</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/theater-2024/20250112_094455.jpg" data-caption="Plywood going on the step riser — wiring visible in the cavity, moisture barrier below">
+              <img src="/assets/theater-2024/20250112_094455.jpg" alt="Step riser plywood with wiring in cavity" loading="lazy">
+              <span class="strip-caption">Step riser plywood — wiring routed through the cavity</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/theater-2024/20250112_095255.jpg" data-caption="Cooper's name again, clearer — yellow wire running alongside">
+              <img src="/assets/theater-2024/20250112_095255.jpg" alt="Cooper name on joist with yellow wire" loading="lazy">
+              <span class="strip-caption">Last look before it's sealed in</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/theater-2024/20250118_145541.jpg" data-caption="Rockwool insulation packed in the bays — LED deck light mounts cut into the riser face">
+              <img src="/assets/theater-2024/20250118_145541.jpg" alt="Rockwool insulation and LED deck light mounts" loading="lazy">
+              <span class="strip-caption">Rockwool in — LED step light mounts cut and set</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/theater-2024/20250118_145557.jpg" data-caption="Platform with full Rockwool fill — deck lights faintly glowing in the step face">
+              <img src="/assets/theater-2024/20250118_145557.jpg" alt="Platform cavity with Rockwool and deck lights" loading="lazy">
+              <span class="strip-caption">Fully packed with Rockwool — step lights already live</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phase 04 — Subfloor -->
+        <div class="phase">
+          <div class="phase-header">
+            <span class="phase-number">Phase 04</span>
+            <h3 class="phase-title">Subfloor</h3>
+          </div>
+          <p class="phase-desc">
+            Plywood sheeted across the top and steps, screwed down into the joists. A
+            wire pass-through grommet was cut centered in the top surface to bring power
+            up from below to the second-row recliners — no cord runs along the floor,
+            no cord runs up the back of the chair. Just a black grommet flush with the
+            surface, invisible once the chairs are placed. The full platform footprint
+            was visible here for the first time as a finished structure: two-tier,
+            steps on left and front, ready for carpet.
+          </p>
+          <div class="photo-strip">
+            <div class="strip-photo" data-src="/assets/theater-2024/20250216_174228.jpg" data-caption="Plywood subfloor going on — February 2025, full footprint now visible">
+              <img src="/assets/theater-2024/20250216_174228.jpg" alt="Plywood subfloor installation" loading="lazy">
+              <span class="strip-caption">Plywood subfloor going down — February 2025</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/theater-2024/20250216_174237.jpg" data-caption="Wide view — couch behind, full scale of the platform now clear">
+              <img src="/assets/theater-2024/20250216_174237.jpg" alt="Wide view of plywood platform" loading="lazy">
+              <span class="strip-caption">Wide view — full scale of the platform finally visible</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/theater-2024/20250228_103752.jpg" data-caption="Subfloor complete on top — tools laid out, walls painted dark behind">
+              <img src="/assets/theater-2024/20250228_103752.jpg" alt="Completed subfloor with tools" loading="lazy">
+              <span class="strip-caption">Subfloor complete — dark walls going in behind it</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/theater-2024/20250301_154821.jpg" data-caption="Platform from the front — steps sheeted, grommet hole in the top surface, March 2025">
+              <img src="/assets/theater-2024/20250301_154821.jpg" alt="Finished platform from front angle" loading="lazy">
+              <span class="strip-caption">From the front — steps done, grommet cut in the top</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/theater-2024/20250301_154849.jpg" data-caption="Corner angle — two-tier structure, steps on left and front, ready for carpet">
+              <img src="/assets/theater-2024/20250301_154849.jpg" alt="Corner angle of completed subfloor platform" loading="lazy">
+              <span class="strip-caption">Corner view — two tiers, steps on left and front</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/theater-2024/20250415_185941.jpg" data-caption="Platform standing alone — pre-carpet, post-subfloor, speaker stand behind">
+              <img src="/assets/theater-2024/20250415_185941.jpg" alt="Platform pre-carpet with speaker stand" loading="lazy">
+              <span class="strip-caption">Pre-carpet — platform fully sheeted and standing</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/theater-2024/20250415_185946.jpg" data-caption="The grommet — a clean black pass-through for the second-row chair power, centered in the top">
+              <img src="/assets/theater-2024/20250415_185946.jpg" alt="Wire grommet in platform surface" loading="lazy">
+              <span class="strip-caption">The grommet — chair power runs up from below, invisible</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phase 05 — Carpet & Seating -->
+        <div class="phase">
+          <div class="phase-header">
+            <span class="phase-number">Phase 05</span>
+            <h3 class="phase-title">Carpet &amp; Seating</h3>
+          </div>
+          <p class="phase-desc">
+            Professionally carpeted throughout — platform surface, steps, and risers.
+            The Shelly-controlled RGB deck lights shine through the carpet seams at each
+            step edge, coming on automatically at dusk. The recliners went on the platform:
+            the zero-gravity massage chair in front, the power leather recliners in the
+            back row. Both rows plug in invisibly — no cords on the floor, no cords visible
+            at the chairs. The platform became stadium seating. The front of the room was
+            still bare, but the seating situation was solved.
+          </p>
+          <div class="photo-strip">
+            <div class="strip-photo" data-src="/assets/theater-2024/20250608_142313.jpg" data-caption="Carpeted and lit — blue LED step lights glowing, seating placed, June 2025">
+              <img src="/assets/theater-2024/20250608_142313.jpg" alt="Carpeted platform with LED step lights and seating" loading="lazy">
+              <span class="strip-caption">Carpeted — LED step lights on, seating placed</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/theater-2024/20250608_142325.jpg" data-caption="From the platform looking toward the screen nook — step lights glowing below">
+              <img src="/assets/theater-2024/20250608_142325.jpg" alt="View from platform toward screen" loading="lazy">
+              <span class="strip-caption">From the platform — step lights, popcorn machine, screen nook</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/theater-2024/20250608_142339.jpg" data-caption="Rear view of the platform — seating in place, steps visible on right">
+              <img src="/assets/theater-2024/20250608_142339.jpg" alt="Rear view of carpeted platform" loading="lazy">
+              <span class="strip-caption">Rear view — the platform is now a proper theater back row</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phase 06 — Black Room, Smart Switches & Acoustic Treatment -->
+        <div class="phase">
+          <div class="phase-header">
+            <span class="phase-number">Phase 06</span>
+            <h3 class="phase-title">Black Room, Smart Switches &amp; Acoustic Treatment</h3>
+          </div>
+          <p class="phase-desc">
+            The carpeted platform was right, but the light-coloured room walls created
+            glare and killed the theater feel entirely. The screen nook got painted full
+            matte black — walls, ceiling, every surface. The old can light was swapped
+            for a matte black low-profile LED bar. Every outlet and vent cover in the
+            nook was replaced with black. The difference was immediate.
+            On the switch side: what was a standard 2-gang box became 4 physical controls.
+            Two of the switches are wired to a Shelly relay — they send commands to
+            Home Assistant rather than directly switching anything. One raises and lowers
+            the screen, one controls the step lights. Physical switches that look like
+            any other switch, backed by full smart home logic. A Bambu slatted accent
+            wall went in on the left side of the main room — requiring a gang extender
+            to bring the switch plate flush with the new wall surface, and a black switch
+            plate to match. Every detail was resolved before calling any phase done.
+          </p>
+          <div class="photo-strip">
+            <div class="strip-photo" data-src="/assets/theater-2024/20251110_195420.jpg" data-caption="Screen nook being painted — seating platform behind, November 2025">
+              <img src="/assets/theater-2024/20251110_195420.jpg" alt="Screen nook being painted black" loading="lazy">
+              <span class="strip-caption">Painting the screen nook — November 2025</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/theater-2024/20251110_195426.jpg" data-caption="The black nook — full matte black, new LED bar at the ceiling line">
+              <img src="/assets/theater-2024/20251110_195426.jpg" alt="Completed black screen nook" loading="lazy">
+              <span class="strip-caption">Full matte black — new LED bar at the ceiling line</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/theater-2024/20251110_195433.jpg" data-caption="From the back of the platform — the separation between seating area and black nook">
+              <img src="/assets/theater-2024/20251110_195433.jpg" alt="View from platform toward black nook" loading="lazy">
+              <span class="strip-caption">From the back row — seating area meets black screen room</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/theater-2024/20251112_202755.jpg" data-caption="Equipment and speaker staging in the black nook — getting close">
+              <img src="/assets/theater-2024/20251112_202755.jpg" alt="Equipment staged in black nook" loading="lazy">
+              <span class="strip-caption">Equipment staged in the nook — screen table going in</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/theater-2024/new-light-switch.jpg" data-caption="The new 4-function switch panel — 2 switched, 2 Shelly-controlled smart triggers">
+              <img src="/assets/theater-2024/new-light-switch.jpg" alt="New smart switch panel" loading="lazy">
+              <span class="strip-caption">4 switches, 1 gang box — 2 are Shelly smart triggers</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/theater-2024/20251214_101535.jpg" data-caption="Finished theater — slatted accent wall, black nook, screen table, speakers in place">
+              <img src="/assets/theater-2024/20251214_101535.jpg" alt="Finished daytime theater view" loading="lazy">
+              <span class="strip-caption">Daytime finished view — slatted wall, black nook, everything in</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phase 07 — First Movie Night -->
+        <div class="phase">
+          <div class="phase-header">
+            <span class="phase-number">Phase 07</span>
+            <h3 class="phase-title">First Movie Night</h3>
+          </div>
+          <p class="phase-desc">
+            Lights out, screen up, bass on. This is what it was supposed to be.
+            The room is done enough — which is a deliberate stopping point, not a
+            finished one. More is in the works.
+          </p>
+          <div class="photo-strip">
+            <div class="strip-photo" data-src="/assets/theater-2024/20251210_204653.jpg" data-caption="First movie night — Deadpool &amp; Wolverine on 120 inches, December 2025">
+              <img src="/assets/theater-2024/20251210_204653.jpg" alt="120 inch projected screen showing Deadpool and Wolverine" loading="lazy">
+              <span class="strip-caption">First movie night — Deadpool &amp; Wolverine, 120 inches</span>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /phases -->
+    </section>
+
+    <!-- ── Future Vision ──────────────────────────────────── -->
+    <section class="section-card" style="padding: 1.5rem; gap: 1rem; display: grid;">
+      <div>
+        <p class="section-kicker" style="margin:0 0 0.4rem;">What's Next</p>
+        <h2 class="section-heading" style="margin:0 0 0.35rem;">Future Vision</h2>
+        <p style="color:var(--muted); margin:0; font-size:0.9rem;">
+          The room is done enough to use and enjoy. These are the next phases — some planned,
+          some already in motion.
+        </p>
+      </div>
+      <div class="vision-grid">
+        <div class="vision-item">
+          <p class="vision-item-title">Retro Gaming Nook</p>
+          <p class="vision-item-desc">The nook on the opposite side of the room is already painted black. An arcade cabinet and digital pinball machine fit in there. Retro gaming corner coming.</p>
+        </div>
+        <div class="vision-item">
+          <p class="vision-item-title">Second Screen</p>
+          <p class="vision-item-desc">A TV on the side wall for overflow seating — showing movie posters and coming-soon art normally, switchable to mirror the main screen when the room is full.</p>
+        </div>
+        <div class="vision-item">
+          <p class="vision-item-title">Sconce Lighting</p>
+          <p class="vision-item-desc">Wall sconces flanking the seating, wired into the Home Assistant setup. Likely on a dimmer Shelly to keep them from overpowering the screen.</p>
+        </div>
+        <div class="vision-item">
+          <p class="vision-item-title">Audio Upgrades</p>
+          <p class="vision-item-desc">The B&amp;W setup is excellent. There are always better bookshelves and a better center. The upgrade path is clear — just not today.</p>
+        </div>
+        <div class="vision-item">
+          <p class="vision-item-title">Poker / Dining Table</p>
+          <p class="vision-item-desc">The main room space can accommodate a poker table that doubles as a dining surface. A room that looks this good should work harder when the screen is down.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>Done enough to use. Not done enough to stop.</p>
+    </footer>
+
+  </main>
+
+  <!-- ── Lightbox ───────────────────────────────────────── -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
+    <span class="lightbox-counter" id="lightboxCounter">1 / 1</span>
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close">×</button>
+    <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Previous">‹</button>
+    <div class="lightbox-inner">
+      <img id="lightboxImg" src="" alt="">
+      <p class="lightbox-caption" id="lightboxCaption"></p>
+    </div>
+    <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Next">›</button>
+  </div>
+
+  <script src="/scripts/menu.js"></script>
+  <script>
+    /* ── Still image before/after slider ─────────────── */
+    (function () {
+      const slider  = document.getElementById('baStill');
+      const before  = document.getElementById('baStillBefore');
+      const divider = document.getElementById('baStillDivider');
+      const handle  = document.getElementById('baStillHandle');
+      let dragging  = false;
+
+      function move(clientX) {
+        const r   = slider.getBoundingClientRect();
+        const pct = Math.max(0.03, Math.min(0.97, (clientX - r.left) / r.width));
+        before.style.clipPath = `inset(0 ${((1 - pct) * 100).toFixed(2)}% 0 0)`;
+        divider.style.left = handle.style.left = (pct * 100).toFixed(2) + '%';
+      }
+
+      slider.addEventListener('mousedown',  e => { dragging = true; move(e.clientX); });
+      slider.addEventListener('touchstart', e => { dragging = true; move(e.touches[0].clientX); }, { passive: true });
+      window.addEventListener('mousemove',  e => { if (dragging) move(e.clientX); });
+      window.addEventListener('touchmove',  e => { if (dragging) move(e.touches[0].clientX); }, { passive: true });
+      window.addEventListener('mouseup',    () => dragging = false);
+      window.addEventListener('touchend',   () => dragging = false);
+    })();
+
+    /* ── Video before/after slider ───────────────────── */
+    (function () {
+      const slider  = document.getElementById('baVideo');
+      const before  = document.getElementById('baVideoBefore');
+      const divider = document.getElementById('baVideoDivider');
+      const handle  = document.getElementById('baVideoHandle');
+      let dragging  = false;
+
+      function move(clientX) {
+        const r   = slider.getBoundingClientRect();
+        const pct = Math.max(0.03, Math.min(0.97, (clientX - r.left) / r.width));
+        before.style.clipPath = `inset(0 ${((1 - pct) * 100).toFixed(2)}% 0 0)`;
+        divider.style.left = handle.style.left = (pct * 100).toFixed(2) + '%';
+      }
+
+      slider.addEventListener('mousedown',  e => { dragging = true; move(e.clientX); });
+      slider.addEventListener('touchstart', e => { dragging = true; move(e.touches[0].clientX); }, { passive: true });
+      window.addEventListener('mousemove',  e => { if (dragging) move(e.clientX); });
+      window.addEventListener('touchmove',  e => { if (dragging) move(e.touches[0].clientX); }, { passive: true });
+      window.addEventListener('mouseup',    () => dragging = false);
+      window.addEventListener('touchend',   () => dragging = false);
+    })();
+
+    /* ── Lightbox ─────────────────────────────────────── */
+    (function () {
+      const lb      = document.getElementById('lightbox');
+      const lbImg   = document.getElementById('lightboxImg');
+      const lbCap   = document.getElementById('lightboxCaption');
+      const lbCount = document.getElementById('lightboxCounter');
+      let photos = [], idx = 0;
+
+      function buildList() {
+        photos = Array.from(document.querySelectorAll('.strip-photo')).map(el => ({
+          src:     el.dataset.src,
+          caption: el.dataset.caption,
+          alt:     el.querySelector('img').alt
+        }));
+      }
+
+      function show(i) {
+        idx = (i + photos.length) % photos.length;
+        lbImg.src = photos[idx].src;
+        lbImg.alt = photos[idx].alt;
+        lbCap.textContent = photos[idx].caption;
+        lbCount.textContent = `${idx + 1} / ${photos.length}`;
+      }
+
+      function open(i) { buildList(); show(i); lb.classList.add('open'); document.body.style.overflow = 'hidden'; }
+      function close()  { lb.classList.remove('open'); document.body.style.overflow = ''; }
+
+      document.querySelectorAll('.strip-photo').forEach((el, i) => {
+        el.addEventListener('click', () => open(i));
+        el.setAttribute('tabindex', '0');
+        el.setAttribute('role', 'button');
+        el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(i); } });
+      });
+
+      document.getElementById('lightboxClose').addEventListener('click', close);
+      document.getElementById('lightboxPrev').addEventListener('click', () => show(idx - 1));
+      document.getElementById('lightboxNext').addEventListener('click', () => show(idx + 1));
+      lb.addEventListener('click', e => { if (e.target === lb) close(); });
+
+      document.addEventListener('keydown', e => {
+        if (!lb.classList.contains('open')) return;
+        if (e.key === 'Escape')     close();
+        if (e.key === 'ArrowLeft')  show(idx - 1);
+        if (e.key === 'ArrowRight') show(idx + 1);
+      });
+    })();
+  </script>
+
+</body>
+</html>
