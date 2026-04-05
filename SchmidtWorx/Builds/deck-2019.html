@@ -8,7 +8,8 @@
   <link rel="stylesheet" href="/style.css" />
   <style>
 
-    html, body { overflow-x: hidden; }
+    /* Contain horizontal overflow without killing child scroll contexts */
+    body { overflow-x: clip; }
 
     /* ── Before/After Slider ─────────────────────────────── */
     .before-after {
@@ -213,6 +214,36 @@
 
     .strip-photo:hover .strip-caption { opacity: 1; }
 
+    /* ── Mobile overrides ────────────────────────────────── */
+    @media (max-width: 719px) {
+      /* Photos: show ~1.3 at a time so swiping is obvious */
+      .strip-photo {
+        width: 72vw;
+        height: 54vw;
+      }
+
+      /* Captions always visible on touch — no hover on phone */
+      .strip-caption {
+        opacity: 1;
+      }
+
+      /* Slider shorter on phone */
+      .before-after {
+        aspect-ratio: 3 / 2;
+      }
+
+      /* Stats wrap to 2×2 */
+      .build-stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      /* Phase number and title stack more comfortably */
+      .phase-header {
+        flex-wrap: wrap;
+        gap: 0.25rem;
+      }
+    }
+
     /* ── Lightbox ────────────────────────────────────────── */
     .lightbox {
       display: none;
@@ -356,7 +387,7 @@
       </div>
 
       <div class="before-after" id="beforeAfter">
-        <div class="ba-after"   style="background-image: url('/assets/deck-2019/20190707_142420.jpg');"></div>
+        <div class="ba-after"   style="background-image: url('/assets/deck-2019/20220402_151115_cropped.jpg');"></div>
         <div class="ba-before" id="baBefore" style="background-image: url('/assets/deck-2019/20190413_124438.jpg');"></div>
         <div class="ba-divider" id="baDivider"></div>
         <div class="ba-handle"  id="baHandle">
@@ -590,6 +621,10 @@
               <img src="/assets/deck-2019/20190623_172700.jpg" alt="From the deck looking out" loading="lazy">
               <span class="strip-caption">Looking out from the deck through the new railing</span>
             </div>
+            <div class="strip-photo" data-src="/assets/deck-2019/IMG_20220502_190920.jpg" data-caption="Post cap lights on at dusk — photo from 2022, after the barrel sauna was added alongside the deck">
+              <img src="/assets/deck-2019/IMG_20220502_190920.jpg" alt="Deck lights on at dusk with barrel sauna" loading="lazy">
+              <span class="strip-caption">Lights on at dusk — 2022, with the barrel sauna alongside</span>
+            </div>
           </div>
         </div>
 
@@ -641,6 +676,10 @@
         </p>
       </div>
       <div class="photo-strip">
+        <div class="strip-photo" data-src="/assets/deck-2019/20220402_151115_cropped.jpg" data-caption="The finished deck — house, railing, fence, and three years of standing up to the weather">
+          <img src="/assets/deck-2019/20220402_151115_cropped.jpg" alt="Finished deck from the yard" loading="lazy">
+          <span class="strip-caption">The finished deck — still looking right three years later</span>
+        </div>
         <div class="strip-photo" data-src="/assets/deck-2019/20190707_142420.jpg" data-caption="Finished deck from the yard — same angle as the before shot">
           <img src="/assets/deck-2019/20190707_142420.jpg" alt="Finished deck from the yard" loading="lazy">
           <span class="strip-caption">Finished deck from the yard</span>
