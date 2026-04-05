@@ -16,7 +16,7 @@
       overflow: hidden;
       user-select: none;
       cursor: ew-resize;
-      aspect-ratio: 16 / 9;
+      aspect-ratio: 4 / 3;
       touch-action: none;
     }
 
@@ -25,11 +25,16 @@
       position: absolute;
       inset: 0;
       background-size: cover;
-      background-position: center;
+    }
+
+    /* Tune these positions so the deck sits at the same horizon in both frames */
+    .ba-after {
+      background-position: center 40%;
     }
 
     .ba-before {
       clip-path: inset(0 50% 0 0);
+      background-position: center 40%;
     }
 
     .ba-divider {
@@ -154,7 +159,6 @@
       overflow-x: auto;
       scroll-snap-type: x mandatory;
       -webkit-overflow-scrolling: touch;
-      /* bleed to container edges on mobile for a cinematic feel */
       margin-left: -1.25rem;
       margin-right: -1.25rem;
       padding-left: 1.25rem;
@@ -162,23 +166,14 @@
       padding-bottom: 0.75rem;
     }
 
-    .photo-strip::-webkit-scrollbar {
-      height: 3px;
-    }
-
-    .photo-strip::-webkit-scrollbar-track {
-      background: rgba(255, 255, 255, 0.04);
-    }
-
-    .photo-strip::-webkit-scrollbar-thumb {
-      background: var(--border-strong);
-      border-radius: 2px;
-    }
+    .photo-strip::-webkit-scrollbar { height: 3px; }
+    .photo-strip::-webkit-scrollbar-track { background: rgba(255,255,255,0.04); }
+    .photo-strip::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 2px; }
 
     .strip-photo {
       flex: 0 0 auto;
       width: 288px;
-      height: 204px;
+      height: 216px;
       border-radius: 12px;
       overflow: hidden;
       border: 1px solid var(--border);
@@ -198,6 +193,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      object-position: center;
       display: block;
     }
 
@@ -207,7 +203,7 @@
       left: 0;
       right: 0;
       padding: 0.6rem 0.8rem 0.5rem;
-      background: linear-gradient(transparent, rgba(0, 0, 0, 0.72));
+      background: linear-gradient(transparent, rgba(0, 0, 0, 0.75));
       font-size: 0.76rem;
       color: var(--accent);
       letter-spacing: 0.02em;
@@ -215,9 +211,7 @@
       transition: opacity 0.2s ease;
     }
 
-    .strip-photo:hover .strip-caption {
-      opacity: 1;
-    }
+    .strip-photo:hover .strip-caption { opacity: 1; }
 
     /* ── Lightbox ────────────────────────────────────────── */
     .lightbox {
@@ -225,15 +219,13 @@
       position: fixed;
       inset: 0;
       z-index: 9999;
-      background: rgba(0, 0, 0, 0.9);
+      background: rgba(0, 0, 0, 0.92);
       backdrop-filter: blur(14px);
       align-items: center;
       justify-content: center;
     }
 
-    .lightbox.open {
-      display: flex;
-    }
+    .lightbox.open { display: flex; }
 
     .lightbox-inner {
       position: relative;
@@ -326,17 +318,13 @@
       backdrop-filter: blur(8px);
     }
 
-    /* ── Timeline divider between phases ────────────────── */
     .phase + .phase {
       border-top: 1px solid var(--border);
       padding-top: 2.75rem;
     }
 
     @media (max-width: 719px) {
-      .strip-photo {
-        width: 240px;
-        height: 170px;
-      }
+      .strip-photo { width: 240px; height: 180px; }
     }
 
   </style>
@@ -353,8 +341,9 @@
       <p class="eyebrow">Built Work · 2019</p>
       <h1>Deck Rebuild</h1>
       <p class="tagline">
-        Torn down to the footings. Re-leveled, re-framed, re-built — diagonal decking,
-        picture-frame border, built-in lights, and a new vinyl fence.
+        The left side had sunk badly, breaking boards and exposing weak original framing.
+        Torn down, re-poured, re-framed, and rebuilt in Azek — diagonal decking,
+        picture-frame border, built-in lighting, and a vinyl privacy fence.
       </p>
     </section>
 
@@ -367,12 +356,10 @@
       </div>
 
       <div class="before-after" id="beforeAfter">
-        <!-- AFTER (back layer, full width) -->
-        <div class="ba-after" style="background-image: url('https://placehold.co/1200x675/182514/90c060?text=After+—+Finished+Deck');"></div>
-        <!-- BEFORE (front layer, clipped) -->
-        <div class="ba-before" id="baBefore" style="background-image: url('https://placehold.co/1200x675/241810/b07840?text=Before+—+Old+Deck');"></div>
+        <div class="ba-after"   style="background-image: url('/assets/deck-2019/20190707_142420.jpg');"></div>
+        <div class="ba-before" id="baBefore" style="background-image: url('/assets/deck-2019/20190413_124438.jpg');"></div>
         <div class="ba-divider" id="baDivider"></div>
-        <div class="ba-handle" id="baHandle">
+        <div class="ba-handle"  id="baHandle">
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
             <path d="M6 5L2 9L6 13M12 5L16 9L12 13" stroke="#121416" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
@@ -382,15 +369,15 @@
       </div>
     </section>
 
-    <!-- ── Stats bar ──────────────────────────────────────── -->
+    <!-- ── Stats ─────────────────────────────────────────── -->
     <div class="build-stats">
       <div class="stat">
         <span class="stat-value">7</span>
         <span class="stat-label">Phases</span>
       </div>
       <div class="stat">
-        <span class="stat-value">~6</span>
-        <span class="stat-label">Weeks</span>
+        <span class="stat-value">~5</span>
+        <span class="stat-label">Months</span>
       </div>
       <div class="stat">
         <span class="stat-value">45°</span>
@@ -404,242 +391,234 @@
 
     <!-- ── Phase timeline ─────────────────────────────────── -->
     <section class="section-card" style="padding: 1.5rem 1.25rem; gap: 0; display: grid;">
-      <div style="margin-bottom: 2.25rem; padding: 0 0 0 0;">
+      <div style="margin-bottom: 2.25rem;">
         <p class="section-kicker" style="margin:0 0 0.4rem;">Project Walkthrough</p>
         <h2 class="section-heading" style="margin:0;">Phase by Phase</h2>
       </div>
 
       <div class="phases">
 
-        <!-- Phase 01 -->
+        <!-- Phase 01 — Teardown -->
         <div class="phase">
           <div class="phase-header">
             <span class="phase-number">Phase 01</span>
             <h3 class="phase-title">Teardown</h3>
           </div>
           <p class="phase-desc">
-            Demo of the old structure — rotted boards, failing joists, and two decades of deferred
-            maintenance hauled to the curb before a single new piece of lumber arrived.
+            The left side had sunk significantly — enough to break boards on the deck surface.
+            The original posts weren't in concrete, the frame supports were undersized, and
+            there was no mid-span blocking on the joists at all. Railings came off first,
+            then the boards, then down to the framing to see exactly what was there.
           </p>
           <div class="photo-strip">
-            <div class="strip-photo" data-src="https://placehold.co/960x720/241810/b07840?text=Before+1" data-caption="Original deck — the starting point">
-              <img src="https://placehold.co/576x408/241810/b07840?text=Before+1" alt="Original deck before any work" loading="lazy">
-              <span class="strip-caption">Original deck — the starting point</span>
+            <div class="strip-photo" data-src="/assets/deck-2019/20190413_124438.jpg" data-caption="The original deck — April 2019">
+              <img src="/assets/deck-2019/20190413_124438.jpg" alt="Original deck from the yard" loading="lazy">
+              <span class="strip-caption">The original deck — April 2019</span>
             </div>
-            <div class="strip-photo" data-src="https://placehold.co/960x720/241810/b07840?text=Demo+2" data-caption="Boards coming up — rot visible underneath">
-              <img src="https://placehold.co/576x408/241810/b07840?text=Demo+2" alt="Boards being removed" loading="lazy">
-              <span class="strip-caption">Boards coming up — rot visible underneath</span>
+            <div class="strip-photo" data-src="/assets/deck-2019/20190413_124450.jpg" data-caption="Old wood privacy panel on the right side">
+              <img src="/assets/deck-2019/20190413_124450.jpg" alt="Old privacy panel" loading="lazy">
+              <span class="strip-caption">Old wood privacy panel</span>
             </div>
-            <div class="strip-photo" data-src="https://placehold.co/960x720/241810/b07840?text=Demo+3" data-caption="Framing exposed — joist condition was worse than expected">
-              <img src="https://placehold.co/576x408/241810/b07840?text=Demo+3" alt="Framing exposed" loading="lazy">
-              <span class="strip-caption">Framing exposed</span>
+            <div class="strip-photo" data-src="/assets/deck-2019/20190413_124514.jpg" data-caption="Standing on the deck looking toward the house">
+              <img src="/assets/deck-2019/20190413_124514.jpg" alt="On the old deck looking at the house" loading="lazy">
+              <span class="strip-caption">Standing on the deck looking toward the house</span>
             </div>
-            <div class="strip-photo" data-src="https://placehold.co/960x720/241810/b07840?text=Demo+4" data-caption="Pile of old decking at the curb">
-              <img src="https://placehold.co/576x408/241810/b07840?text=Demo+4" alt="Old decking at the curb" loading="lazy">
-              <span class="strip-caption">Pile of old decking at the curb</span>
+            <div class="strip-photo" data-src="/assets/deck-2019/20190413_130127.jpg" data-caption="Railings stripped — teardown underway">
+              <img src="/assets/deck-2019/20190413_130127.jpg" alt="Teardown in progress" loading="lazy">
+              <span class="strip-caption">Railings stripped — teardown underway</span>
             </div>
-            <div class="strip-photo" data-src="https://placehold.co/960x720/241810/b07840?text=Demo+5" data-caption="Bare skeleton — ready to assess the structure">
-              <img src="https://placehold.co/576x408/241810/b07840?text=Demo+5" alt="Bare skeleton" loading="lazy">
-              <span class="strip-caption">Bare skeleton — ready to assess</span>
+            <div class="strip-photo" data-src="/assets/deck-2019/20190413_142906.jpg" data-caption="Old framing exposed — debris and rot underneath the boards">
+              <img src="/assets/deck-2019/20190413_142906.jpg" alt="Old framing exposed" loading="lazy">
+              <span class="strip-caption">Old framing exposed — rot underneath</span>
             </div>
           </div>
         </div>
 
-        <!-- Phase 02 -->
+        <!-- Phase 02 — Leveling & Support -->
         <div class="phase">
           <div class="phase-header">
             <span class="phase-number">Phase 02</span>
             <h3 class="phase-title">Leveling &amp; Support</h3>
           </div>
           <p class="phase-desc">
-            Posts re-set, beams sistered, and everything brought back to level before a single
-            new board went down. The diagonal run would make any low spot obvious, so this had to be right.
+            The original posts were sitting directly on concrete pads — no anchors, no hardware.
+            New holes were dug at least 24" deep, poured with concrete, and fitted with metal
+            4×4 post bases to keep the wood above ground. That way the posts last longer and
+            can be replaced without breaking up the slab if they ever go bad. Same method for
+            two mid-span support points under the joists — something the original never had.
           </p>
           <div class="photo-strip">
-            <div class="strip-photo" data-src="https://placehold.co/960x720/101820/6090b0?text=Level+1" data-caption="Post footings — checking plumb">
-              <img src="https://placehold.co/576x408/101820/6090b0?text=Level+1" alt="Post footings" loading="lazy">
-              <span class="strip-caption">Post footings — checking plumb</span>
+            <div class="strip-photo" data-src="/assets/deck-2019/20190424_180309.jpg" data-caption="Original post — just resting on a concrete pad with no base hardware">
+              <img src="/assets/deck-2019/20190424_180309.jpg" alt="Original post on concrete pad" loading="lazy">
+              <span class="strip-caption">Original post — no base hardware</span>
             </div>
-            <div class="strip-photo" data-src="https://placehold.co/960x720/101820/6090b0?text=Level+2" data-caption="Long level across the full span">
-              <img src="https://placehold.co/576x408/101820/6090b0?text=Level+2" alt="Checking level" loading="lazy">
-              <span class="strip-caption">Long level across the full span</span>
+            <div class="strip-photo" data-src="/assets/deck-2019/20190424_180325.jpg" data-caption="New post base set into the pad — the right way to do it">
+              <img src="/assets/deck-2019/20190424_180325.jpg" alt="New post base hardware" loading="lazy">
+              <span class="strip-caption">New post base hardware set into the pad</span>
             </div>
-            <div class="strip-photo" data-src="https://placehold.co/960x720/101820/6090b0?text=Level+3" data-caption="New post hardware and hardware-treated lumber">
-              <img src="https://placehold.co/576x408/101820/6090b0?text=Level+3" alt="New hardware" loading="lazy">
-              <span class="strip-caption">New post hardware</span>
-            </div>
-            <div class="strip-photo" data-src="https://placehold.co/960x720/101820/6090b0?text=Level+4" data-caption="Sister beams added for extra support">
-              <img src="https://placehold.co/576x408/101820/6090b0?text=Level+4" alt="Sister beams" loading="lazy">
-              <span class="strip-caption">Sister beams added for extra support</span>
+            <div class="strip-photo" data-src="/assets/deck-2019/20190524_181454.jpg" data-caption="Beam sitting on a new post base — properly supported">
+              <img src="/assets/deck-2019/20190524_181454.jpg" alt="Beam on new post base" loading="lazy">
+              <span class="strip-caption">Beam on new post base — properly supported</span>
             </div>
           </div>
         </div>
 
-        <!-- Phase 03 -->
+        <!-- Phase 03 — Framing -->
         <div class="phase">
           <div class="phase-header">
             <span class="phase-number">Phase 03</span>
             <h3 class="phase-title">Framing</h3>
           </div>
           <p class="phase-desc">
-            New joists, blocking, and ledger. Diagonal decking transfers loads differently than straight
-            runs — extra blocking at 45° intervals keeps everything from racking over time.
+            All new joists using doubled 2×10s held up by the same metal post-base system —
+            two beams sistered together for a solid, stable platform. Spacing went from 16"
+            on center down to 12" on center specifically to handle the diagonal decking load.
+            Diagonal boards don't span the same way as straight runs, so tighter spacing was
+            non-negotiable. The Azek boards sat in the yard waiting while the frame was dialed in.
           </p>
           <div class="photo-strip">
-            <div class="strip-photo" data-src="https://placehold.co/960x720/181818/909090?text=Frame+1" data-caption="New joist layout on the beams">
-              <img src="https://placehold.co/576x408/181818/909090?text=Frame+1" alt="New joist layout" loading="lazy">
-              <span class="strip-caption">New joist layout on the beams</span>
+            <div class="strip-photo" data-src="/assets/deck-2019/20190503_132835.jpg" data-caption="New frame taking shape — composite boards stacked in the yard waiting">
+              <img src="/assets/deck-2019/20190503_132835.jpg" alt="New frame from the yard" loading="lazy">
+              <span class="strip-caption">Frame taking shape — boards waiting in the yard</span>
             </div>
-            <div class="strip-photo" data-src="https://placehold.co/960x720/181818/909090?text=Frame+2" data-caption="Mid-span blocking for the diagonal load">
-              <img src="https://placehold.co/576x408/181818/909090?text=Frame+2" alt="Mid-span blocking" loading="lazy">
-              <span class="strip-caption">Mid-span blocking for diagonal load</span>
+            <div class="strip-photo" data-src="/assets/deck-2019/20190518_180400.jpg" data-caption="Frame further along — fence posts set, boards still on the ground">
+              <img src="/assets/deck-2019/20190518_180400.jpg" alt="Frame with fence posts" loading="lazy">
+              <span class="strip-caption">Frame further along — fence posts set</span>
             </div>
-            <div class="strip-photo" data-src="https://placehold.co/960x720/181818/909090?text=Frame+3" data-caption="Ledger bolted to the house — flashed and sealed">
-              <img src="https://placehold.co/576x408/181818/909090?text=Frame+3" alt="Ledger attachment" loading="lazy">
-              <span class="strip-caption">Ledger bolted to the house</span>
+            <div class="strip-photo" data-src="/assets/deck-2019/20190519_180116.jpg" data-caption="Frame complete, boards staged and ready to go down">
+              <img src="/assets/deck-2019/20190519_180116.jpg" alt="Frame complete" loading="lazy">
+              <span class="strip-caption">Frame complete — ready to start laying boards</span>
             </div>
-            <div class="strip-photo" data-src="https://placehold.co/960x720/181818/909090?text=Frame+4" data-caption="Joist hangers throughout — no toe-nailing">
-              <img src="https://placehold.co/576x408/181818/909090?text=Frame+4" alt="Joist hangers" loading="lazy">
-              <span class="strip-caption">Joist hangers throughout</span>
+            <div class="strip-photo" data-src="/assets/deck-2019/20190525_175530.jpg" data-caption="Looking down at the joist layout — blocking placed for the diagonal run">
+              <img src="/assets/deck-2019/20190525_175530.jpg" alt="Top-down joist view" loading="lazy">
+              <span class="strip-caption">Looking down at the joist layout</span>
             </div>
-            <div class="strip-photo" data-src="https://placehold.co/960x720/181818/909090?text=Frame+5" data-caption="Frame complete and inspected">
-              <img src="https://placehold.co/576x408/181818/909090?text=Frame+5" alt="Frame complete" loading="lazy">
-              <span class="strip-caption">Frame complete and inspected</span>
+            <div class="strip-photo" data-src="/assets/deck-2019/20190527_121518.jpg" data-caption="Frame from the corner — everything square and level">
+              <img src="/assets/deck-2019/20190527_121518.jpg" alt="Frame from the corner" loading="lazy">
+              <span class="strip-caption">Frame from the corner — square and level</span>
             </div>
           </div>
         </div>
 
-        <!-- Phase 04 -->
+        <!-- Phase 04 — Diagonal Boards -->
         <div class="phase">
           <div class="phase-header">
             <span class="phase-number">Phase 04</span>
             <h3 class="phase-title">Diagonal Boards</h3>
           </div>
           <p class="phase-desc">
-            Each board cut at 45° and run corner to corner. The longest boards cross the full width
-            of the deck — keeping spacing consistent as they get shorter toward the corners took
-            careful measurement from the start.
+            Azek boards run at 45° from corner to corner — zero maintenance, won't rot, won't
+            splinter. The longest boards cross the full width of the deck. The scariest part
+            of the whole project was the final cut along the perimeter edge: one bad line and
+            you've wasted a lot of expensive material. Measured carefully, cut once.
+            One of the posts got marked along the way: June 2019, Deck Building.
           </p>
           <div class="photo-strip">
-            <div class="strip-photo" data-src="https://placehold.co/960x720/141a10/80aa50?text=Diag+1" data-caption="First diagonal boards — establishing the angle">
-              <img src="https://placehold.co/576x408/141a10/80aa50?text=Diag+1" alt="First diagonal boards" loading="lazy">
+            <div class="strip-photo" data-src="/assets/deck-2019/20190602_191534.jpg" data-caption="First diagonal boards going down — establishing the 45° angle">
+              <img src="/assets/deck-2019/20190602_191534.jpg" alt="First diagonal boards" loading="lazy">
               <span class="strip-caption">First boards — establishing the angle</span>
             </div>
-            <div class="strip-photo" data-src="https://placehold.co/960x720/141a10/80aa50?text=Diag+2" data-caption="Pattern taking shape across the field">
-              <img src="https://placehold.co/576x408/141a10/80aa50?text=Diag+2" alt="Pattern taking shape" loading="lazy">
-              <span class="strip-caption">Pattern taking shape</span>
+            <div class="strip-photo" data-src="/assets/deck-2019/20190608_135453.jpg" data-caption="Progress marker written on the post: June 2019, Deck Building">
+              <img src="/assets/deck-2019/20190608_135453.jpg" alt="Progress marker on post" loading="lazy">
+              <span class="strip-caption">"June 2019, Deck Building" — marked on the post</span>
             </div>
-            <div class="strip-photo" data-src="https://placehold.co/960x720/141a10/80aa50?text=Diag+3" data-caption="Halfway across — spacing still even">
-              <img src="https://placehold.co/576x408/141a10/80aa50?text=Diag+3" alt="Halfway across" loading="lazy">
-              <span class="strip-caption">Halfway — spacing still even</span>
+            <div class="strip-photo" data-src="/assets/deck-2019/20190608_185316.jpg" data-caption="Most of the diagonal field covered — fence posts standing in the background">
+              <img src="/assets/deck-2019/20190608_185316.jpg" alt="Most of the field covered" loading="lazy">
+              <span class="strip-caption">Most of the field covered</span>
             </div>
-            <div class="strip-photo" data-src="https://placehold.co/960x720/141a10/80aa50?text=Diag+4" data-caption="Near the edge — cuts getting shorter">
-              <img src="https://placehold.co/576x408/141a10/80aa50?text=Diag+4" alt="Near the edge" loading="lazy">
-              <span class="strip-caption">Near the edge — cuts getting shorter</span>
+            <div class="strip-photo" data-src="/assets/deck-2019/20190608_185343.jpg" data-caption="Looking across the diagonal surface — the pattern really comes through at this angle">
+              <img src="/assets/deck-2019/20190608_185343.jpg" alt="Across the diagonal surface" loading="lazy">
+              <span class="strip-caption">Looking across the diagonal surface</span>
             </div>
-            <div class="strip-photo" data-src="https://placehold.co/960x720/141a10/80aa50?text=Diag+5" data-caption="Diagonal field complete — ready for the border">
-              <img src="https://placehold.co/576x408/141a10/80aa50?text=Diag+5" alt="Field complete" loading="lazy">
-              <span class="strip-caption">Diagonal field complete</span>
+            <div class="strip-photo" data-src="/assets/deck-2019/20190609_085843.jpg" data-caption="Diagonal field nearly complete — picture frame border is the next step">
+              <img src="/assets/deck-2019/20190609_085843.jpg" alt="Diagonal field nearly complete" loading="lazy">
+              <span class="strip-caption">Field nearly complete — border next</span>
             </div>
           </div>
         </div>
 
-        <!-- Phase 05 -->
+        <!-- Phase 05 — Picture Frame Border -->
         <div class="phase">
           <div class="phase-header">
             <span class="phase-number">Phase 05</span>
             <h3 class="phase-title">Picture Frame Border</h3>
           </div>
           <p class="phase-desc">
-            Perimeter boards run parallel to the edge, framing the diagonal field like a mat around
-            a photo — and cleaning up all those angled cuts at the boundary in one clean line.
+            Perimeter boards run parallel to the edge, framing the diagonal field and covering
+            every angled end cut in one clean line. Also in Azek, so the whole surface is the
+            same material throughout. By this point the vinyl fence panels were already staged
+            on the deck — project momentum was real.
           </p>
           <div class="photo-strip">
-            <div class="strip-photo" data-src="https://placehold.co/960x720/1a1a10/c8c060?text=Border+1" data-caption="First border board going in">
-              <img src="https://placehold.co/576x408/1a1a10/c8c060?text=Border+1" alt="First border board" loading="lazy">
-              <span class="strip-caption">First border board going in</span>
+            <div class="strip-photo" data-src="/assets/deck-2019/20190609_144456.jpg" data-caption="Border board going in along the edge — saw and drill on deck">
+              <img src="/assets/deck-2019/20190609_144456.jpg" alt="Border board going in" loading="lazy">
+              <span class="strip-caption">Border board going in along the edge</span>
             </div>
-            <div class="strip-photo" data-src="https://placehold.co/960x720/1a1a10/c8c060?text=Border+2" data-caption="Corner miters — tight fit">
-              <img src="https://placehold.co/576x408/1a1a10/c8c060?text=Border+2" alt="Corner miters" loading="lazy">
-              <span class="strip-caption">Corner miters — tight fit</span>
-            </div>
-            <div class="strip-photo" data-src="https://placehold.co/960x720/1a1a10/c8c060?text=Border+3" data-caption="Border cleaning up the diagonal ends">
-              <img src="https://placehold.co/576x408/1a1a10/c8c060?text=Border+3" alt="Border cleaning up edges" loading="lazy">
-              <span class="strip-caption">Border cleaning up the diagonal ends</span>
-            </div>
-            <div class="strip-photo" data-src="https://placehold.co/960x720/1a1a10/c8c060?text=Border+4" data-caption="Picture frame fully installed">
-              <img src="https://placehold.co/576x408/1a1a10/c8c060?text=Border+4" alt="Picture frame complete" loading="lazy">
-              <span class="strip-caption">Picture frame fully installed</span>
+            <div class="strip-photo" data-src="/assets/deck-2019/20190609_144507.jpg" data-caption="Picture frame border complete — vinyl fence panels staged and ready to go">
+              <img src="/assets/deck-2019/20190609_144507.jpg" alt="Border complete, fence panels staged" loading="lazy">
+              <span class="strip-caption">Border complete — fence panels staged and waiting</span>
             </div>
           </div>
         </div>
 
-        <!-- Phase 06 -->
+        <!-- Phase 06 — Railing & Lighting -->
         <div class="phase">
           <div class="phase-header">
             <span class="phase-number">Phase 06</span>
-            <h3 class="phase-title">Built-in Lighting</h3>
+            <h3 class="phase-title">Railing &amp; Lighting</h3>
           </div>
           <p class="phase-desc">
-            Low-voltage deck lights planned before the boards went down — wire runs routed through the
-            framing, fixtures surface-mounted through the picture-frame border. Once the boards are in,
-            there's no going back.
+            White vinyl railing panels installed section by section around the perimeter.
+            Wiring for the built-in post cap lights was run through the hollow railing posts
+            before the panels were locked in — once it's assembled there's no going back.
           </p>
           <div class="photo-strip">
-            <div class="strip-photo" data-src="https://placehold.co/960x720/10080c/a060c0?text=Light+1" data-caption="Wire runs through the joist bays">
-              <img src="https://placehold.co/576x408/10080c/a060c0?text=Light+1" alt="Wire runs" loading="lazy">
-              <span class="strip-caption">Wire runs through the joist bays</span>
+            <div class="strip-photo" data-src="/assets/deck-2019/20190621_204701.jpg" data-caption="First railing panel assembled — wire already run through the post for the lights">
+              <img src="/assets/deck-2019/20190621_204701.jpg" alt="First railing panel with wire" loading="lazy">
+              <span class="strip-caption">First panel assembled — wire run through the post for lights</span>
             </div>
-            <div class="strip-photo" data-src="https://placehold.co/960x720/10080c/a060c0?text=Light+2" data-caption="Fixture placement marked on the border">
-              <img src="https://placehold.co/576x408/10080c/a060c0?text=Light+2" alt="Fixture placement" loading="lazy">
-              <span class="strip-caption">Fixture placement marked</span>
+            <div class="strip-photo" data-src="/assets/deck-2019/20190623_091631.jpg" data-caption="Railing going up — the deck is really starting to look finished">
+              <img src="/assets/deck-2019/20190623_091631.jpg" alt="Railing going up" loading="lazy">
+              <span class="strip-caption">Railing going up — starting to look finished</span>
             </div>
-            <div class="strip-photo" data-src="https://placehold.co/960x720/10080c/a060c0?text=Light+3" data-caption="Lights installed — first test on">
-              <img src="https://placehold.co/576x408/10080c/a060c0?text=Light+3" alt="Lights test" loading="lazy">
-              <span class="strip-caption">Lights installed — first test on</span>
-            </div>
-            <div class="strip-photo" data-src="https://placehold.co/960x720/08060e/8040a8?text=Light+4" data-caption="Deck at dusk — lights on">
-              <img src="https://placehold.co/576x408/08060e/8040a8?text=Light+4" alt="Deck at dusk" loading="lazy">
-              <span class="strip-caption">Deck at dusk</span>
-            </div>
-            <div class="strip-photo" data-src="https://placehold.co/960x720/06040a/6030a0?text=Light+5" data-caption="Night view — the reason you run wire early">
-              <img src="https://placehold.co/576x408/06040a/6030a0?text=Light+5" alt="Night view" loading="lazy">
-              <span class="strip-caption">Night view — why you plan for this early</span>
+            <div class="strip-photo" data-src="/assets/deck-2019/20190623_172700.jpg" data-caption="Looking out from the deck through the new white railing">
+              <img src="/assets/deck-2019/20190623_172700.jpg" alt="From the deck looking out" loading="lazy">
+              <span class="strip-caption">Looking out from the deck through the new railing</span>
             </div>
           </div>
         </div>
 
-        <!-- Phase 07 -->
+        <!-- Phase 07 — Vinyl Privacy Fence -->
         <div class="phase">
           <div class="phase-header">
             <span class="phase-number">Phase 07</span>
-            <h3 class="phase-title">Vinyl Fence</h3>
+            <h3 class="phase-title">Vinyl Privacy Fence</h3>
           </div>
           <p class="phase-desc">
-            Privacy fence to finish the perimeter — posts set in concrete, panels snapped in place.
-            The fence and the deck border share the same sight line, so alignment had to be planned
-            before either went in.
+            Months after the deck itself was done, the privacy fence went in along the back —
+            post holes dug, posts set in concrete, panels and lattice tops snapped into place.
+            The fence and the deck railing share the same white vinyl, so they read as one thing.
           </p>
           <div class="photo-strip">
-            <div class="strip-photo" data-src="https://placehold.co/960x720/141414/c0c0c0?text=Fence+1" data-caption="Post hole locations laid out">
-              <img src="https://placehold.co/576x408/141414/c0c0c0?text=Fence+1" alt="Post hole layout" loading="lazy">
-              <span class="strip-caption">Post locations laid out</span>
+            <div class="strip-photo" data-src="/assets/deck-2019/20190907_143210.jpg" data-caption="First vinyl fence post set — post hole digger still in the background">
+              <img src="/assets/deck-2019/20190907_143210.jpg" alt="First fence post set" loading="lazy">
+              <span class="strip-caption">First post set — hole digger still in the background</span>
             </div>
-            <div class="strip-photo" data-src="https://placehold.co/960x720/141414/c0c0c0?text=Fence+2" data-caption="Posts set — concrete curing overnight">
-              <img src="https://placehold.co/576x408/141414/c0c0c0?text=Fence+2" alt="Posts set" loading="lazy">
-              <span class="strip-caption">Posts set — concrete curing overnight</span>
+            <div class="strip-photo" data-src="/assets/deck-2019/20190907_143228.jpg" data-caption="Post work from the lawn — the finished deck visible in the background">
+              <img src="/assets/deck-2019/20190907_143228.jpg" alt="Post work from the lawn" loading="lazy">
+              <span class="strip-caption">Post work from the lawn — deck visible behind</span>
             </div>
-            <div class="strip-photo" data-src="https://placehold.co/960x720/141414/c0c0c0?text=Fence+3" data-caption="Panels snapping into the rails">
-              <img src="https://placehold.co/576x408/141414/c0c0c0?text=Fence+3" alt="Panels going up" loading="lazy">
-              <span class="strip-caption">Panels snapping into place</span>
+            <div class="strip-photo" data-src="/assets/deck-2019/20190907_171438.jpg" data-caption="Fence panels, lattice tops, and gate hardware all staged on the deck">
+              <img src="/assets/deck-2019/20190907_171438.jpg" alt="Fence materials staged on deck" loading="lazy">
+              <span class="strip-caption">Panels, lattice tops, and gate hardware staged on the deck</span>
             </div>
-            <div class="strip-photo" data-src="https://placehold.co/960x720/141414/c0c0c0?text=Fence+4" data-caption="First section of fence standing">
-              <img src="https://placehold.co/576x408/141414/c0c0c0?text=Fence+4" alt="First fence section" loading="lazy">
-              <span class="strip-caption">First section standing</span>
+            <div class="strip-photo" data-src="/assets/deck-2019/20190907_171635.jpg" data-caption="First full panel standing — privacy fence taking shape">
+              <img src="/assets/deck-2019/20190907_171635.jpg" alt="First fence panel standing" loading="lazy">
+              <span class="strip-caption">First full panel standing</span>
             </div>
-            <div class="strip-photo" data-src="https://placehold.co/960x720/141414/c0c0c0?text=Fence+5" data-caption="Fence complete — perimeter enclosed">
-              <img src="https://placehold.co/576x408/141414/c0c0c0?text=Fence+5" alt="Fence complete" loading="lazy">
-              <span class="strip-caption">Fence complete — perimeter enclosed</span>
+            <div class="strip-photo" data-src="/assets/deck-2019/20190918_191256.jpg" data-caption="Fence complete — lattice top, evening light, from the deck looking out">
+              <img src="/assets/deck-2019/20190918_191256.jpg" alt="Fence complete at dusk" loading="lazy">
+              <span class="strip-caption">Fence complete — evening light from the deck</span>
             </div>
           </div>
         </div>
@@ -647,39 +626,31 @@
       </div><!-- /phases -->
     </section>
 
-    <!-- ── Finished gallery ───────────────────────────────── -->
+    <!-- ── Finished ───────────────────────────────────────── -->
     <section class="section-card" style="padding: 1.5rem 1.25rem; gap: 1rem; display: grid;">
       <div>
         <p class="section-kicker" style="margin:0 0 0.4rem;">Finished</p>
-        <h2 class="section-heading" style="margin:0 0 0.5rem;">The Completed Deck</h2>
+        <h2 class="section-heading" style="margin:0 0 0.35rem;">The Completed Deck</h2>
         <p style="color:var(--muted); margin:0; font-size:0.9rem;">
-          Torn down to the posts. Back to something worth passing on.
+          Torn down to the posts. Back to something worth keeping.
         </p>
       </div>
       <div class="photo-strip">
-        <div class="strip-photo" data-src="https://placehold.co/960x720/182514/90c060?text=Done+1" data-caption="Full overview from the yard">
-          <img src="https://placehold.co/576x408/182514/90c060?text=Done+1" alt="Full overview" loading="lazy">
-          <span class="strip-caption">Full overview from the yard</span>
+        <div class="strip-photo" data-src="/assets/deck-2019/20190707_142420.jpg" data-caption="Finished deck from the yard — same angle as the before shot">
+          <img src="/assets/deck-2019/20190707_142420.jpg" alt="Finished deck from the yard" loading="lazy">
+          <span class="strip-caption">Finished deck from the yard</span>
         </div>
-        <div class="strip-photo" data-src="https://placehold.co/960x720/182514/90c060?text=Done+2" data-caption="Diagonal pattern with picture frame border">
-          <img src="https://placehold.co/576x408/182514/90c060?text=Done+2" alt="Diagonal pattern" loading="lazy">
-          <span class="strip-caption">Diagonal pattern with border</span>
+        <div class="strip-photo" data-src="/assets/deck-2019/20190623_172619.jpg" data-caption="Wide view from the yard — railing complete">
+          <img src="/assets/deck-2019/20190623_172619.jpg" alt="Wide view from yard" loading="lazy">
+          <span class="strip-caption">Wide view from the yard</span>
         </div>
-        <div class="strip-photo" data-src="https://placehold.co/960x720/182514/90c060?text=Done+3" data-caption="Deck and fence together">
-          <img src="https://placehold.co/576x408/182514/90c060?text=Done+3" alt="Deck and fence" loading="lazy">
-          <span class="strip-caption">Deck and fence together</span>
+        <div class="strip-photo" data-src="/assets/deck-2019/20190623_172638.jpg" data-caption="From the yard, looking along the full length of the deck">
+          <img src="/assets/deck-2019/20190623_172638.jpg" alt="Full length from yard" loading="lazy">
+          <span class="strip-caption">Full length from the yard</span>
         </div>
-        <div class="strip-photo" data-src="https://placehold.co/960x720/0a0608/7030a0?text=Done+4" data-caption="Evening — lights on in the border">
-          <img src="https://placehold.co/576x408/0a0608/7030a0?text=Done+4" alt="Evening lights" loading="lazy">
-          <span class="strip-caption">Evening — lights on in the border</span>
-        </div>
-        <div class="strip-photo" data-src="https://placehold.co/960x720/182514/90c060?text=Done+5" data-caption="Corner detail — miter and border">
-          <img src="https://placehold.co/576x408/182514/90c060?text=Done+5" alt="Corner detail" loading="lazy">
-          <span class="strip-caption">Corner detail — miter and border</span>
-        </div>
-        <div class="strip-photo" data-src="https://placehold.co/960x720/182514/90c060?text=Done+6" data-caption="From the house looking out">
-          <img src="https://placehold.co/576x408/182514/90c060?text=Done+6" alt="From the house" loading="lazy">
-          <span class="strip-caption">From the house looking out</span>
+        <div class="strip-photo" data-src="/assets/deck-2019/20190918_191256.jpg" data-caption="The last photo — fence complete, project done">
+          <img src="/assets/deck-2019/20190918_191256.jpg" alt="Fence complete, project done" loading="lazy">
+          <span class="strip-caption">The last photo — fence complete, project done</span>
         </div>
       </div>
     </section>
@@ -690,21 +661,21 @@
 
   </main>
 
-  <!-- ── Lightbox overlay ───────────────────────────────── -->
+  <!-- ── Lightbox ───────────────────────────────────────── -->
   <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
     <span class="lightbox-counter" id="lightboxCounter">1 / 1</span>
-    <button class="lightbox-close" id="lightboxClose" aria-label="Close photo viewer">×</button>
-    <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Previous photo">‹</button>
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close">×</button>
+    <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Previous">‹</button>
     <div class="lightbox-inner">
       <img id="lightboxImg" src="" alt="">
       <p class="lightbox-caption" id="lightboxCaption"></p>
     </div>
-    <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Next photo">›</button>
+    <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Next">›</button>
   </div>
 
   <script src="/scripts/menu.js"></script>
   <script>
-    /* ── Before / After Slider ─────────────────────────── */
+    /* ── Before/After Slider ─────────────────────────── */
     (function () {
       const slider   = document.getElementById('beforeAfter');
       const baBefore = document.getElementById('baBefore');
@@ -715,10 +686,8 @@
       function move(clientX) {
         const r   = slider.getBoundingClientRect();
         const pct = Math.max(0.03, Math.min(0.97, (clientX - r.left) / r.width));
-        const p   = (pct * 100).toFixed(2);
-        baBefore.style.clipPath = `inset(0 ${(100 - pct * 100).toFixed(2)}% 0 0)`;
-        divider.style.left = p + '%';
-        handle.style.left  = p + '%';
+        baBefore.style.clipPath = `inset(0 ${((1 - pct) * 100).toFixed(2)}% 0 0)`;
+        divider.style.left = handle.style.left = (pct * 100).toFixed(2) + '%';
       }
 
       slider.addEventListener('mousedown',  e => { dragging = true; move(e.clientX); });
@@ -729,17 +698,15 @@
       window.addEventListener('touchend',   () => dragging = false);
     })();
 
-    /* ── Lightbox ──────────────────────────────────────── */
+    /* ── Lightbox ─────────────────────────────────────── */
     (function () {
       const lb      = document.getElementById('lightbox');
       const lbImg   = document.getElementById('lightboxImg');
       const lbCap   = document.getElementById('lightboxCaption');
       const lbCount = document.getElementById('lightboxCounter');
-      let photos    = [];
-      let idx       = 0;
+      let photos = [], idx = 0;
 
-      // Collect all photos from strips
-      function buildPhotoList() {
+      function buildList() {
         photos = Array.from(document.querySelectorAll('.strip-photo')).map(el => ({
           src:     el.dataset.src,
           caption: el.dataset.caption,
@@ -749,18 +716,16 @@
 
       function show(i) {
         idx = (i + photos.length) % photos.length;
-        lbImg.src         = photos[idx].src;
-        lbImg.alt         = photos[idx].alt;
+        lbImg.src = photos[idx].src;
+        lbImg.alt = photos[idx].alt;
         lbCap.textContent = photos[idx].caption;
         lbCount.textContent = `${idx + 1} / ${photos.length}`;
       }
 
       function open(i) {
-        buildPhotoList();
-        show(i);
+        buildList(); show(i);
         lb.classList.add('open');
         document.body.style.overflow = 'hidden';
-        document.getElementById('lightboxClose').focus();
       }
 
       function close() {
@@ -768,12 +733,10 @@
         document.body.style.overflow = '';
       }
 
-      // Wire up strip photos
       document.querySelectorAll('.strip-photo').forEach((el, i) => {
         el.addEventListener('click', () => open(i));
         el.setAttribute('tabindex', '0');
         el.setAttribute('role', 'button');
-        el.setAttribute('aria-label', el.dataset.caption);
         el.addEventListener('keydown', e => {
           if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(i); }
         });
@@ -782,7 +745,6 @@
       document.getElementById('lightboxClose').addEventListener('click', close);
       document.getElementById('lightboxPrev').addEventListener('click', () => show(idx - 1));
       document.getElementById('lightboxNext').addEventListener('click', () => show(idx + 1));
-
       lb.addEventListener('click', e => { if (e.target === lb) close(); });
 
       document.addEventListener('keydown', e => {
