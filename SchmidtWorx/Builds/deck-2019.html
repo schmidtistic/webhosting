@@ -8,6 +8,8 @@
   <link rel="stylesheet" href="/style.css" />
   <style>
 
+    html, body { overflow-x: hidden; }
+
     /* ── Before/After Slider ─────────────────────────────── */
     .before-after {
       position: relative;
@@ -160,6 +162,8 @@
       scroll-snap-type: x mandatory;
       -webkit-overflow-scrolling: touch;
       padding-bottom: 0.75rem;
+      min-width: 0;
+      width: 100%;
     }
 
     .photo-strip::-webkit-scrollbar { height: 3px; }
@@ -657,7 +661,7 @@
     </section>
 
     <footer>
-      <p>SchmidtWorx exists to document, preserve, and pass forward what matters.</p>
+      <p>Take it down to the dirt. Do it right. Build it to last.</p>
     </footer>
 
   </main>
