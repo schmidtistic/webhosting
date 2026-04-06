@@ -510,6 +510,49 @@ footer {
     text-align: center;
 }
 
+/* ── Breadcrumb ──────────────────────────────────────── */
+.breadcrumb ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.8rem;
+    color: var(--muted);
+    letter-spacing: 0.02em;
+}
+
+.breadcrumb li {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    margin: 0;
+}
+
+.breadcrumb li + li::before {
+    content: "/";
+    color: var(--border-strong);
+    padding-right: 0.1rem;
+}
+
+.breadcrumb a {
+    color: var(--muted);
+    border-bottom: none;
+    transition: color 0.2s ease;
+}
+
+.breadcrumb a:hover,
+.breadcrumb a:focus-visible {
+    color: var(--accent);
+    border-bottom: none;
+}
+
+.breadcrumb li[aria-current="page"] {
+    color: var(--fg);
+}
+
 @media (min-width: 720px) {
     .intro-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
