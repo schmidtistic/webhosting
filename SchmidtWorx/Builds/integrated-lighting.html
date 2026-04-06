@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Integrated Lighting — SchmidtWorx</title>
+  <link rel="stylesheet" href="/style.css" />
+  <style>
+
+    .container { overflow-x: hidden; }
+
+    /* ── Photo strip ─────────────────────────────────────── */
+    .photo-strip {
+      display: flex;
+      gap: 0.75rem;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 0.75rem;
+      min-width: 0;
+      width: 100%;
+    }
+
+    .photo-strip::-webkit-scrollbar { height: 3px; }
+    .photo-strip::-webkit-scrollbar-track { background: rgba(255,255,255,0.04); }
+    .photo-strip::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 2px; }
+
+    .strip-photo {
+      flex: 0 0 auto;
+      width: 288px;
+      height: 216px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      scroll-snap-align: start;
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .strip-photo:hover {
+      transform: translateY(-3px);
+      border-color: var(--border-strong);
+      box-shadow: 0 8px 28px rgba(0,0,0,0.35);
+    }
+
+    .strip-photo img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      display: block;
+    }
+
+    .strip-caption {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 0.6rem 0.8rem 0.5rem;
+      background: linear-gradient(transparent, rgba(0,0,0,0.75));
+      font-size: 0.76rem;
+      color: var(--accent);
+      letter-spacing: 0.02em;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .strip-photo:hover .strip-caption { opacity: 1; }
+
+    /* ── Deployment cards ────────────────────────────────── */
+    .deploy-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .deploy-item {
+      padding: 1rem 1.1rem;
+      border: 1px solid var(--border);
+      border-radius: calc(var(--radius) - 4px);
+      background: rgba(215, 195, 160, 0.04);
+    }
+
+    .deploy-item.upcoming {
+      background: rgba(255,255,255,0.02);
+      border-style: dashed;
+    }
+
+    .deploy-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 0 0 0.35rem;
+    }
+
+    .deploy-item.upcoming .deploy-title {
+      color: var(--muted);
+    }
+
+    .deploy-desc {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    /* ── Mobile ──────────────────────────────────────────── */
+    @media (max-width: 600px) {
+      .photo-strip {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
+        overflow-x: visible;
+        scroll-snap-type: none;
+        padding-bottom: 0;
+        width: 100%;
+      }
+      .strip-photo { width: 100%; height: 44vw; border-radius: 10px; }
+      .strip-caption { opacity: 1; }
+      .deploy-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 719px) {
+      .strip-photo { width: 240px; height: 180px; }
+    }
+
+    /* ── Lightbox ────────────────────────────────────────── */
+    .lightbox {
+      display: none; position: fixed; inset: 0; z-index: 9999;
+      background: rgba(0,0,0,0.92); backdrop-filter: blur(14px);
+      align-items: center; justify-content: center;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox-inner {
+      position: relative; display: flex; flex-direction: column;
+      align-items: center; gap: 1rem; max-width: 90vw;
+    }
+    .lightbox img {
+      max-width: 90vw; max-height: 80vh; object-fit: contain;
+      border-radius: 12px; border: 1px solid var(--border); display: block;
+    }
+    .lightbox-caption { color: var(--muted); font-size: 0.9rem; text-align: center; margin: 0; }
+    .lightbox-close {
+      position: absolute; top: -3.25rem; right: 0;
+      width: 2.5rem; height: 2.5rem; border-radius: 50%;
+      border: 1px solid var(--border); background: rgba(255,255,255,0.06);
+      color: var(--fg); cursor: pointer; font-size: 1.4rem; line-height: 1;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+    .lightbox-close:hover { background: rgba(255,255,255,0.12); border-color: var(--border-strong); }
+    .lightbox-nav {
+      position: fixed; top: 50%; transform: translateY(-50%);
+      width: 3rem; height: 3rem; border-radius: 50%;
+      border: 1px solid var(--border); background: rgba(18,20,22,0.8);
+      color: var(--fg); cursor: pointer; font-size: 1.5rem;
+      display: flex; align-items: center; justify-content: center;
+      backdrop-filter: blur(8px);
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+    .lightbox-nav:hover { background: rgba(18,20,22,1); border-color: var(--border-strong); }
+    .lightbox-prev { left: 1.25rem; }
+    .lightbox-next { right: 1.25rem; }
+    .lightbox-counter {
+      position: fixed; top: 1.25rem; left: 50%; transform: translateX(-50%);
+      font-size: 0.8rem; letter-spacing: 0.08em; color: var(--muted);
+      background: rgba(18,20,22,0.7); padding: 0.3rem 0.9rem;
+      border-radius: 999px; border: 1px solid var(--border); backdrop-filter: blur(8px);
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <div id="header-placeholder"></div>
+
+  <main class="container page-shell">
+
+    <!-- ── Hero ──────────────────────────────────────────── -->
+    <section class="hero">
+      <p class="eyebrow">Systems Built · Ongoing</p>
+      <h1>Integrated Lighting</h1>
+      <p class="tagline">
+        Every build gets lights. Not fixtures added after the fact. Not a lamp in the
+        corner. Lights built into the structure itself — cut into risers, routed inside
+        platforms, tucked behind shelves — before the wall closes or the carpet goes
+        down. No visible wires. Automated from day one. The kind of thing most people
+        don't notice, which is exactly the point.
+      </p>
+    </section>
+
+    <!-- ── The Approach ───────────────────────────────────── -->
+    <section class="section-card" style="padding: 1.5rem; gap: 1.25rem; display: grid;">
+      <div>
+        <p class="section-kicker" style="margin:0 0 0.4rem;">The Approach</p>
+        <h2 class="section-heading" style="margin:0 0 1rem;">Part of the Build, Not an Addition</h2>
+
+        <p style="color:var(--muted); font-size:0.95rem; max-width:60ch; margin:0 0 1rem;">
+          The difference between a light that looks installed and a light that looks
+          added is almost always wiring. An exposed cord, a plug visible behind something,
+          a strip light stuck to the outside of a shelf — these things announce themselves.
+          They say someone thought of this later.
+        </p>
+
+        <p style="color:var(--muted); font-size:0.95rem; max-width:60ch; margin:0 0 1rem;">
+          The approach here is to treat lighting as a finish element — the same way
+          tile or trim is a finish element. You plan for it before you build, run the
+          wire while the structure is still open, cut the housing into the face before
+          anything is closed up. By the time the project is done, the light appears to
+          be part of the material rather than something attached to it.
+        </p>
+
+        <p style="color:var(--muted); font-size:0.95rem; max-width:60ch; margin:0;">
+          Every installation here is tied into Home Assistant through a Shelly relay —
+          which means it's also automated. The deck lights come on at dusk. The theater
+          platform lights respond to a physical switch and to automations. The goal for
+          every future project is the same: if you have to explain that the light is
+          there, it isn't installed right yet.
+        </p>
+      </div>
+
+      <!-- Photo strip -->
+      <div class="photo-strip">
+        <div class="strip-photo" data-src="/assets/deck-2019/20190621_204701.jpg" data-caption="Deck railing build — wire routed through the post while it's still open. Powered, not solar.">
+          <img src="/assets/deck-2019/20190621_204701.jpg" alt="Wire being routed through railing post during installation" loading="lazy">
+          <span class="strip-caption">Wired during the build — the wire goes in before the post is set</span>
+        </div>
+        <div class="strip-photo" data-src="/assets/deck-2019/IMG_20220502_190920.jpg" data-caption="Railing post lights at dusk — warm glow from every post cap, automated on at dusk. No solar, no batteries.">
+          <img src="/assets/deck-2019/IMG_20220502_190920.jpg" alt="Deck railing post lights glowing at dusk" loading="lazy">
+          <span class="strip-caption">Post cap lights at dusk — warm, wired, automatic</span>
+        </div>
+        <div class="strip-photo" data-src="/assets/smart-home/DeckBeforeLights.jpg" data-caption="The deck before — no step lighting, goes dark at night">
+          <img src="/assets/smart-home/DeckBeforeLights.jpg" alt="Deck before step lights installed" loading="lazy">
+          <span class="strip-caption">Before — deck goes dark at night</span>
+        </div>
+        <div class="strip-photo" data-src="/assets/smart-home/DeckAfterLights.jpg" data-caption="After — warm step lights cut into every riser, on at dusk automatically">
+          <img src="/assets/smart-home/DeckAfterLights.jpg" alt="Deck with step lights glowing at night" loading="lazy">
+          <span class="strip-caption">After — every riser lit, comes on at dusk by itself</span>
+        </div>
+        <div class="strip-photo" data-src="/assets/smart-home/DeckLightsAfter2.jpg" data-caption="Dusk from the far side — full run of step lights, no switch needed">
+          <img src="/assets/smart-home/DeckLightsAfter2.jpg" alt="Deck lights at dusk from alternate angle" loading="lazy">
+          <span class="strip-caption">Dusk from the far side — every step, every night</span>
+        </div>
+        <div class="strip-photo" data-src="/assets/theater-2024/20250608_142313.jpg" data-caption="Theater platform — blue LED deck lights cut into each step riser, Shelly controlled">
+          <img src="/assets/theater-2024/20250608_142313.jpg" alt="Theater platform step lights glowing blue" loading="lazy">
+          <span class="strip-caption">Theater platform — blue step lights, built into the risers</span>
+        </div>
+        <div class="strip-photo" data-src="/assets/theater-2024/20250608_142325.jpg" data-caption="From the platform looking toward the screen — step lights visible below">
+          <img src="/assets/theater-2024/20250608_142325.jpg" alt="Theater step lights from platform level" loading="lazy">
+          <span class="strip-caption">From the platform — lights built in before the carpet went down</span>
+        </div>
+        <div class="strip-photo" data-src="/assets/theater-2024/20250118_145541.jpg" data-caption="Inside the platform cavity — LED deck light housings cut into the riser face before closing up">
+          <img src="/assets/theater-2024/20250118_145541.jpg" alt="LED light housings in platform cavity" loading="lazy">
+          <span class="strip-caption">Inside the cavity — housings cut in before anything was sealed</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Where it lives ─────────────────────────────────── -->
+    <section class="section-card" style="padding: 1.5rem; gap: 1rem; display: grid;">
+      <div>
+        <p class="section-kicker" style="margin:0 0 0.4rem;">Deployments</p>
+        <h2 class="section-heading" style="margin:0 0 0.35rem;">Where the Lights Live</h2>
+        <p style="color:var(--muted); margin:0; font-size:0.9rem;">
+          Current installations and what's already planned.
+        </p>
+      </div>
+      <div class="deploy-grid">
+
+        <div class="deploy-item">
+          <p class="deploy-title">Deck Railing Post Lights</p>
+          <p class="deploy-desc">Powered post cap lights wired through the railing posts during the 2019 deck build — wire routed while the posts were still open. Warm glow from every post at dusk. Not solar. Not battery. Wired in before anything was closed up.</p>
+        </div>
+
+        <div class="deploy-item">
+          <p class="deploy-title">Deck Step Lights</p>
+          <p class="deploy-desc">Warm white deck lights cut into every riser on the Azek deck. Wired to a Shelly relay, tied into Home Assistant. Come on automatically at dusk every night.</p>
+        </div>
+
+        <div class="deploy-item">
+          <p class="deploy-title">Theater Platform Risers</p>
+          <p class="deploy-desc">RGB deck lights installed in both step risers on the theater platform before the carpet went down. Blue by default, Shelly-controlled, triggered by a physical switch or automation.</p>
+        </div>
+
+        <div class="deploy-item upcoming">
+          <p class="deploy-title">Built-in Shelf — Coming</p>
+          <p class="deploy-desc">A built-in shelf currently in progress. 2" recessed lights and LED strips built in, no visible wires. Same approach: light planned before the structure is closed.</p>
+        </div>
+
+        <div class="deploy-item upcoming">
+          <p class="deploy-title">More to Come</p>
+          <p class="deploy-desc">This page grows with the house. Every new build that gets lights built into it ends up here.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <footer>
+      <p>If you have to explain that the light is there, it isn't installed right yet.</p>
+    </footer>
+
+  </main>
+
+  <!-- ── Lightbox ───────────────────────────────────────── -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
+    <span class="lightbox-counter" id="lightboxCounter">1 / 1</span>
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close">×</button>
+    <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Previous">‹</button>
+    <div class="lightbox-inner">
+      <img id="lightboxImg" src="" alt="">
+      <p class="lightbox-caption" id="lightboxCaption"></p>
+    </div>
+    <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Next">›</button>
+  </div>
+
+  <script src="/scripts/menu.js"></script>
+  <script>
+    (function () {
+      const lb      = document.getElementById('lightbox');
+      const lbImg   = document.getElementById('lightboxImg');
+      const lbCap   = document.getElementById('lightboxCaption');
+      const lbCount = document.getElementById('lightboxCounter');
+      let photos = [], idx = 0;
+
+      function buildList() {
+        photos = Array.from(document.querySelectorAll('.strip-photo')).map(el => ({
+          src:     el.dataset.src,
+          caption: el.dataset.caption,
+          alt:     el.querySelector('img').alt
+        }));
+      }
+
+      function show(i) {
+        idx = (i + photos.length) % photos.length;
+        lbImg.src = photos[idx].src;
+        lbImg.alt = photos[idx].alt;
+        lbCap.textContent = photos[idx].caption;
+        lbCount.textContent = `${idx + 1} / ${photos.length}`;
+      }
+
+      function open(i) { buildList(); show(i); lb.classList.add('open'); document.body.style.overflow = 'hidden'; }
+      function close()  { lb.classList.remove('open'); document.body.style.overflow = ''; }
+
+      document.querySelectorAll('.strip-photo').forEach((el, i) => {
+        el.addEventListener('click', () => open(i));
+        el.setAttribute('tabindex', '0');
+        el.setAttribute('role', 'button');
+        el.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(i); }
+        });
+      });
+
+      document.getElementById('lightboxClose').addEventListener('click', close);
+      document.getElementById('lightboxPrev').addEventListener('click', () => show(idx - 1));
+      document.getElementById('lightboxNext').addEventListener('click', () => show(idx + 1));
+      lb.addEventListener('click', e => { if (e.target === lb) close(); });
+
+      document.addEventListener('keydown', e => {
+        if (!lb.classList.contains('open')) return;
+        if (e.key === 'Escape')     close();
+        if (e.key === 'ArrowLeft')  show(idx - 1);
+        if (e.key === 'ArrowRight') show(idx + 1);
+      });
+    })();
+  </script>
+
+</body>
+</html>
