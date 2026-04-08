@@ -59,12 +59,12 @@
     .quote-card.open { border-color: var(--accent); }
 
     .quote-text { font-family: 'EB Garamond', Georgia, serif; font-size: 1.08rem; font-style: italic; line-height: 1.65; color: var(--fg); margin: 0 0 0.75rem; }
-    .quote-preview { display: block; }
     .quote-rest { display: none; }
-    .quote-card.open .quote-rest { display: block; }
+    .quote-card.open .quote-rest { display: inline; }
+    .quote-card.open .quote-rest .quote-full { display: inline; }
+    .quote-full { display: inline; }
 
     .quote-author { font-family: 'Courier Prime', monospace; font-size: 0.78rem; color: var(--accent); letter-spacing: 0.04em; margin: 0 0 0.5rem; }
-    .quote-meta { font-size: 0.75rem; color: var(--muted); margin: 0.5rem 0 0; }
 
     .quote-note { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border); display: none; }
     .quote-card.open .quote-note { display: block; }
@@ -167,9 +167,8 @@
       var needsExpand = words.length > 12;
 
       var previewHTML = needsExpand
-        ? '<span class="quote-preview">' + previewWords + '&hellip;</span>'
-          + '<span class="quote-rest"> ' + restWords + '</span>'
-        : '<span class="quote-preview">' + q.text + '</span>';
+        ? previewWords + '<span class="quote-rest">&hellip;<span class="quote-full"> ' + restWords + '</span></span>'
+        : q.text;
 
       var noteHTML = hasNote
         ? '<div class="quote-note">'
@@ -184,7 +183,6 @@
       card.innerHTML =
         '<p class="quote-author">' + q.author + '</p>'
         + '<p class="quote-text">' + previewHTML + '</p>'
-        + '<p class="quote-meta">' + q.source + ' &nbsp;·&nbsp; ' + q.category.charAt(0) + q.category.slice(1).toLowerCase() + '</p>'
         + noteHTML;
 
       card.addEventListener('click', function () {
