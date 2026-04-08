@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Collected Quotes — Michael Schmidt &mdash; SchmidtWorx</title>
+  <meta name="description" content="26 quotes that spoke to Michael Schmidt, organized by theme. A desk calendar. Selected pages. Things worth keeping." />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Collected Quotes — Michael Schmidt" />
+  <meta property="og:description" content="26 quotes organized by theme. Things worth keeping." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://schmidtworx.com/Reflections/michael-schmidt-quotes.html" />
+  <meta property="og:image" content="https://schmidtworx.com/SWLogo.png" />
+  <meta property="og:site_name" content="SchmidtWorx" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Collected Quotes — Michael Schmidt" />
+  <meta name="twitter:description" content="26 quotes organized by theme. Things worth keeping." />
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Courier+Prime&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="/style.css" />
+
+  <style>
+    /* ── Breadcrumb ── */
+    .breadcrumb { margin: 0 0 2rem; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 0.25rem; font-size: 0.8rem; color: var(--muted); }
+    .breadcrumb li + li::before { content: "/"; margin-right: 0.25rem; opacity: 0.5; }
+    .breadcrumb a { color: var(--muted); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--accent); }
+    .breadcrumb [aria-current="page"] { color: #fff; }
+
+    /* ── Hero ── */
+    .quotes-eyebrow { font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin: 0 0 0.5rem; }
+    .quotes-tagline { color: var(--muted); font-size: 1rem; margin: 0.5rem 0 0; font-style: italic; }
+
+    /* ── Context card ── */
+    .quotes-context { background: var(--bg-soft); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem 1.5rem; margin: 2rem 0; color: var(--muted); font-size: 0.95rem; line-height: 1.7; }
+    .quotes-context p { margin: 0; }
+
+    /* ── Filter bar ── */
+    .quotes-meta-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; margin: 2rem 0 1.25rem; }
+    .quotes-count { font-size: 0.8rem; color: var(--muted); margin-right: auto; }
+    .filter-btn { background: transparent; border: 1px solid var(--border); color: var(--muted); border-radius: 999px; padding: 0.3rem 0.9rem; font-size: 0.8rem; cursor: pointer; transition: all 0.2s; }
+    .filter-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .filter-btn.active { background: var(--accent); border-color: var(--accent); color: #111; font-weight: 600; }
+
+    /* ── Grid ── */
+    .quotes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; }
+
+    /* ── Card ── */
+    .quote-card { background: var(--bg-soft); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem 1.4rem; cursor: pointer; transition: border-color 0.2s, box-shadow 0.2s; position: relative; }
+    .quote-card:hover { border-color: var(--border-strong); box-shadow: 0 4px 24px rgba(0,0,0,0.3); }
+    .quote-card.open { border-color: var(--accent); }
+
+    .quote-text { font-family: 'EB Garamond', Georgia, serif; font-size: 1.08rem; font-style: italic; line-height: 1.65; color: var(--fg); margin: 0 0 0.75rem; }
+    .quote-preview { display: block; }
+    .quote-rest { display: none; }
+    .quote-card.open .quote-rest { display: block; }
+
+    .quote-author { font-family: 'Courier Prime', monospace; font-size: 0.78rem; color: var(--accent); letter-spacing: 0.04em; margin: 0 0 0.5rem; }
+    .quote-meta { font-size: 0.75rem; color: var(--muted); margin: 0.5rem 0 0; }
+
+    .quote-note { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border); display: none; }
+    .quote-card.open .quote-note { display: block; }
+    .quote-note-label { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.4rem; }
+    .quote-note-text { font-size: 0.9rem; color: var(--muted); line-height: 1.65; margin: 0; }
+
+    .quote-has-note::after { content: " ✦"; font-size: 0.65rem; color: var(--accent); vertical-align: super; }
+
+    /* ── Hint ── */
+    .quotes-hint { font-size: 0.78rem; color: var(--muted); margin: 1.5rem 0 0; text-align: center; opacity: 0.7; }
+  </style>
+</head>
+<body>
+  <div id="header-placeholder"></div>
+
+  <main class="container page-shell">
+
+    <nav aria-label="Breadcrumb">
+      <ol class="breadcrumb">
+        <li><a href="/">Home</a></li>
+        <li><a href="/Reflections/">Reflections</a></li>
+        <li><a href="/Reflections/michael-schmidt.html">Michael Schmidt</a></li>
+        <li><span aria-current="page">Collected Quotes</span></li>
+      </ol>
+    </nav>
+
+    <section class="page-hero">
+      <p class="quotes-eyebrow">Works That Spoke to Him</p>
+      <h1>Collected Quotes</h1>
+      <p class="quotes-tagline">A desk calendar. Selected pages. Things worth keeping.</p>
+    </section>
+
+    <div class="quotes-context">
+      <p>Dad kept a quote-a-day desk calendar on his workbench. When a page struck him he'd tear it out and set it aside. These are those pages — 26 of them — sorted by the themes that kept showing up.</p>
+    </div>
+
+    <div class="quotes-meta-bar">
+      <span class="quotes-count"><span id="quotes-count">26 entries</span></span>
+      <button class="filter-btn active" data-filter="ALL">All</button>
+      <button class="filter-btn" data-filter="KNOWLEDGE">Knowledge</button>
+      <button class="filter-btn" data-filter="COURAGE">Courage</button>
+      <button class="filter-btn" data-filter="CHARACTER">Character</button>
+      <button class="filter-btn" data-filter="WORK">Work</button>
+    </div>
+
+    <div class="quotes-grid" id="quotes-grid"></div>
+
+    <p class="quotes-hint">Click any card to expand &nbsp;·&nbsp; ✦ marks cards with a personal note</p>
+
+  </main>
+
+  <script src="/scripts/menu.js"></script>
+  <script>
+  (function () {
+    var quotes = [
+      { text: "The invariable mark of wisdom is to see the miraculous in the common.", author: "Ralph Waldo Emerson", source: "Nature, 1836", category: "KNOWLEDGE", note: "" },
+      { text: "It is not the answer that enlightens, but the question.", author: "Eugène Ionesco", source: "Découvertes", category: "KNOWLEDGE", note: "" },
+      { text: "Wonder is the beginning of wisdom.", author: "Socrates", source: "attributed", category: "KNOWLEDGE", note: "" },
+      { text: "The more I learn, the more I realize how much I don't know.", author: "Albert Einstein", source: "attributed", category: "KNOWLEDGE", note: "" },
+      { text: "An investment in knowledge pays the best interest.", author: "Benjamin Franklin", source: "Poor Richard's Almanack", category: "KNOWLEDGE", note: "" },
+      { text: "Real knowledge is to know the extent of one's ignorance.", author: "Confucius", source: "Analects", category: "KNOWLEDGE", note: "" },
+      { text: "The only true wisdom is in knowing you know nothing.", author: "Socrates", source: "attributed via Plato", category: "KNOWLEDGE", note: "" },
+      { text: "Courage is not the absence of fear, but the judgment that something else is more important than fear.", author: "Ambrose Redmoon", source: "No Peaceful Warriors!", category: "COURAGE", note: "" },
+      { text: "You gain strength, courage, and confidence by every experience in which you really stop to look fear in the face.", author: "Eleanor Roosevelt", source: "You Learn by Living, 1960", category: "COURAGE", note: "" },
+      { text: "It takes courage to grow up and become who you really are.", author: "E.E. Cummings", source: "attributed", category: "COURAGE", note: "" },
+      { text: "Bravery is the capacity to perform properly even when scared half to death.", author: "Omar Bradley", source: "attributed", category: "COURAGE", note: "" },
+      { text: "Do one thing every day that scares you.", author: "Mary Schmich", source: "\"Wear Sunscreen\", Chicago Tribune, 1997", category: "COURAGE", note: "" },
+      { text: "He who is not courageous enough to take risks will accomplish nothing in life.", author: "Muhammad Ali", source: "attributed", category: "COURAGE", note: "" },
+      { text: "Character is what you are in the dark.", author: "Dwight L. Moody", source: "attributed", category: "CHARACTER", note: "" },
+      { text: "The measure of a man's character is what he would do if he knew he never would be found out.", author: "Thomas Babington Macaulay", source: "attributed", category: "CHARACTER", note: "" },
+      { text: "Nearly all men can stand adversity, but if you want to test a man's character, give him power.", author: "Abraham Lincoln", source: "attributed", category: "CHARACTER", note: "" },
+      { text: "Character is like a tree and reputation like a shadow. The shadow is what we think of it; the tree is the real thing.", author: "Abraham Lincoln", source: "attributed", category: "CHARACTER", note: "" },
+      { text: "In matters of style, swim with the current; in matters of principle, stand like a rock.", author: "Thomas Jefferson", source: "attributed", category: "CHARACTER", note: "" },
+      { text: "Excellence is not a destination but a continuous journey that never ends.", author: "Brian Tracy", source: "attributed", category: "CHARACTER", note: "" },
+      { text: "The only place where success comes before work is in the dictionary.", author: "Vidal Sassoon", source: "attributed", category: "WORK", note: "" },
+      { text: "Hard work beats talent when talent doesn't work hard.", author: "Tim Notke", source: "attributed", category: "WORK", note: "" },
+      { text: "Opportunity is missed by most people because it is dressed in overalls and looks like work.", author: "Thomas Edison", source: "attributed", category: "WORK", note: "" },
+      { text: "The secret of getting ahead is getting started.", author: "Mark Twain", source: "attributed", category: "WORK", note: "" },
+      { text: "Don't watch the clock; do what it does. Keep going.", author: "Sam Levenson", source: "attributed", category: "WORK", note: "" },
+      { text: "Quality is not an act, it is a habit.", author: "Aristotle", source: "Nicomachean Ethics (paraphrase)", category: "WORK", note: "" },
+      { text: "The difference between ordinary and extraordinary is that little extra.", author: "Jimmy Johnson", source: "attributed", category: "WORK", note: "" }
+    ];
+
+    var categories = {
+      KNOWLEDGE: [0,1,2,3,4,5,6],
+      COURAGE:   [7,8,9,10,11,12],
+      CHARACTER: [13,14,15,16,17,18],
+      WORK:      [19,20,21,22,23,24,25]
+    };
+
+    var grid = document.getElementById('quotes-grid');
+    var countEl = document.getElementById('quotes-count');
+
+    // Build cards
+    quotes.forEach(function (q, i) {
+      var hasNote = q.note && q.note.trim().length > 0;
+      var words = q.text.split(' ');
+      var previewWords = words.slice(0, 12).join(' ');
+      var restWords = words.slice(12).join(' ');
+      var needsExpand = words.length > 12;
+
+      var previewHTML = needsExpand
+        ? '<span class="quote-preview">' + previewWords + '&hellip;</span>'
+          + '<span class="quote-rest"> ' + restWords + '</span>'
+        : '<span class="quote-preview">' + q.text + '</span>';
+
+      var noteHTML = hasNote
+        ? '<div class="quote-note">'
+          + '<div class="quote-note-label">Why this speaks to me</div>'
+          + '<p class="quote-note-text">' + q.note + '</p>'
+          + '</div>'
+        : '';
+
+      var card = document.createElement('div');
+      card.className = 'quote-card' + (hasNote ? ' quote-has-note' : '');
+      card.dataset.index = i;
+      card.innerHTML =
+        '<p class="quote-author">' + q.author + '</p>'
+        + '<p class="quote-text">' + previewHTML + '</p>'
+        + '<p class="quote-meta">' + q.source + ' &nbsp;·&nbsp; ' + q.category.charAt(0) + q.category.slice(1).toLowerCase() + '</p>'
+        + noteHTML;
+
+      card.addEventListener('click', function () {
+        card.classList.toggle('open');
+      });
+
+      grid.appendChild(card);
+    });
+
+    // Filter
+    var cards = Array.from(grid.querySelectorAll('.quote-card'));
+    document.querySelectorAll('.filter-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        document.querySelectorAll('.filter-btn').forEach(function (b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        var filter = btn.dataset.filter;
+        var allowed = filter === 'ALL' ? null : categories[filter];
+        var visible = 0;
+        cards.forEach(function (card, i) {
+          var show = !allowed || allowed.indexOf(i) !== -1;
+          card.style.display = show ? '' : 'none';
+          card.classList.remove('open');
+          if (show) visible++;
+        });
+        if (countEl) countEl.textContent = visible + (visible === 1 ? ' entry' : ' entries');
+      });
+    });
+  })();
+  </script>
+</body>
+</html>
