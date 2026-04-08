@@ -59,10 +59,10 @@
     .quote-card.open { border-color: var(--accent); }
 
     .quote-text { font-family: 'EB Garamond', Georgia, serif; font-size: 1.08rem; font-style: italic; line-height: 1.65; color: var(--fg); margin: 0 0 0.75rem; }
+    .quote-ellipsis { display: inline; }
     .quote-rest { display: none; }
+    .quote-card.open .quote-ellipsis { display: none; }
     .quote-card.open .quote-rest { display: inline; }
-    .quote-card.open .quote-rest .quote-full { display: inline; }
-    .quote-full { display: inline; }
 
     .quote-author { font-family: 'Courier Prime', monospace; font-size: 0.78rem; color: var(--accent); letter-spacing: 0.04em; margin: 0 0 0.5rem; }
 
@@ -164,7 +164,7 @@
       var needsExpand = words.length > 12;
 
       var previewHTML = needsExpand
-        ? previewWords + '<span class="quote-rest">&hellip;<span class="quote-full"> ' + restWords + '</span></span>'
+        ? previewWords + '<span class="quote-ellipsis">&hellip;</span><span class="quote-rest"> ' + restWords + '</span>'
         : q.text;
 
       var noteHTML = hasNote
