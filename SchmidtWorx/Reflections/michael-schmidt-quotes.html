@@ -97,12 +97,8 @@
       <p class="quotes-tagline">A desk calendar. Selected pages. Things worth keeping.</p>
     </section>
 
-    <div class="quotes-context">
-      <p>Dad kept a quote-a-day desk calendar on his workbench. When a page struck him he'd tear it out and set it aside. These are those pages — 26 of them — sorted by the themes that kept showing up.</p>
-    </div>
-
     <div class="quotes-meta-bar">
-      <span class="quotes-count"><span id="quotes-count">26 entries</span></span>
+      <span class="quotes-count"><span id="quotes-count"></span></span>
       <button class="filter-btn active" data-filter="ALL">All</button>
       <button class="filter-btn" data-filter="KNOWLEDGE">Knowledge</button>
       <button class="filter-btn" data-filter="COURAGE">Courage</button>
@@ -157,6 +153,7 @@
 
     var grid = document.getElementById('quotes-grid');
     var countEl = document.getElementById('quotes-count');
+    if (countEl) countEl.textContent = quotes.length + ' entries';
 
     // Build cards
     quotes.forEach(function (q, i) {
