@@ -553,6 +553,24 @@ footer {
     color: var(--fg);
 }
 
+.page-sibling {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    color: var(--muted);
+    text-decoration: none;
+    margin-bottom: 2.5rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0.3rem 0.85rem;
+    transition: border-color 0.2s, color 0.2s;
+}
+.page-sibling:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+}
+
 @media (min-width: 720px) {
     .intro-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
