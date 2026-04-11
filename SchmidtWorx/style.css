@@ -14,6 +14,11 @@
     --radius: 18px;
 }
 
+/* Smooth crossfade between page navigations (Chrome/Edge 111+) */
+@view-transition {
+    navigation: auto;
+}
+
 * {
     box-sizing: border-box;
 }
