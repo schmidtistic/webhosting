@@ -22,8 +22,9 @@ Deployment is via GitHub Pages (push to main).
 
 - `index.html` — Home page with hero and navigation to the two main sections
 - `style.css` — Complete design system (CSS variables, all component styles)
-- `scripts/menu.js` — Header injection + mobile menu toggle + active page detection
-- `components/header.html` — Reusable header, dynamically injected into `#header-placeholder` via Fetch API on every page
+- `scripts/menu.js` — Mobile menu toggle + active page detection
+- `scripts/update-header.py` — Inlines `components/header.html` into every page (run after any header change)
+- `components/header.html` — Single source of truth for the site header/nav
 
 ### Content sections
 
@@ -33,7 +34,15 @@ Deployment is via GitHub Pages (push to main).
 
 ### Header component pattern
 
-Every page has `<div id="header-placeholder"></div>` in the body. `menu.js` fetches `components/header.html` and injects it. This avoids repeating the nav markup without a build step. The script normalizes the current URL to set `aria-current="page"` on the matching nav link.
+`components/header.html` is the single source of truth for the nav. It is inlined directly into every page's `<header>` block — no dynamic fetch. This eliminates the layout shift that async injection causes.
+
+**To update the header across all pages**, edit `components/header.html` then run:
+
+```bash
+python3 scripts/update-header.py
+```
+
+The script finds every `<header>…</header>` block in the repo and replaces it with the current contents of `components/header.html`. `menu.js` still runs on page load to set `aria-current="page"` on the active nav link and handle the mobile hamburger toggle.
 
 ### Design system
 
