@@ -298,6 +298,16 @@ footer {
     font-weight: 600;
 }
 
+/* Stack multiple archive-links inside one card */
+.archive-card .archive-link + .archive-link {
+    display: flex;
+    margin-top: 0.4rem;
+}
+.archive-card .archive-link:first-of-type {
+    display: flex;
+    margin-top: 0.6rem;
+}
+
 .section-link::after,
 .archive-link::after {
     content: "->";
