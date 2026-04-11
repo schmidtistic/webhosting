@@ -20,39 +20,22 @@
   <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="stylesheet" href="/style.css" />
-
-  <style>
-    /* ── Breadcrumb ── */
-    .breadcrumb { margin: 0 0 2rem; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 0.25rem; font-size: 0.8rem; color: var(--muted); }
-    .breadcrumb li + li::before { content: "/"; margin-right: 0.25rem; opacity: 0.5; }
-    .breadcrumb a { color: var(--muted); text-decoration: none; }
-    .breadcrumb a:hover { color: var(--accent); }
-    .breadcrumb [aria-current="page"] { color: #fff; }
-
-    /* ── Entries ── */
-    .forward-list { list-style: none; padding: 0; margin: 2.5rem 0 0; display: flex; flex-direction: column; gap: 2rem; }
-    .forward-entry { border-left: 2px solid var(--border); padding-left: 1.5rem; }
-    .forward-entry:hover { border-left-color: var(--accent); }
-    .forward-title { font-size: 1rem; font-weight: 600; color: var(--fg); margin: 0 0 0.75rem; letter-spacing: 0.01em; }
-    .forward-body p { color: var(--muted); font-size: 0.95rem; line-height: 1.75; margin: 0 0 0.6rem; }
-    .forward-body p:last-child { margin-bottom: 0; }
-  </style>
 </head>
 <body>
   <div id="header-placeholder"></div>
 
   <main class="container page-shell">
 
-    <nav aria-label="Breadcrumb">
-      <ol class="breadcrumb">
+    <nav aria-label="Breadcrumb" class="breadcrumb">
+      <ol>
         <li><a href="/">Home</a></li>
         <li><a href="/Reflections/">Reflections</a></li>
         <li><a href="/Reflections/michael-schmidt.html">Michael Schmidt</a></li>
-        <li><span aria-current="page">What I'd Want You to Know</span></li>
+        <li aria-current="page">What I'd Want You to Know</li>
       </ol>
     </nav>
 
-    <section class="page-hero">
+    <section class="hero">
       <p class="eyebrow">Michael Schmidt &middot; Forward</p>
       <h1>What I'd Want You to Know</h1>
       <p class="tagline">For Cooper. And anyone else who finds it useful.</p>
@@ -60,39 +43,136 @@
 
     <a class="page-sibling" href="/Reflections/michael-schmidt.html">&#8592; Who I Am</a>
 
-    <ul class="forward-list">
+    <section id="context" class="section-card">
+      <p class="section-kicker">Context</p>
+      <h2 class="section-heading">Things figured out. Worth passing on.</h2>
+      <p>
+        These aren't rules. They're patterns I noticed — usually after getting them wrong first.
+        Some I learned young. Some took longer than I'd like to admit.
+      </p>
+      <p>
+        Written for Cooper. But the door is open.
+      </p>
+    </section>
 
-      <li class="forward-entry">
-        <p class="forward-title">Day One or One Day — You Decide</p>
-        <div class="forward-body">
-          <p>There are two ways to think about the thing you want to do.</p>
-          <p>One Day — someday, when the time is right, when I'm ready, when the circumstances line up.</p>
-          <p>Day One — I've decided. It starts now, imperfect and incomplete.</p>
-          <p>One Day is a feeling. Day One is a decision. The first one waits. The second one moves.</p>
-          <p>You get to choose which one you're in. Most people don't realize that's the choice.</p>
-        </div>
-      </li>
+    <section id="contents" class="content-panel">
+      <h2 class="content-title">Contents</h2>
 
-      <li class="forward-entry">
-        <p class="forward-title">Don't Get Stuck in the Means</p>
-        <div class="forward-body">
-          <p>You don't need a $2,000 camera to be a photographer. You need a camera. The art is the point — the gear is just the path to it.</p>
-          <p>I've caught myself waiting for the right setup, the right software, the right moment to have everything in place. What I was really doing was avoiding the work by staying busy with the preparation for it.</p>
-          <p>The means matter less than you think. The thing you're trying to make matters more. Start with what you have. Upgrade when it's actually holding you back — not before.</p>
-        </div>
-      </li>
+      <ul class="content-list">
 
-      <li class="forward-entry">
-        <p class="forward-title">Two Kinds of People</p>
-        <div class="forward-body">
-          <p>There are two kinds of people in this world: those who say they can, and those who say they can't.</p>
-          <p>They're both usually right.</p>
-          <p>What you tell yourself about what's possible tends to become true — not because the universe is listening, but because belief shapes what you attempt, and what you attempt shapes what you become.</p>
-          <p>Be careful which camp you wander into. It has a way of feeling permanent once you're there.</p>
-        </div>
-      </li>
+        <li>
+          <strong>I. Momentum, Inertia, and Over-Optimization</strong>
+          <p class="section-note">How I move.</p>
+          <ul>
 
-    </ul>
+            <li>
+              <details>
+                <summary>Day One or One Day</summary>
+
+                <p>
+                  There are two ways to think about the thing you want to do.
+                </p>
+
+                <p>
+                  One Day — someday, when the time is right, when I'm ready, when the circumstances line up.
+                </p>
+
+                <p>
+                  Day One — I've decided. It starts now, imperfect and incomplete.
+                </p>
+
+                <p>
+                  One Day is a feeling.<br>
+                  Day One is a decision.<br>
+                  The first one waits. The second one moves.
+                </p>
+
+                <p>
+                  You get to choose which one you're in.<br>
+                  Most people don't realize that's the choice.
+                </p>
+
+                <p>
+                  <a href="#contents">Back to contents</a>
+                </p>
+
+              </details>
+            </li>
+
+            <li>
+              <details>
+                <summary>Don't Get Stuck in the Means</summary>
+
+                <p>
+                  You don't need a $2,000 camera to be a photographer.<br>
+                  You need a camera.
+                </p>
+
+                <p>
+                  The art is the point — the gear is just the path to it.
+                </p>
+
+                <p>
+                  I've caught myself waiting for the right setup, the right software,
+                  the right moment to have everything in place.<br>
+                  What I was really doing was avoiding the work
+                  by staying busy with the preparation for it.
+                </p>
+
+                <p>
+                  The means matter less than you think.<br>
+                  The thing you're trying to make matters more.
+                </p>
+
+                <p>
+                  Start with what you have.<br>
+                  Upgrade when it's actually holding you back — not before.
+                </p>
+
+                <p>
+                  <a href="#contents">Back to contents</a>
+                </p>
+
+              </details>
+            </li>
+
+            <li>
+              <details>
+                <summary>Two Kinds of People</summary>
+
+                <p>
+                  There are two kinds of people in this world:<br>
+                  those who say they can, and those who say they can't.
+                </p>
+
+                <p>
+                  They're both usually right.
+                </p>
+
+                <p>
+                  What you tell yourself about what's possible tends to become true —
+                  not because the universe is listening,
+                  but because belief shapes what you attempt,
+                  and what you attempt shapes what you become.
+                </p>
+
+                <p>
+                  Be careful which camp you wander into.<br>
+                  It has a way of feeling permanent once you're there.
+                </p>
+
+                <p>
+                  <a href="#contents">Back to contents</a>
+                </p>
+
+              </details>
+            </li>
+
+          </ul>
+        </li>
+
+      </ul>
+    </section>
 
   </main>
 
