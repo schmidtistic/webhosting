@@ -1,27 +1,11 @@
-document.addEventListener("DOMContentLoaded", async function () {
-    const headerPlaceholder = document.getElementById("header-placeholder");
-
-    if (!headerPlaceholder) {
-        return;
-    }
-
-    try {
-        const response = await fetch("/components/header.html");
-        const data = await response.text();
-        headerPlaceholder.innerHTML = data;
-    } catch (error) {
-        console.error("Unable to load shared header.", error);
-        return;
-    }
-
+document.addEventListener("DOMContentLoaded", function () {
     const hamburger = document.getElementById("hamburger");
     const menu = document.getElementById("menu");
     const navLinks = Array.from(document.querySelectorAll("#menu a"));
-    const normalizePath = function (path) {
-        if (!path || path === "/") {
-            return "/index.html";
-        }
 
+    // Mark the current page's nav link
+    const normalizePath = function (path) {
+        if (!path || path === "/") return "/index.html";
         return path.endsWith("/") ? path + "index.html" : path;
     };
 
@@ -29,11 +13,11 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     navLinks.forEach(function (link) {
         const linkPath = normalizePath(new URL(link.href, window.location.origin).pathname);
-
         if (linkPath === currentPath) {
             link.setAttribute("aria-current", "page");
         }
 
+        // Close mobile menu after a nav link is tapped
         link.addEventListener("click", function () {
             if (menu && hamburger && window.innerWidth < 860) {
                 menu.classList.remove("open");
@@ -43,9 +27,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
     });
 
-    if (!hamburger || !menu) {
-        return;
-    }
+    // Hamburger toggle
+    if (!hamburger || !menu) return;
 
     hamburger.addEventListener("click", function () {
         const isOpen = menu.classList.toggle("open");

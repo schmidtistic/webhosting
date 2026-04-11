@@ -78,7 +78,24 @@
   </style>
 </head>
 <body>
-  <div id="header-placeholder"></div>
+  <header>
+    <div class="nav-container">
+        <a class="site-title" href="/index.html" aria-label="SchmidtWorx home">
+            <span class="site-title-mark">Archive</span>
+            <span class="site-title-text">SchmidtWorx</span>
+        </a>
+        <button class="hamburger" id="hamburger" type="button" aria-expanded="false" aria-controls="menu"
+            aria-label="Open navigation">
+            <span aria-hidden="true">☰</span>
+        </button>
+    </div>
+
+    <nav id="menu" aria-label="Primary navigation">
+        <a class="nav-link" href="/index.html">Home</a>
+        <a class="nav-link" href="/Reflections/index.html">Reflections</a>
+        <a class="nav-link" href="/LettersAndRecordings/index.html">Recordings and Artifacts</a>
+    </nav>
+</header>
 
   <main class="container page-shell">
 
