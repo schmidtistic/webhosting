@@ -51,12 +51,10 @@
 
     .quote-author { font-size: 0.78rem; color: var(--accent); letter-spacing: 0.06em; text-transform: uppercase; margin: 0 0 0.5rem; }
 
-    /* Note toggle trigger */
-    .quote-note-toggle { display: inline-flex; align-items: center; gap: 0.3rem; margin-top: 0.85rem; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); opacity: 0.7; transition: opacity 0.2s; user-select: none; }
-    .quote-card.has-note:hover .quote-note-toggle,
-    .quote-card.open .quote-note-toggle { opacity: 1; }
-    .quote-note-toggle-icon { font-size: 0.65rem; transition: transform 0.2s; }
-    .quote-card.open .quote-note-toggle-icon { transform: rotate(45deg); }
+    /* Corner pip on note cards */
+    .quote-card.has-note::after { content: "✦"; position: absolute; top: 0.85rem; right: 1rem; font-size: 0.6rem; color: var(--accent); opacity: 0.5; transition: opacity 0.2s; pointer-events: none; }
+    .quote-card.has-note:hover::after,
+    .quote-card.open::after { opacity: 1; }
 
     .quote-note { margin-top: 0.75rem; padding-top: 0.85rem; border-top: 1px solid var(--border); display: none; }
     .quote-card.open .quote-note { display: block; }
@@ -180,8 +178,7 @@
       var hasNote = q.note && q.note.trim().length > 0;
 
       var noteHTML = hasNote
-        ? '<div class="quote-note-toggle"><span class="quote-note-toggle-icon">✦</span> Why this speaks to me</div>'
-          + '<div class="quote-note"><p class="quote-note-text">' + q.note + '</p></div>'
+        ? '<div class="quote-note"><p class="quote-note-text">' + q.note + '</p></div>'
         : '';
 
       var card = document.createElement('div');
