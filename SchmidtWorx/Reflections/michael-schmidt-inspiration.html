@@ -52,9 +52,13 @@
     .quote-author { font-size: 0.78rem; color: var(--accent); letter-spacing: 0.06em; text-transform: uppercase; margin: 0 0 0.5rem; }
 
     /* Corner pip on note cards */
-    .quote-card.has-note::after { content: "✦"; position: absolute; top: 0.85rem; right: 1rem; font-size: 0.6rem; color: var(--accent); opacity: 0.5; transition: opacity 0.2s; pointer-events: none; }
-    .quote-card.has-note:hover::after,
-    .quote-card.open::after { opacity: 1; }
+    .note-pip { position: absolute; top: 0.85rem; right: 1rem; font-size: 0.6rem; color: var(--accent); opacity: 0.5; transition: opacity 0.2s; cursor: default; }
+    .quote-card.has-note:hover .note-pip,
+    .quote-card.open .note-pip { opacity: 1; }
+
+    /* Pip tooltip */
+    .note-pip::after { content: "personal annotation"; position: absolute; top: 50%; right: calc(100% + 0.6rem); transform: translateY(-50%); background: var(--bg-elevated); border: 1px solid var(--border-strong); color: var(--muted); font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif; font-style: normal; font-size: 0.7rem; letter-spacing: 0.04em; text-transform: none; white-space: nowrap; padding: 0.25rem 0.65rem; border-radius: 6px; opacity: 0; pointer-events: none; transition: opacity 0.18s; }
+    .note-pip:hover::after { opacity: 1; }
 
     .quote-note { margin-top: 0.75rem; padding-top: 0.85rem; border-top: 1px solid var(--border); display: none; }
     .quote-card.open .quote-note { display: block; }
@@ -185,7 +189,8 @@
       card.className = 'quote-card' + (hasNote ? ' has-note' : '');
       card.dataset.index = i;
       card.innerHTML =
-        '<p class="quote-author">' + q.author + '</p>'
+        (hasNote ? '<span class="note-pip">&#10022;</span>' : '')
+        + '<p class="quote-author">' + q.author + '</p>'
         + '<p class="quote-text">\u201c' + q.text + '\u201d</p>'
         + noteHTML;
 
