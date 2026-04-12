@@ -24,35 +24,43 @@
   <link rel="stylesheet" href="/style.css" />
 
   <style>
-    /* ── Filter bar ── */
+    /* ── Filter / toolbar ── */
     .quotes-meta-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; margin: 2rem 0 1.25rem; }
     .quotes-count { font-size: 0.8rem; color: var(--muted); margin-right: auto; }
     .filter-btn { background: transparent; border: 1px solid var(--border); color: var(--muted); border-radius: 999px; padding: 0.3rem 0.9rem; font-size: 0.8rem; cursor: pointer; transition: all 0.2s; font-family: inherit; }
     .filter-btn:hover { border-color: var(--accent); color: var(--accent); }
     .filter-btn.active { background: var(--accent); border-color: var(--accent); color: #111; font-weight: 600; }
 
+    .shuffle-btn { background: transparent; border: 1px solid var(--border); color: var(--muted); border-radius: 999px; padding: 0.3rem 0.9rem; font-size: 0.8rem; cursor: pointer; transition: all 0.2s; font-family: inherit; display: flex; align-items: center; gap: 0.35rem; }
+    .shuffle-btn:hover { border-color: var(--accent-strong); color: var(--accent-strong); }
+
     /* ── Grid ── */
     .quotes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; }
 
     /* ── Card ── */
-    .quote-card { background: var(--bg-soft); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem 1.4rem; cursor: pointer; transition: border-color 0.2s, box-shadow 0.2s; position: relative; }
-    .quote-card:hover { border-color: var(--border-strong); box-shadow: 0 4px 24px rgba(0,0,0,0.3); }
+    .quote-card { background: var(--bg-soft); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem 1.4rem; transition: border-color 0.2s, box-shadow 0.2s; position: relative; }
+    .quote-card.has-note { cursor: pointer; }
+    .quote-card.has-note:hover { border-color: var(--border-strong); box-shadow: 0 4px 24px rgba(0,0,0,0.3); }
     .quote-card.open { border-color: var(--accent); }
 
+    /* Shuffle spotlight animation */
+    @keyframes spotlight { 0% { box-shadow: 0 0 0 0 rgba(231,184,121,0); border-color: var(--border); } 30% { box-shadow: 0 0 0 6px rgba(231,184,121,0.18); border-color: var(--accent-strong); } 100% { box-shadow: 0 0 0 0 rgba(231,184,121,0); border-color: var(--border); } }
+    .quote-card.spotlit { animation: spotlight 1.6s ease forwards; }
+
     .quote-text { font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif; font-size: 1.05rem; font-style: italic; line-height: 1.65; color: var(--fg); margin: 0 0 0.75rem; }
-    .quote-ellipsis { display: inline; }
-    .quote-rest { display: none; }
-    .quote-card.open .quote-ellipsis { display: none; }
-    .quote-card.open .quote-rest { display: inline; }
 
     .quote-author { font-size: 0.78rem; color: var(--accent); letter-spacing: 0.06em; text-transform: uppercase; margin: 0 0 0.5rem; }
 
-    .quote-note { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border); display: none; }
-    .quote-card.open .quote-note { display: block; }
-    .quote-note-label { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.4rem; }
-    .quote-note-text { font-size: 0.9rem; color: var(--muted); line-height: 1.65; margin: 0; }
+    /* Note toggle trigger */
+    .quote-note-toggle { display: inline-flex; align-items: center; gap: 0.3rem; margin-top: 0.85rem; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); opacity: 0.7; transition: opacity 0.2s; user-select: none; }
+    .quote-card.has-note:hover .quote-note-toggle,
+    .quote-card.open .quote-note-toggle { opacity: 1; }
+    .quote-note-toggle-icon { font-size: 0.65rem; transition: transform 0.2s; }
+    .quote-card.open .quote-note-toggle-icon { transform: rotate(45deg); }
 
-    .quote-has-note::after { content: " ✦"; font-size: 0.65rem; color: var(--accent); vertical-align: super; }
+    .quote-note { margin-top: 0.75rem; padding-top: 0.85rem; border-top: 1px solid var(--border); display: none; }
+    .quote-card.open .quote-note { display: block; }
+    .quote-note-text { font-size: 0.9rem; color: var(--muted); line-height: 1.65; margin: 0; }
 
     /* ── Hint ── */
     .quotes-hint { font-size: 0.78rem; color: var(--muted); margin: 1.5rem 0 0; text-align: center; opacity: 0.7; }
@@ -103,10 +111,9 @@
       <p class="section-kicker">Context</p>
       <h2 class="section-heading">Words worth keeping.</h2>
       <p>
-        These are quotes that stopped me — on a page, in a book, in a speech.
+        Things that stopped me — on a page, in a book, in a speech. Not a curated list of the greatest quotes ever written. Just the ones that landed.
         Organized loosely by the quality they speak to.
       </p>
-      <p>Click any card to read in full.</p>
     </section>
 
     <div class="quotes-meta-bar">
@@ -116,11 +123,12 @@
       <button class="filter-btn" data-filter="COURAGE">Courage</button>
       <button class="filter-btn" data-filter="CHARACTER">Character</button>
       <button class="filter-btn" data-filter="WORK">Work</button>
+      <button class="shuffle-btn" id="shuffle-btn" title="Spotlight a random entry">&#9645; Shuffle</button>
     </div>
 
     <div class="quotes-grid" id="quotes-grid"></div>
 
-    <p class="quotes-hint">Click any card to expand &nbsp;&middot;&nbsp; ✦ marks cards with a personal note</p>
+    <p class="quotes-hint">✦ cards have a personal note &mdash; click to reveal</p>
 
   </main>
 
@@ -167,36 +175,28 @@
     var countEl = document.getElementById('quotes-count');
     if (countEl) countEl.textContent = quotes.length + ' entries';
 
-    // Build cards
+    // Build cards — full quote visible by default; notes revealed on click
     quotes.forEach(function (q, i) {
       var hasNote = q.note && q.note.trim().length > 0;
-      var words = q.text.split(' ');
-      var previewWords = words.slice(0, 12).join(' ');
-      var restWords = words.slice(12).join(' ');
-      var needsExpand = words.length > 12;
-
-      var previewHTML = needsExpand
-        ? previewWords + '<span class="quote-ellipsis">&hellip;</span><span class="quote-rest"> ' + restWords + '</span>'
-        : q.text;
 
       var noteHTML = hasNote
-        ? '<div class="quote-note">'
-          + '<div class="quote-note-label">Why this speaks to me</div>'
-          + '<p class="quote-note-text">' + q.note + '</p>'
-          + '</div>'
+        ? '<div class="quote-note-toggle"><span class="quote-note-toggle-icon">✦</span> Why this speaks to me</div>'
+          + '<div class="quote-note"><p class="quote-note-text">' + q.note + '</p></div>'
         : '';
 
       var card = document.createElement('div');
-      card.className = 'quote-card' + (hasNote ? ' quote-has-note' : '');
+      card.className = 'quote-card' + (hasNote ? ' has-note' : '');
       card.dataset.index = i;
       card.innerHTML =
         '<p class="quote-author">' + q.author + '</p>'
-        + '<p class="quote-text">' + previewHTML + '</p>'
+        + '<p class="quote-text">\u201c' + q.text + '\u201d</p>'
         + noteHTML;
 
-      card.addEventListener('click', function () {
-        card.classList.toggle('open');
-      });
+      if (hasNote) {
+        card.addEventListener('click', function () {
+          card.classList.toggle('open');
+        });
+      }
 
       grid.appendChild(card);
     });
@@ -219,6 +219,23 @@
         if (countEl) countEl.textContent = visible + (visible === 1 ? ' entry' : ' entries');
       });
     });
+
+    // Shuffle — spotlight a random visible card
+    var shuffleBtn = document.getElementById('shuffle-btn');
+    if (shuffleBtn) {
+      shuffleBtn.addEventListener('click', function () {
+        var visible = cards.filter(function (c) { return c.style.display !== 'none'; });
+        if (!visible.length) return;
+        var pick = visible[Math.floor(Math.random() * visible.length)];
+        // Remove any existing spotlight
+        cards.forEach(function (c) { c.classList.remove('spotlit'); });
+        // Force reflow so animation restarts if same card is picked twice
+        void pick.offsetWidth;
+        pick.classList.add('spotlit');
+        pick.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        pick.addEventListener('animationend', function () { pick.classList.remove('spotlit'); }, { once: true });
+      });
+    }
   })();
   </script>
 </body>
