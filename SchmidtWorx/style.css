@@ -21,6 +21,14 @@
 
 * {
     box-sizing: border-box;
+    min-width: 0; /* prevent flex/grid children from overflowing their container */
+}
+
+img,
+video,
+iframe,
+audio {
+    max-width: 100%;
 }
 
 html {
@@ -30,6 +38,7 @@ html {
 body {
     margin: 0;
     min-height: 100vh;
+    overflow-x: hidden;
     background:
         radial-gradient(circle at top, rgba(215, 195, 160, 0.12), transparent 40%),
         linear-gradient(180deg, #171a1d 0%, #111315 45%, #0d0f11 100%);
@@ -580,11 +589,20 @@ footer {
 
 /* ── View Switcher — Reflections / For Cooper ───────── */
 .view-switcher {
-    display: inline-flex;
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+    max-width: 100%;
     margin-top: 1.75rem;
     border: 1px solid var(--border);
     border-radius: 10px;
-    overflow: hidden;
+}
+
+.view-switcher::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Edge */
 }
 
 .view-tab {
@@ -641,6 +659,7 @@ footer {
         justify-content: flex-end;
         gap: 0.6rem;
         max-height: none;
+        overflow: visible;
         padding: 0 1.25rem 1rem;
     }
 
