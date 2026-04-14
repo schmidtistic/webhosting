@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home Gym — SchmidtWorx</title>
+  <meta name="description" content="A home gym built across two houses — from a tight first space through monolifts, mirrors, and wall mounts to a fully optimized setup at the new house." />
+  <meta property="og:title" content="Home Gym — SchmidtWorx" />
+  <meta property="og:description" content="A home gym built across two houses — from a tight first space through monolifts, mirrors, and wall mounts to a fully optimized setup at the new house." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://schmidtworx.com/Builds/home-gym.html" />
+  <meta property="og:image" content="https://schmidtworx.com/web-app-manifest-512x512.png" />
+  <meta property="og:site_name" content="SchmidtWorx" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Home Gym — SchmidtWorx" />
+  <meta name="twitter:description" content="A home gym built across two houses — from a tight first space through monolifts, mirrors, and wall mounts to a fully optimized setup at the new house." />
+  <meta name="twitter:image" content="https://schmidtworx.com/web-app-manifest-512x512.png" />
+  <link rel="stylesheet" href="/style.css" />
+  <style>
+
+    .container { overflow-x: hidden; }
+
+    /* ── Before/After Slider ─────────────────────────────── */
+    .before-after {
+      position: relative;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      user-select: none;
+      cursor: ew-resize;
+      aspect-ratio: 16 / 9;
+      touch-action: none;
+    }
+
+    .ba-after,
+    .ba-before {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center center;
+    }
+
+    .ba-before {
+      clip-path: inset(0 50% 0 0);
+    }
+
+    .ba-divider {
+      position: absolute;
+      top: 0; bottom: 0; left: 50%;
+      width: 2px;
+      background: var(--accent-strong);
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+
+    .ba-handle {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: var(--accent-strong);
+      border: 3px solid #fff;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.55);
+      pointer-events: none;
+    }
+
+    .ba-label {
+      position: absolute;
+      bottom: 1rem;
+      padding: 0.3rem 0.8rem;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: rgba(18,20,22,0.78);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(8px);
+      pointer-events: none;
+    }
+
+    .ba-label-before { left: 1rem; }
+    .ba-label-after  { right: 1rem; }
+
+    /* ── Stats bar ───────────────────────────────────────── */
+    .build-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 1rem;
+    }
+
+    .stat {
+      padding: 1.25rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0.015));
+      text-align: center;
+    }
+
+    .stat-value {
+      display: block;
+      font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--accent-strong);
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ── Phase timeline ──────────────────────────────────── */
+    .phases { display: grid; gap: 2.75rem; min-width: 0; }
+    .phase  { min-width: 0; }
+
+    .phase-header {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .phase-number {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      white-space: nowrap;
+    }
+
+    .phase-title {
+      margin: 0;
+      font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--fg);
+    }
+
+    .phase-desc {
+      margin: 0 0 1rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+      max-width: 58ch;
+    }
+
+    .phase + .phase { border-top: 1px solid var(--border); padding-top: 2.75rem; }
+
+    /* ── House divider ───────────────────────────────────── */
+    .house-divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 0.5rem 0;
+    }
+    .house-divider-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .house-divider-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent-strong);
+      white-space: nowrap;
+    }
+
+    /* ── Horizontal photo strip ──────────────────────────── */
+    .photo-strip {
+      display: flex;
+      gap: 0.75rem;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 0.75rem;
+      min-width: 0;
+      width: 100%;
+    }
+
+    .photo-strip::-webkit-scrollbar { height: 3px; }
+    .photo-strip::-webkit-scrollbar-track { background: rgba(255,255,255,0.04); }
+    .photo-strip::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 2px; }
+
+    .strip-photo {
+      flex: 0 0 auto;
+      width: 288px;
+      height: 216px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      scroll-snap-align: start;
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .strip-photo:hover {
+      transform: translateY(-3px);
+      border-color: var(--border-strong);
+      box-shadow: 0 8px 28px rgba(0,0,0,0.35);
+    }
+
+    .strip-photo img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+
+    .strip-caption {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 0.6rem 0.8rem 0.5rem;
+      background: linear-gradient(transparent, rgba(0,0,0,0.75));
+      font-size: 0.76rem;
+      color: var(--accent);
+      letter-spacing: 0.02em;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .strip-photo:hover .strip-caption { opacity: 1; }
+
+    /* ── Video embed ─────────────────────────────────────── */
+    .video-native {
+      width: 100%;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      display: block;
+      background: #000;
+    }
+
+    /* ── Safety callout cards ────────────────────────────── */
+    .safety-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .safety-card {
+      padding: 1.25rem 1.2rem;
+      border: 1px solid var(--border);
+      border-radius: calc(var(--radius) - 4px);
+      background: rgba(231, 184, 121, 0.05);
+      border-left: 3px solid var(--accent-strong);
+    }
+
+    .safety-card-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent-strong);
+      margin: 0 0 0.5rem;
+    }
+
+    .safety-card-desc {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    /* ── Mobile overrides ────────────────────────────────── */
+    @media (max-width: 600px) {
+      .before-after { aspect-ratio: 4 / 3; }
+      .build-stats  { grid-template-columns: repeat(2, 1fr); }
+      .phase-header { flex-wrap: wrap; gap: 0.25rem; }
+      .photo-strip {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
+        overflow-x: visible;
+        scroll-snap-type: none;
+        padding-bottom: 0;
+        width: 100%;
+      }
+      .strip-photo  { width: 100%; height: 44vw; border-radius: 10px; }
+      .strip-caption { opacity: 1; }
+      .safety-grid  { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 719px) {
+      .strip-photo { width: 240px; height: 180px; }
+    }
+
+    /* ── Lightbox ────────────────────────────────────────── */
+    .lightbox {
+      display: none;
+      position: fixed; inset: 0; z-index: 9999;
+      background: rgba(0,0,0,0.92);
+      backdrop-filter: blur(14px);
+      align-items: center; justify-content: center;
+    }
+
+    .lightbox.open { display: flex; }
+
+    .lightbox-inner {
+      position: relative;
+      display: flex; flex-direction: column;
+      align-items: center; gap: 1rem;
+      max-width: 90vw;
+    }
+
+    .lightbox img {
+      max-width: 90vw; max-height: 80vh;
+      object-fit: contain;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      display: block;
+    }
+
+    .lightbox-caption { color: var(--muted); font-size: 0.9rem; text-align: center; margin: 0; }
+
+    .lightbox-close {
+      position: absolute; top: -3.25rem; right: 0;
+      width: 2.5rem; height: 2.5rem;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.06);
+      color: var(--fg); cursor: pointer;
+      font-size: 1.4rem; line-height: 1;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+    .lightbox-close:hover { background: rgba(255,255,255,0.12); border-color: var(--border-strong); }
+
+    .lightbox-nav {
+      position: fixed; top: 50%; transform: translateY(-50%);
+      width: 3rem; height: 3rem;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: rgba(18,20,22,0.8);
+      color: var(--fg); cursor: pointer; font-size: 1.5rem;
+      display: flex; align-items: center; justify-content: center;
+      backdrop-filter: blur(8px);
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+    .lightbox-nav:hover { background: rgba(18,20,22,1); border-color: var(--border-strong); }
+    .lightbox-prev { left: 1.25rem; }
+    .lightbox-next { right: 1.25rem; }
+
+    .lightbox-counter {
+      position: fixed; top: 1.25rem; left: 50%; transform: translateX(-50%);
+      font-size: 0.8rem; letter-spacing: 0.08em; color: var(--muted);
+      background: rgba(18,20,22,0.7);
+      padding: 0.3rem 0.9rem; border-radius: 999px;
+      border: 1px solid var(--border); backdrop-filter: blur(8px);
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="nav-container">
+        <a class="site-title" href="/index.html" aria-label="SchmidtWorx home">
+            <span class="site-title-mark">Archive</span>
+            <span class="site-title-text">SchmidtWorx</span>
+        </a>
+        <button class="hamburger" id="hamburger" type="button" aria-expanded="false" aria-controls="menu"
+            aria-label="Open navigation">
+            <span aria-hidden="true">☰</span>
+        </button>
+    </div>
+
+    <nav id="menu" aria-label="Primary navigation">
+        <a class="nav-link" href="/index.html">Home</a>
+        <a class="nav-link" href="/Reflections/index.html">Reflections</a>
+        <a class="nav-link" href="/LettersAndRecordings/index.html">Recordings and Artifacts</a>
+    </nav>
+  </header>
+
+  <main class="container page-shell">
+
+    <nav aria-label="Breadcrumb" class="breadcrumb">
+      <ol>
+        <li><a href="/index.html">Home</a></li>
+        <li><a href="/LettersAndRecordings/michael-schmidt.html">Michael Schmidt</a></li>
+        <li aria-current="page">Home Gym</li>
+      </ol>
+    </nav>
+
+    <!-- ── Hero ──────────────────────────────────────────── -->
+    <section class="hero">
+      <p class="eyebrow">Built Work · Two Houses</p>
+      <h1>Home Gym</h1>
+      <p class="tagline">
+        Started in a tight spare room at the first house with a rack, a bar, and not much
+        floor to spare. Grew piece by piece — mirrors, a landmine, a Matador dip attachment,
+        monolifts, more bars, more dumbbells — until every inch was accounted for. When the
+        move happened, the build started over at the new house and went further: weight trees
+        out, wall mounts in, adjustable jammer arms, side-of-rack storage, and a fully
+        dialed-in space. Safer to lift alone here than anywhere else.
+      </p>
+    </section>
+
+    <!-- ── House 1 Before/After Slider ───────────────────── -->
+    <section class="section-card" style="padding: 1.5rem; gap: 1.1rem; display: grid;">
+      <div>
+        <p class="section-kicker" style="margin:0 0 0.4rem;">House 1</p>
+        <h2 class="section-heading" style="margin:0 0 0.3rem;">First Build — Before &amp; After</h2>
+        <p style="color:var(--muted); margin:0; font-size:0.9rem;">Drag the handle to compare.</p>
+      </div>
+
+      <div class="before-after" id="baHouse1">
+        <div class="ba-after"  style="background-image: url('/assets/HomeGyms/Monolifts and Jammer Arms.jpg');"></div>
+        <div class="ba-before" id="baHouse1Before" style="background-image: url('/assets/HomeGyms/IMAG0154.jpg');"></div>
+        <div class="ba-divider" id="baHouse1Divider"></div>
+        <div class="ba-handle"  id="baHouse1Handle">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+            <path d="M6 5L2 9L6 13M12 5L16 9L12 13" stroke="#121416" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <span class="ba-label ba-label-before">Start</span>
+        <span class="ba-label ba-label-after">Built Out</span>
+      </div>
+    </section>
+
+    <!-- ── House 2 Before/After Slider ───────────────────── -->
+    <section class="section-card" style="padding: 1.5rem; gap: 1.1rem; display: grid;">
+      <div>
+        <p class="section-kicker" style="margin:0 0 0.4rem;">House 2</p>
+        <h2 class="section-heading" style="margin:0 0 0.3rem;">New House — Before &amp; After</h2>
+        <p style="color:var(--muted); margin:0; font-size:0.9rem;">Drag the handle to compare.</p>
+      </div>
+
+      <div class="before-after" id="baHouse2">
+        <div class="ba-after"  style="background-image: url('/assets/HomeGyms/Monolifts and Adjustable Jammer Arms.jpg');"></div>
+        <div class="ba-before" id="baHouse2Before" style="background-image: url('/assets/HomeGyms/NewGymEmpty.jpg');"></div>
+        <div class="ba-divider" id="baHouse2Divider"></div>
+        <div class="ba-handle"  id="baHouse2Handle">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+            <path d="M6 5L2 9L6 13M12 5L16 9L12 13" stroke="#121416" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <span class="ba-label ba-label-before">Empty</span>
+        <span class="ba-label ba-label-after">Built Out</span>
+      </div>
+    </section>
+
+    <!-- ── Stats ─────────────────────────────────────────── -->
+    <div class="build-stats">
+      <div class="stat">
+        <span class="stat-value">2</span>
+        <span class="stat-label">Houses</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">315</span>
+        <span class="stat-label">lbs bench</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">0</span>
+        <span class="stat-label">Spotter needed</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">2</span>
+        <span class="stat-label">Safety features</span>
+      </div>
+    </div>
+
+    <!-- ── Phase Timeline ────────────────────────────────── -->
+    <section class="section-card" style="padding: 1.5rem 1.25rem; gap: 0; display: grid;">
+      <div style="margin-bottom: 2.25rem;">
+        <p class="section-kicker" style="margin:0 0 0.4rem;">Project Walkthrough</p>
+        <h2 class="section-heading" style="margin:0;">Phase by Phase</h2>
+      </div>
+
+      <div class="phases">
+
+        <!-- House 1 label -->
+        <div class="house-divider">
+          <div class="house-divider-line"></div>
+          <span class="house-divider-label">House 1</span>
+          <div class="house-divider-line"></div>
+        </div>
+
+        <!-- Phase 01 — Initial Build -->
+        <div class="phase">
+          <div class="phase-header">
+            <span class="phase-number">Phase 01</span>
+            <h3 class="phase-title">The Initial Build</h3>
+          </div>
+          <p class="phase-desc">
+            The first gym went into a tight spare room — not built for it, but made to work. A rack went in,
+            a bar, plates, and dumbbells. The space was a puzzle from day one. Every piece of equipment had
+            to earn its spot. The constraint was the point: it forced intentional choices about what actually
+            mattered for training. The floor got a proper lifting platform too: two stacked 4×8 sheets of
+            plywood for a solid base, a vertical center piece over them, and horse stall mats on each side
+            to handle bar drops without destroying the floor. Built right from the start.
+          </p>
+          <div class="photo-strip">
+            <div class="strip-photo" data-src="/assets/HomeGyms/IMAG0154.jpg" data-caption="The initial setup — tight quarters from the start">
+              <img src="/assets/HomeGyms/IMAG0154.jpg" alt="Initial gym setup" loading="lazy">
+              <span class="strip-caption">Initial setup</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/HomeGyms/IMAG0168.jpg" data-caption="Early build — filling in the space">
+              <img src="/assets/HomeGyms/IMAG0168.jpg" alt="Early gym build" loading="lazy">
+              <span class="strip-caption">Filling in the space</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/HomeGyms/IMAG0195.jpg" data-caption="The rack in place — working with what the room allowed">
+              <img src="/assets/HomeGyms/IMAG0195.jpg" alt="Rack installed in tight space" loading="lazy">
+              <span class="strip-caption">Rack installed</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phase 02 — Mirrors -->
+        <div class="phase">
+          <div class="phase-header">
+            <span class="phase-number">Phase 02</span>
+            <h3 class="phase-title">Mirrors</h3>
+          </div>
+          <p class="phase-desc">
+            Mirrors went up on the wall. In a tight space, mirrors do more than check form —
+            they open the room, create the visual cue that you're in a real gym, and make
+            tracking movement while lifting actually possible.
+          </p>
+          <div class="photo-strip">
+            <div class="strip-photo" data-src="/assets/HomeGyms/MirrorsInstalled.jpg" data-caption="Mirrors installed — the room opens up immediately">
+              <img src="/assets/HomeGyms/MirrorsInstalled.jpg" alt="Mirrors installed in the gym" loading="lazy">
+              <span class="strip-caption">Mirrors installed</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phase 03 — Accessories -->
+        <div class="phase">
+          <div class="phase-header">
+            <span class="phase-number">Phase 03</span>
+            <h3 class="phase-title">Landmine, Matador &amp; Monolifts</h3>
+          </div>
+          <p class="phase-desc">
+            The accessories that made the gym. A landmine attachment for rotational pressing and rows.
+            A Matador dip bar that mounts to the rack uprights — no standalone dip station eating floor space.
+            And the wall mount for the dip bar when not in use, keeping it out of the way entirely.
+            Then the monolifts: a pivoting j-cup that lets you unrack the bar in the strongest part of your
+            range of motion rather than rotating your shoulders out over the hooks. A real difference on
+            heavy bench and squat days.
+          </p>
+          <div class="photo-strip">
+            <div class="strip-photo" data-src="/assets/HomeGyms/Matador for Dip Bar Wall Hang.jpg" data-caption="Matador dip attachment with wall hang mount — off the floor, out of the way">
+              <img src="/assets/HomeGyms/Matador for Dip Bar Wall Hang.jpg" alt="Matador dip bar with wall hang" loading="lazy">
+              <span class="strip-caption">Matador + wall mount</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/HomeGyms/Monolifts and Jammer Arms.jpg" data-caption="Monolifts and jammer arms installed on the rack">
+              <img src="/assets/HomeGyms/Monolifts and Jammer Arms.jpg" alt="Monolifts and jammer arms on rack" loading="lazy">
+              <span class="strip-caption">Monolifts &amp; jammer arms</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phase 04 — House 1 Full Build -->
+        <div class="phase">
+          <div class="phase-header">
+            <span class="phase-number">Phase 04</span>
+            <h3 class="phase-title">House 1 — Full Build</h3>
+          </div>
+          <p class="phase-desc">
+            The first gym at its most complete — bars, dumbbells, plates, monolifts,
+            jammer arms, landmine, and the Matador all fitting in a space that had no
+            business fitting all of it. Every inch was intentional.
+          </p>
+          <div class="photo-strip">
+            <div class="strip-photo" data-src="/assets/HomeGyms/20201002_095357.jpg" data-caption="October 2020 — house 1 gym fully built out">
+              <img src="/assets/HomeGyms/20201002_095357.jpg" alt="House 1 gym built out, October 2020" loading="lazy">
+              <span class="strip-caption">October 2020</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/HomeGyms/20201010_113537.jpg" data-caption="October 2020 — alternate angle of the completed space">
+              <img src="/assets/HomeGyms/20201010_113537.jpg" alt="House 1 gym, alternate angle October 2020" loading="lazy">
+              <span class="strip-caption">October 2020 — alternate angle</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/HomeGyms/20220415_161730.jpg" data-caption="April 2022 — house 1 final state before the move">
+              <img src="/assets/HomeGyms/20220415_161730.jpg" alt="House 1 gym final state April 2022" loading="lazy">
+              <span class="strip-caption">April 2022 — final state</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- House 2 label -->
+        <div class="house-divider" style="margin-top: 0.5rem;">
+          <div class="house-divider-line"></div>
+          <span class="house-divider-label">House 2</span>
+          <div class="house-divider-line"></div>
+        </div>
+
+        <!-- Phase 05 — New House Start -->
+        <div class="phase">
+          <div class="phase-header">
+            <span class="phase-number">Phase 05</span>
+            <h3 class="phase-title">New House — Starting Over</h3>
+          </div>
+          <p class="phase-desc">
+            The new house had a dedicated space for it. Started from empty, brought in the rack and equipment
+            from the old house, and set it all up again. The weight trees came back with it — they worked
+            fine, but they were already a known limitation. More floor space meant the build could go further
+            this time.
+          </p>
+          <div class="photo-strip">
+            <div class="strip-photo" data-src="/assets/HomeGyms/NewGymEmpty.jpg" data-caption="The new gym space — empty and ready">
+              <img src="/assets/HomeGyms/NewGymEmpty.jpg" alt="New gym space, empty" loading="lazy">
+              <span class="strip-caption">Empty — new house</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/HomeGyms/NewGymWeightTrees.jpg" data-caption="Equipment moved in — weight trees in initial position">
+              <img src="/assets/HomeGyms/NewGymWeightTrees.jpg" alt="New gym with weight trees" loading="lazy">
+              <span class="strip-caption">Initial setup — weight trees</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phase 06 — Optimizing Space -->
+        <div class="phase">
+          <div class="phase-header">
+            <span class="phase-number">Phase 06</span>
+            <h3 class="phase-title">Maximizing the Space</h3>
+          </div>
+          <p class="phase-desc">
+            Weight trees came out. Wall mounts went in for plates — cleaner, more accessible,
+            and they free up floor entirely. Bar storage moved to the sides of the rack. The
+            dip bar got its wall hanger. Jammer arms upgraded to fully adjustable. Cable pulley
+            system updated. Every iteration was about getting more out of the footprint without
+            adding to it.
+          </p>
+          <div class="photo-strip">
+            <div class="strip-photo" data-src="/assets/HomeGyms/TreesReplacedwithWallMount.jpg" data-caption="Weight trees out — wall mount plates in. Floor reclaimed.">
+              <img src="/assets/HomeGyms/TreesReplacedwithWallMount.jpg" alt="Wall mount replacing weight trees" loading="lazy">
+              <span class="strip-caption">Wall mounts replace the trees</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/HomeGyms/Monolifts and Adjustable Jammer Arms.jpg" data-caption="Upgraded to fully adjustable jammer arms — more range, same footprint">
+              <img src="/assets/HomeGyms/Monolifts and Adjustable Jammer Arms.jpg" alt="Monolifts with fully adjustable jammer arms" loading="lazy">
+              <span class="strip-caption">Adjustable jammer arms upgrade</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/HomeGyms/Updated Cable Pulleys.jpg" data-caption="Updated cable pulley system">
+              <img src="/assets/HomeGyms/Updated Cable Pulleys.jpg" alt="Updated cable pulleys" loading="lazy">
+              <span class="strip-caption">Updated cable pulleys</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── Safety Features ───────────────────────────────── -->
+    <section class="section-card" style="padding: 1.5rem;">
+      <p class="section-kicker" style="margin:0 0 0.4rem;">Why It's Safer Here</p>
+      <h2 class="section-heading" style="margin:0 0 1rem;">The Two Features That Changed Everything</h2>
+      <p style="color:var(--muted); font-size:0.95rem; margin:0 0 1.25rem; max-width:58ch;">
+        Lifting alone at home sounds riskier than lifting at a commercial gym. It isn't —
+        not with the right setup. These two features are the reason.
+      </p>
+      <div class="safety-grid">
+        <div class="safety-card">
+          <p class="safety-card-title">Safety Straps</p>
+          <p class="safety-card-desc">
+            Far better than traditional J-cup safeties or spotter bars. The difference is in
+            what happens when the weight comes down: straps catch and absorb it, where a hard bar
+            bounces it back up — unpredictably, and with the potential to end up on your throat.
+            Straps can also be set at different heights on each side of the bench, so the catch
+            position is custom to where you actually need it. Even if the bar comes down straight,
+            the throat stays clear.
+          </p>
+        </div>
+        <div class="safety-card">
+          <p class="safety-card-title">Monolifts</p>
+          <p class="safety-card-desc">
+            Standard j-cups require you to rotate the bar forward off the hooks to unrack —
+            which happens at the weakest part of the range of motion, shoulders rotated awkwardly
+            out, before you've even started the lift. Monolifts pivot out of the way on unrack,
+            so the bar travels straight down. You take it off in the strongest position: locked
+            out, neutral shoulders. No walkout on squats, no rotation on bench. It's a mechanical
+            advantage that matters most on heavy days alone.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 315 Bench Video ────────────────────────────────── -->
+    <section class="section-card" style="padding: 1.5rem; gap: 1rem; display: grid;">
+      <div>
+        <p class="section-kicker" style="margin:0 0 0.4rem;">Annual Benchmark</p>
+        <h2 class="section-heading" style="margin:0 0 0.4rem;">315 Bench — With Cooper in the Background</h2>
+        <p style="color:var(--muted); margin:0; font-size:0.9rem; max-width:54ch;">
+          Every year since around 30, the check: can I still hit 315? This is one of those
+          days. Cooper's in the background. The straps are in place. The monolifts do their job.
+        </p>
+      </div>
+      <video class="video-native" controls preload="metadata" playsinline>
+        <source src="/assets/HomeGyms/bench-315.mp4" type="video/mp4">
+        Your browser does not support the video element.
+      </video>
+    </section>
+
+  </main>
+
+  <!-- ── Lightbox ──────────────────────────────────────────── -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
+    <div class="lightbox-inner">
+      <button class="lightbox-close" id="lbClose" aria-label="Close">×</button>
+      <img src="" alt="" id="lbImg">
+      <p class="lightbox-caption" id="lbCaption"></p>
+    </div>
+    <button class="lightbox-nav lightbox-prev" id="lbPrev" aria-label="Previous image">&#8592;</button>
+    <button class="lightbox-nav lightbox-next" id="lbNext" aria-label="Next image">&#8594;</button>
+    <div class="lightbox-counter" id="lbCounter"></div>
+  </div>
+
+  <script src="/scripts/menu.js"></script>
+  <script>
+    // ── Before/After Sliders ─────────────────────────────────
+    function initSlider(wrapperId, beforeId, dividerId, handleId) {
+      const wrap   = document.getElementById(wrapperId);
+      const before = document.getElementById(beforeId);
+      const div    = document.getElementById(dividerId);
+      const handle = document.getElementById(handleId);
+      if (!wrap) return;
+
+      function setPos(pct) {
+        pct = Math.max(2, Math.min(98, pct));
+        before.style.clipPath = `inset(0 ${100 - pct}% 0 0)`;
+        div.style.left        = pct + '%';
+        handle.style.left     = pct + '%';
+      }
+
+      function onMove(e) {
+        const rect = wrap.getBoundingClientRect();
+        const x    = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+        setPos((x / rect.width) * 100);
+      }
+
+      let dragging = false;
+      wrap.addEventListener('mousedown',  () => { dragging = true; });
+      window.addEventListener('mouseup',  () => { dragging = false; });
+      window.addEventListener('mousemove', e => { if (dragging) onMove(e); });
+      wrap.addEventListener('touchstart', onMove, { passive: true });
+      wrap.addEventListener('touchmove',  onMove, { passive: true });
+      wrap.addEventListener('click',      onMove);
+    }
+
+    initSlider('baHouse1', 'baHouse1Before', 'baHouse1Divider', 'baHouse1Handle');
+    initSlider('baHouse2', 'baHouse2Before', 'baHouse2Divider', 'baHouse2Handle');
+
+    // ── Lightbox ─────────────────────────────────────────────
+    const photos  = Array.from(document.querySelectorAll('.strip-photo'));
+    const lb      = document.getElementById('lightbox');
+    const lbImg   = document.getElementById('lbImg');
+    const lbCap   = document.getElementById('lbCaption');
+    const lbCtr   = document.getElementById('lbCounter');
+    let current   = 0;
+
+    function openLb(idx) {
+      current = idx;
+      const p = photos[idx];
+      lbImg.src = p.dataset.src || p.querySelector('img').src;
+      lbImg.alt = p.querySelector('img').alt;
+      lbCap.textContent = p.dataset.caption || '';
+      lbCtr.textContent = `${idx + 1} / ${photos.length}`;
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLb() {
+      lb.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function moveLb(dir) {
+      current = (current + dir + photos.length) % photos.length;
+      openLb(current);
+    }
+
+    photos.forEach((p, i) => p.addEventListener('click', () => openLb(i)));
+    document.getElementById('lbClose').addEventListener('click', closeLb);
+    document.getElementById('lbPrev').addEventListener('click', () => moveLb(-1));
+    document.getElementById('lbNext').addEventListener('click', () => moveLb(1));
+    lb.addEventListener('click', e => { if (e.target === lb) closeLb(); });
+    document.addEventListener('keydown', e => {
+      if (!lb.classList.contains('open')) return;
+      if (e.key === 'Escape')      closeLb();
+      if (e.key === 'ArrowLeft')   moveLb(-1);
+      if (e.key === 'ArrowRight')  moveLb(1);
+    });
+  </script>
+
+</body>
+</html>
