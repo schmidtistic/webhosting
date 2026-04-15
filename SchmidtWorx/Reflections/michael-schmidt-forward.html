@@ -20,6 +20,83 @@
   <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="stylesheet" href="/style.css" />
+
+  <style>
+    /* ── Watch These — video grid ── */
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.25rem;
+      margin-top: 1.5rem;
+    }
+
+    .video-card {
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .video-card:hover {
+      border-color: var(--border-strong);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.35);
+    }
+
+    .video-thumb {
+      position: relative;
+      display: block;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+    }
+    .video-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: opacity 0.2s;
+    }
+    .video-card:hover .video-thumb img { opacity: 0.8; }
+
+    .video-play {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    .video-info { padding: 0.9rem 1.1rem 1rem; }
+
+    .video-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--fg);
+      margin: 0 0 0.4rem;
+      line-height: 1.4;
+    }
+
+    .video-note {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.65;
+      margin: 0.5rem 0 0.4rem;
+    }
+
+    .watch-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.75rem;
+      color: var(--accent);
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      margin-top: 0.5rem;
+      transition: color 0.2s;
+    }
+    .watch-link:hover { color: var(--accent-strong); }
+  </style>
 </head>
 <body>
   <header>
@@ -172,8 +249,103 @@
       </ul>
     </section>
 
+    <section id="watch-these" class="content-panel">
+      <p class="section-kicker">Worth Your Time</p>
+      <h2 class="section-heading">Watch These</h2>
+      <p>
+        Some things are said better by others. These are the clips I kept coming back to —
+        the ones that put words to something I already knew but couldn't quite say.
+      </p>
+      <div id="video-grid" class="video-grid"></div>
+    </section>
+
   </main>
 
   <script src="/scripts/menu.js"></script>
+  <script>
+  // ── Watch These ────────────────────────────────────────────────────────────
+  // To add a video, add one object to this array:
+  //
+  //   id    — YouTube video ID (the part after ?v= in the URL)
+  //   title — Display title shown on the card
+  //   start — Start time in seconds (e.g. 96 = 1:36). Use 0 to start from the beginning.
+  //   note  — Your words on why this one matters. Leave "" to show no note.
+  //
+  // Example:
+  //   { id: "dQw4w9WgXcQ", title: "Never Gonna Give You Up", start: 0, note: "" }
+  // ──────────────────────────────────────────────────────────────────────────
+  var videos = [
+    {
+      id: "23k0RoeriBQ",
+      title: "The Death Crawl — Facing the Giants",
+      start: 0,
+      note: ""
+    },
+    {
+      id: "nbW3avTBK1g",
+      title: "No Fear",
+      start: 0,
+      note: ""
+    },
+    {
+      id: "6E8cDw4EHMA",
+      title: "How Winning Is Done — Rocky Balboa",
+      start: 0,
+      note: ""
+    },
+    {
+      id: "zBMgvcN-1mc",
+      title: "Because Mickey Loves Ya — Rocky V",
+      start: 0,
+      note: ""
+    },
+    {
+      id: "-gYpCIbZjUQ",
+      title: "You Should Be a Monster — Jordan Peterson",
+      start: 96,
+      note: ""
+    },
+    {
+      id: "EjK5BUDZtOs",
+      title: "The FBI Director\u2019s Lesson — The Kingdom",
+      start: 0,
+      note: ""
+    }
+  ];
+
+  (function () {
+    var grid = document.getElementById('video-grid');
+    if (!grid) return;
+
+    videos.forEach(function (v) {
+      var url = 'https://www.youtube.com/watch?v=' + v.id + (v.start ? '&t=' + v.start + 's' : '');
+      var thumb = 'https://img.youtube.com/vi/' + v.id + '/mqdefault.jpg';
+
+      var noteHTML = (v.note && v.note.trim())
+        ? '<p class="video-note">' + v.note + '</p>'
+        : '';
+
+      var card = document.createElement('div');
+      card.className = 'video-card';
+      card.innerHTML =
+        '<a class="video-thumb" href="' + url + '" target="_blank" rel="noopener noreferrer">' +
+          '<img src="' + thumb + '" alt="' + v.title + '" loading="lazy">' +
+          '<div class="video-play">' +
+            '<svg width="48" height="48" viewBox="0 0 48 48" fill="none">' +
+              '<circle cx="24" cy="24" r="24" fill="rgba(0,0,0,0.55)"/>' +
+              '<polygon points="19,14 38,24 19,34" fill="#f2eee6" opacity="0.92"/>' +
+            '</svg>' +
+          '</div>' +
+        '</a>' +
+        '<div class="video-info">' +
+          '<p class="video-title">' + v.title + '</p>' +
+          noteHTML +
+          '<a class="watch-link" href="' + url + '" target="_blank" rel="noopener noreferrer">Watch on YouTube ↗</a>' +
+        '</div>';
+
+      grid.appendChild(card);
+    });
+  })();
+  </script>
 </body>
 </html>
