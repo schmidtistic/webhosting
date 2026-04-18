@@ -14,5 +14,11 @@
     "heading": "A place reserved for reflections that are still being gathered.",
     "body": "This section is being prepared to hold Gregory Schmidt's reflections, stories, and perspective."
   },
-  "sections": []
+  "sections": [
+    {
+      "title": "Test",
+      "note": "",
+      "entries": []
+    }
+  ]
 }
