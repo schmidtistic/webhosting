@@ -414,6 +414,10 @@
           <label for="ctx-body">Context Body</label>
           <textarea id="ctx-body" data-path="context.body" rows="3"></textarea>
         </div>
+        <div class="field">
+          <label for="footer-text">Footer Note <small>(closing line at the bottom of the page)</small></label>
+          <input type="text" id="footer-text" data-path="footer">
+        </div>
       </div>
     </div>
 
@@ -527,7 +531,8 @@ function setStatus(type, msg) {
   else if (type === 'saving') { pub.disabled = true; }
   else if (type === 'saved') {
     pub.disabled = true; isDirty = false;
-    setTimeout(() => { if (!isDirty) setStatus('ready', 'All changes saved'); }, 3000);
+    const ts = new Date().toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' });
+    setTimeout(() => { if (!isDirty) setStatus('ready', `All changes saved · Last published ${ts}`); }, 3000);
   } else if (type === 'error') { pub.disabled = false; }
   else { pub.disabled = true; isDirty = false; }
 }

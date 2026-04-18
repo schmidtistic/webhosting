@@ -85,7 +85,7 @@ function renderParagraphs(text, indent = '                ') {
 }
 
 function renderHTML(data, forPreview = false) {
-  const { meta, hero, context, sections = [] } = data;
+  const { meta, hero, context, sections = [], footer = '' } = data;
   const baseTag = forPreview
     ? '\n    <base href="https://schmidtworx.com/">'
     : '';
@@ -194,7 +194,7 @@ ${renderParagraphs(e.body)}
         </section>
 ${contentsBlock}
         <footer>
-            <p>More of this archive will appear here as it is prepared.</p>
+            <p>${esc(footer)}</p>
         </footer>
 
     </main>
