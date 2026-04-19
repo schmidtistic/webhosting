@@ -75,12 +75,42 @@
     "heading": "Watch These",
     "intro": "Some things are said better by others. These are the clips I kept coming back to — the ones that put words to something I already knew but couldn't quite say.",
     "items": [
-      { "id": "23k0RoeriBQ", "title": "The Death Crawl — Facing the Giants", "start": 0, "note": "" },
-      { "id": "nbW3avTBK1g", "title": "No Fear", "start": 0, "note": "" },
-      { "id": "6E8cDw4EHMA", "title": "How Winning Is Done — Rocky Balboa", "start": 0, "note": "" },
-      { "id": "zBMgvcN-1mc", "title": "Because Mickey Loves Ya — Rocky V", "start": 0, "note": "" },
-      { "id": "-gYpCIbZjUQ", "title": "You Should Be a Monster — Jordan Peterson", "start": 96, "note": "" },
-      { "id": "EjK5BUDZtOs", "title": "The FBI Director's Lesson — The Kingdom", "start": 0, "note": "" }
+      {
+        "id": "23k0RoeriBQ",
+        "title": "No Fear",
+        "start": 0,
+        "note": ""
+      },
+      {
+        "id": "nbW3avTBK1g",
+        "title": "The Death Crawl — Facing the Giants",
+        "start": 0,
+        "note": ""
+      },
+      {
+        "id": "6E8cDw4EHMA",
+        "title": "How Winning Is Done — Rocky Balboa",
+        "start": 0,
+        "note": ""
+      },
+      {
+        "id": "zBMgvcN-1mc",
+        "title": "Because Mickey Loves Ya — Rocky V",
+        "start": 0,
+        "note": ""
+      },
+      {
+        "id": "-gYpCIbZjUQ",
+        "title": "You Should Be a Monster — Jordan Peterson",
+        "start": 96,
+        "note": ""
+      },
+      {
+        "id": "EjK5BUDZtOs",
+        "title": "The FBI Director's Lesson — The Kingdom",
+        "start": 0,
+        "note": ""
+      }
     ]
   },
   "footer": ""
