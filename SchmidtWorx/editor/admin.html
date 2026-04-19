@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Editor — SchmidtWorx</title>
+  <style>
+    :root {
+      --bg: #121416;
+      --fg: #f2eee6;
+      --accent: #d7c3a0;
+      --accent-strong: #e7b879;
+      --muted: #b4ad9f;
+      --panel: #1a1d20;
+      --border: #2a2d32;
+      --input-bg: #0e1012;
+      --green: #4caf82;
+      --red: #e05c5c;
+      --blue: #5b8fd4;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Avenir Next", "Segoe UI", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* ── Login ───────────────────────────────────────── */
+    #login-overlay {
+      position: fixed; inset: 0; background: var(--bg);
+      display: flex; align-items: center; justify-content: center; z-index: 100;
+    }
+    .login-box {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 10px; padding: 2.5rem 2rem; width: min(380px, 90vw); text-align: center;
+    }
+    .login-box .wordmark {
+      font-family: "Iowan Old Style", Palatino, Georgia, serif;
+      font-size: 1rem; color: var(--accent); letter-spacing: 0.05em;
+      text-transform: uppercase; margin-bottom: 0.5rem;
+    }
+    .login-box h1 {
+      font-family: "Iowan Old Style", Palatino, Georgia, serif;
+      font-size: 1.6rem; color: var(--fg); margin-bottom: 0.4rem;
+    }
+    .login-box p { font-size: 0.875rem; color: var(--muted); margin-bottom: 1.75rem; }
+    .login-box input {
+      width: 100%; padding: 0.75rem 1rem; background: var(--input-bg);
+      border: 1px solid var(--border); border-radius: 6px; color: var(--fg);
+      font-size: 1rem; margin-bottom: 0.75rem; outline: none;
+    }
+    .login-box input:focus { border-color: var(--accent); }
+    .login-error { font-size: 0.8rem; color: var(--red); min-height: 1.2em; margin-bottom: 0.5rem; }
+
+    /* ── Buttons ─────────────────────────────────────── */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      gap: 0.4rem; padding: 0.55rem 1.1rem; border: none; border-radius: 5px;
+      cursor: pointer; font: 600 0.875rem/1 "Avenir Next", "Segoe UI", system-ui, sans-serif;
+      transition: opacity .15s, background .15s; white-space: nowrap;
+    }
+    .btn:hover:not(:disabled) { opacity: 0.85; }
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .btn-primary  { background: var(--accent-strong); color: #121416; width: 100%; padding: 0.75rem; font-size: 1rem; }
+    .btn-publish  { background: var(--accent-strong); color: #121416; font-size: 0.875rem; }
+    .btn-ghost    { background: transparent; color: var(--accent); border: 1px dashed var(--accent); width: 100%; margin-top: 0.6rem; padding: 0.55rem; font-weight: 500; }
+    .btn-ghost-sm { background: transparent; color: var(--accent); border: 1px dashed var(--accent); font-size: 0.78rem; padding: 0.3rem 0.65rem; font-weight: 500; }
+    .btn-icon     { background: transparent; color: var(--muted); border: 1px solid var(--border); padding: 0.25rem 0.5rem; font-size: 0.8rem; border-radius: 4px; cursor: pointer; transition: color .15s, border-color .15s; }
+    .btn-icon:hover { color: var(--fg); border-color: var(--accent); }
+    .btn-remove   { background: transparent; color: var(--red); border: 1px solid var(--red); font-size: 0.75rem; padding: 0.25rem 0.6rem; border-radius: 4px; cursor: pointer; font-family: inherit; transition: opacity .15s; }
+    .btn-remove:hover { opacity: 0.75; }
+
+    /* ── Top bar ─────────────────────────────────────── */
+    #topbar {
+      display: flex; align-items: center; gap: 1rem; padding: 0.6rem 1.25rem;
+      background: var(--panel); border-bottom: 1px solid var(--border); flex-shrink: 0;
+    }
+    .topbar-logo {
+      font-family: "Iowan Old Style", Palatino, Georgia, serif;
+      font-size: 1rem; color: var(--accent-strong); flex-shrink: 0;
+    }
+    .topbar-logo span { color: var(--muted); font-size: 0.85rem; }
+    #status-msg { flex: 1; font-size: 0.8rem; color: var(--muted); text-align: center; }
+    #status-msg.unsaved { color: var(--accent); }
+    #status-msg.saving  { color: var(--accent-strong); }
+    #status-msg.saved   { color: var(--green); }
+    #status-msg.error   { color: var(--red); }
+
+    /* ── Layout ──────────────────────────────────────── */
+    #main { display: flex; flex: 1; overflow: hidden; min-height: 0; }
+
+    #editor-col {
+      width: 44%; min-width: 300px; max-width: 560px; overflow-y: auto;
+      padding: 1.25rem 1.25rem 3rem; border-right: 1px solid var(--border);
+      scrollbar-width: thin; scrollbar-color: var(--border) transparent;
+    }
+
+    #preview-col { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+    #preview-label {
+      padding: 0.45rem 1rem; background: var(--panel); border-bottom: 1px solid var(--border);
+      font-size: 0.7rem; color: var(--muted); text-transform: uppercase;
+      letter-spacing: 0.1em; flex-shrink: 0;
+    }
+    #preview-frame { flex: 1; border: none; background: #fff; }
+
+    /* ── Dividers ────────────────────────────────────── */
+    .divider {
+      display: flex; align-items: center; gap: 0.6rem; margin: 1.25rem 0 0.75rem;
+      font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted);
+    }
+    .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    /* ── Cards ───────────────────────────────────────── */
+    .card {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 7px; margin-bottom: 0.75rem; overflow: hidden;
+    }
+    .card.card-context  { border-left: 3px solid var(--accent); }
+    .card.card-lessons  { border-left: 3px solid var(--accent-strong); }
+    .card.card-notes    { border-left: 3px solid var(--blue); }
+    .card.card-videos   { border-left: 3px solid var(--green); }
+
+    .card-head {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.75rem 1rem; cursor: pointer; user-select: none; gap: 0.5rem;
+    }
+    .card-head-info { flex: 1; min-width: 0; }
+    .card-head h3 {
+      font-family: "Iowan Old Style", Palatino, Georgia, serif;
+      font-size: 0.95rem; color: var(--accent);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .card-subtitle { font-size: 0.75rem; color: var(--muted); margin-top: 0.15rem; }
+    .card-controls { display: flex; align-items: center; gap: 0.3rem; flex-shrink: 0; }
+    .chevron { color: var(--muted); font-size: 0.7rem; transition: transform 0.2s; flex-shrink: 0; }
+    .card-body { padding: 0 1rem 1rem; }
+    .card-body[hidden] { display: none; }
+
+    /* ── Form fields ─────────────────────────────────── */
+    .field { margin-bottom: 1rem; }
+    .field label {
+      display: block; font-size: 0.7rem; text-transform: uppercase;
+      letter-spacing: 0.08em; color: var(--muted); margin-bottom: 0.35rem;
+    }
+    .field input, .field textarea {
+      width: 100%; padding: 0.55rem 0.75rem; background: var(--input-bg);
+      border: 1px solid var(--border); border-radius: 5px; color: var(--fg);
+      font: 0.875rem/1.55 "Avenir Next", "Segoe UI", system-ui, sans-serif;
+      outline: none; resize: vertical;
+    }
+    .field input:focus, .field textarea:focus { border-color: var(--accent); }
+    .field textarea { min-height: 90px; }
+    .field textarea.tall { min-height: 200px; }
+    .field-hint { font-size: 0.75rem; color: var(--muted); margin-top: 0.3rem; line-height: 1.4; }
+
+    .section-fields {
+      background: var(--input-bg); border: 1px solid var(--border);
+      border-radius: 5px; padding: 0.75rem; margin-bottom: 1rem;
+    }
+    .section-fields .field:last-child { margin-bottom: 0; }
+    .section-fields-label {
+      font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--muted); margin-bottom: 0.6rem;
+    }
+
+    /* ── Entry cards ─────────────────────────────────── */
+    .entry-card {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 5px; margin-bottom: 0.45rem;
+    }
+    .entry-card.is-placeholder { border-style: dashed; opacity: 0.7; }
+
+    .entry-head {
+      display: flex; align-items: center; padding: 0.5rem 0.75rem;
+      cursor: pointer; user-select: none; gap: 0.5rem;
+    }
+    .entry-title { flex: 1; font-size: 0.85rem; color: var(--fg); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .entry-title.empty { color: var(--muted); font-style: italic; }
+
+    .placeholder-badge {
+      font-size: 0.65rem; background: var(--border); color: var(--muted);
+      padding: 0.1rem 0.4rem; border-radius: 3px; flex-shrink: 0;
+    }
+
+    .entry-body { padding: 0 0.75rem 0.75rem; }
+    .entry-body[hidden] { display: none; }
+
+    /* ── Video-specific ──────────────────────────────── */
+    .video-id-row { display: flex; gap: 0.5rem; }
+    .video-id-row input { flex: 1; }
+    .video-id-row input.start-input { width: 70px; flex: none; }
+  </style>
+</head>
+<body>
+
+<!-- ── Login ────────────────────────────────────────────────────── -->
+<div id="login-overlay">
+  <div class="login-box">
+    <p class="wordmark">SchmidtWorx</p>
+    <h1>Admin Editor</h1>
+    <p>Enter your password to start editing</p>
+    <input type="password" id="pw-input" placeholder="Password" autocomplete="current-password">
+    <p class="login-error" id="login-error" aria-live="polite"></p>
+    <button class="btn btn-primary" id="login-btn">Sign In</button>
+  </div>
+</div>
+
+<!-- ── Top bar ──────────────────────────────────────────────────── -->
+<div id="topbar">
+  <div class="topbar-logo">SchmidtWorx <span>/ For Cooper</span></div>
+  <div id="status-msg">Loading…</div>
+  <button class="btn btn-publish" id="publish-btn" disabled>Publish</button>
+</div>
+
+<!-- ── Main layout ──────────────────────────────────────────────── -->
+<div id="main">
+
+  <div id="editor-col">
+
+    <!-- Page Header & Context -->
+    <div class="divider">Page</div>
+
+    <div class="card card-context" id="card-page">
+      <div class="card-head" onclick="toggleCard(this)">
+        <div class="card-head-info">
+          <h3>Header &amp; Context</h3>
+          <div class="card-subtitle">Title, tagline, and opening section</div>
+        </div>
+        <span class="chevron" style="transform:rotate(180deg)">▼</span>
+      </div>
+      <div class="card-body">
+        <div class="field">
+          <label>Page Title</label>
+          <input type="text" data-path="hero.title" placeholder="For Cooper">
+        </div>
+        <div class="field">
+          <label>Tagline</label>
+          <input type="text" data-path="hero.tagline">
+        </div>
+        <div class="field">
+          <label>Eyebrow <small>(small text above title)</small></label>
+          <input type="text" data-path="hero.eyebrow">
+        </div>
+
+        <div class="section-fields">
+          <div class="section-fields-label">Context Section</div>
+          <div class="field">
+            <label>Kicker <small>(small label above heading)</small></label>
+            <input type="text" data-path="context.kicker" placeholder="Context">
+          </div>
+          <div class="field">
+            <label>Heading</label>
+            <input type="text" data-path="context.heading">
+          </div>
+          <div class="field">
+            <label>Body</label>
+            <p class="field-hint">Leave a blank line between paragraphs.</p>
+            <textarea data-path="context.body" rows="4"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lessons -->
+    <div class="divider">Lessons</div>
+
+    <div class="card card-lessons" id="card-lessons">
+      <div class="card-head" onclick="toggleCard(this)">
+        <div class="card-head-info">
+          <h3>Lessons — What I Know</h3>
+          <div class="card-subtitle" id="lessons-subtitle">0 entries</div>
+        </div>
+        <span class="chevron">▼</span>
+      </div>
+      <div class="card-body" hidden>
+        <div class="section-fields">
+          <div class="section-fields-label">Section Header</div>
+          <div class="field">
+            <label>Kicker</label>
+            <input type="text" data-path="lessons.kicker" placeholder="Lessons">
+          </div>
+          <div class="field">
+            <label>Heading</label>
+            <input type="text" data-path="lessons.heading" placeholder="What I Know">
+          </div>
+          <div class="field">
+            <label>Intro Line</label>
+            <input type="text" data-path="lessons.intro" placeholder="One at a time.">
+          </div>
+        </div>
+
+        <div class="divider" style="margin-top:0.5rem">Entries</div>
+        <div id="lessons-list"></div>
+        <button class="btn btn-ghost" onclick="addLesson()">+ Add Lesson</button>
+      </div>
+    </div>
+
+    <!-- Notes -->
+    <div class="divider">Notes</div>
+
+    <div class="card card-notes" id="card-notes">
+      <div class="card-head" onclick="toggleCard(this)">
+        <div class="card-head-info">
+          <h3>Notes — What I See</h3>
+          <div class="card-subtitle" id="notes-subtitle">0 notes</div>
+        </div>
+        <span class="chevron">▼</span>
+      </div>
+      <div class="card-body" hidden>
+        <div class="section-fields">
+          <div class="section-fields-label">Section Header</div>
+          <div class="field">
+            <label>Kicker</label>
+            <input type="text" data-path="notes.kicker" placeholder="Notes">
+          </div>
+          <div class="field">
+            <label>Heading</label>
+            <input type="text" data-path="notes.heading" placeholder="What I See">
+          </div>
+          <div class="field">
+            <label>Intro Line</label>
+            <input type="text" data-path="notes.intro" placeholder="Not lessons. Just what I notice.">
+          </div>
+        </div>
+
+        <div class="divider" style="margin-top:0.5rem">Notes</div>
+        <div id="notes-list"></div>
+        <button class="btn btn-ghost" onclick="addNote()">+ Add Note</button>
+      </div>
+    </div>
+
+    <!-- Videos -->
+    <div class="divider">Videos</div>
+
+    <div class="card card-videos" id="card-videos">
+      <div class="card-head" onclick="toggleCard(this)">
+        <div class="card-head-info">
+          <h3>Watch These</h3>
+          <div class="card-subtitle" id="videos-subtitle">0 videos</div>
+        </div>
+        <span class="chevron">▼</span>
+      </div>
+      <div class="card-body" hidden>
+        <div class="section-fields">
+          <div class="section-fields-label">Section Header</div>
+          <div class="field">
+            <label>Kicker</label>
+            <input type="text" data-path="videos.kicker" placeholder="Worth Your Time">
+          </div>
+          <div class="field">
+            <label>Heading</label>
+            <input type="text" data-path="videos.heading" placeholder="Watch These">
+          </div>
+          <div class="field">
+            <label>Intro</label>
+            <textarea data-path="videos.intro" rows="2"></textarea>
+          </div>
+        </div>
+
+        <div class="divider" style="margin-top:0.5rem">Videos</div>
+        <div id="videos-list"></div>
+        <button class="btn btn-ghost" onclick="addVideo()">+ Add Video</button>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="divider">Footer</div>
+    <div class="card card-context">
+      <div class="card-head" onclick="toggleCard(this)">
+        <div class="card-head-info">
+          <h3>Closing Line</h3>
+          <div class="card-subtitle">Optional footer text at the bottom of the page</div>
+        </div>
+        <span class="chevron">▼</span>
+      </div>
+      <div class="card-body" hidden>
+        <div class="field">
+          <label>Footer Text <small>(leave blank to hide)</small></label>
+          <input type="text" data-path="footer" placeholder="e.g., Written for Cooper Michael Schmidt.">
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="preview-col">
+    <div id="preview-label">Live Preview — updates as you type</div>
+    <iframe id="preview-frame" title="Live page preview" sandbox="allow-same-origin allow-scripts"></iframe>
+  </div>
+
+</div>
+
+<script>
+// ── State ───────────────────────────────────────────────────────
+let state = null;
+let currentSha = null;
+let password = '';
+let isDirty = false;
+let previewTimer = null;
+
+const API = '/api/admin?page=forward';
+
+// ── Utilities ───────────────────────────────────────────────────
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '')
+  .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+  .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+
+function getPath(obj, path) {
+  return path.split('.').reduce((o, k) => o?.[k], obj);
+}
+function setPath(obj, path, val) {
+  const parts = path.split('.');
+  const key = parts.pop();
+  parts.reduce((o, k) => o[k], obj)[key] = val;
+}
+
+// ── Auth ────────────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', () => {
+  const saved = sessionStorage.getItem('sw_admin_pw');
+  if (saved) { password = saved; loadContent(); }
+  $('pw-input').addEventListener('keypress', e => { if (e.key === 'Enter') doLogin(); });
+  $('login-btn').addEventListener('click', doLogin);
+  $('publish-btn').addEventListener('click', publish);
+});
+
+async function doLogin() {
+  password = $('pw-input').value.trim();
+  if (!password) return;
+  $('login-btn').disabled = true;
+  $('login-btn').textContent = 'Checking…';
+  $('login-error').textContent = '';
+  await loadContent();
+}
+
+async function loadContent() {
+  try {
+    const res = await fetch(API, { headers: { 'X-Editor-Password': password } });
+    if (res.status === 401) {
+      sessionStorage.removeItem('sw_admin_pw');
+      showLoginError('Incorrect password. Try again.');
+      return;
+    }
+    if (!res.ok) throw new Error('Server error ' + res.status);
+
+    const data = await res.json();
+    state = data.content;
+    currentSha = data.sha;
+
+    sessionStorage.setItem('sw_admin_pw', password);
+    $('login-overlay').style.display = 'none';
+    renderEditor();
+    setStatus('ready', 'All changes saved');
+    schedulePreview(0);
+  } catch (err) {
+    showLoginError('Could not connect — try refreshing the page.');
+  }
+}
+
+function showLoginError(msg) {
+  $('login-error').textContent = msg;
+  $('login-btn').disabled = false;
+  $('login-btn').textContent = 'Sign In';
+}
+
+// ── Status & Publish ────────────────────────────────────────────
+function setStatus(type, msg) {
+  const el = $('status-msg');
+  el.textContent = msg;
+  el.className = type;
+  const pub = $('publish-btn');
+  if (type === 'unsaved') { pub.disabled = false; isDirty = true; }
+  else if (type === 'saving') { pub.disabled = true; }
+  else if (type === 'saved') {
+    pub.disabled = true; isDirty = false;
+    const ts = new Date().toLocaleString('en-US', { month:'long', day:'numeric', year:'numeric', hour:'numeric', minute:'2-digit' });
+    setTimeout(() => { if (!isDirty) setStatus('ready', `All changes saved · Last published ${ts}`); }, 3000);
+  } else if (type === 'error') { pub.disabled = false; }
+  else { pub.disabled = true; isDirty = false; }
+}
+
+async function publish() {
+  if (!state) return;
+  setStatus('saving', 'Publishing…');
+  try {
+    const res = await fetch(API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Editor-Password': password },
+      body: JSON.stringify({ content: state, sha: currentSha }),
+    });
+    if (!res.ok) {
+      const e = await res.json().catch(() => ({}));
+      throw new Error(e.error || 'HTTP ' + res.status);
+    }
+    const data = await res.json();
+    currentSha = data.newJsonSha;
+    setStatus('saved', 'Published! Live on the site in ~30 seconds');
+  } catch (err) {
+    setStatus('error', 'Publish failed: ' + err.message);
+  }
+}
+
+// ── Preview ─────────────────────────────────────────────────────
+function schedulePreview(delay = 900) {
+  clearTimeout(previewTimer);
+  previewTimer = setTimeout(updatePreview, delay);
+}
+
+async function updatePreview() {
+  if (!state) return;
+  try {
+    const res = await fetch(API + '&preview=true', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Editor-Password': password },
+      body: JSON.stringify({ content: state }),
+    });
+    if (!res.ok) return;
+    $('preview-frame').srcdoc = await res.text();
+  } catch { /* silent */ }
+}
+
+function markDirty() {
+  setStatus('unsaved', 'Unsaved changes — remember to Publish');
+  schedulePreview();
+}
+
+// ── Editor render ────────────────────────────────────────────────
+function renderEditor() {
+  // Bind flat data-path fields
+  document.querySelectorAll('[data-path]').forEach(el => {
+    el.value = getPath(state, el.dataset.path) ?? '';
+    el.addEventListener('input', () => {
+      setPath(state, el.dataset.path, el.value);
+      markDirty();
+    });
+  });
+
+  renderLessons();
+  renderNotes();
+  renderVideos();
+}
+
+// ── Lessons ──────────────────────────────────────────────────────
+function renderLessons() {
+  const list = $('lessons-list');
+  list.innerHTML = '';
+  const entries = state.lessons?.entries ?? [];
+  entries.forEach((e, i) => list.appendChild(buildLessonCard(e, i)));
+  $('lessons-subtitle').textContent = `${entries.length} entr${entries.length === 1 ? 'y' : 'ies'}`;
+}
+
+function buildLessonCard(entry, idx) {
+  const card = document.createElement('div');
+  card.className = 'entry-card' + (entry.placeholder ? ' is-placeholder' : '');
+
+  const label = entry.summary || 'Untitled lesson';
+  const isEmpty = !entry.summary;
+
+  card.innerHTML = `
+    <div class="entry-head" onclick="toggleEntry(this)">
+      <span class="entry-title${isEmpty ? ' empty' : ''}">${isEmpty ? 'Untitled lesson' : esc(label)}</span>
+      ${entry.placeholder ? '<span class="placeholder-badge">draft</span>' : ''}
+      <div class="card-controls" onclick="event.stopPropagation()">
+        ${idx > 0 ? `<button class="btn-icon" title="Move up" onclick="moveLessonEntry(${idx},-1)">↑</button>` : ''}
+        ${idx < (state.lessons.entries.length-1) ? `<button class="btn-icon" title="Move down" onclick="moveLessonEntry(${idx},1)">↓</button>` : ''}
+        <button class="btn-remove" onclick="removeLesson(${idx})">Remove</button>
+      </div>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="entry-body" hidden>
+      <div class="field">
+        <label>Title <small>(the clickable line)</small></label>
+        <input type="text" value="${esc(entry.summary ?? '')}"
+          placeholder="e.g., Day One or One Day"
+          oninput="updateLesson(${idx},'summary',this.value)">
+      </div>
+      <div class="field">
+        <label>Content</label>
+        <p class="field-hint">Blank line = new paragraph. Single line break = line break within a paragraph.</p>
+        <textarea class="tall" placeholder="Write the lesson here…"
+          oninput="updateLesson(${idx},'body',this.value)">${esc(entry.body ?? '')}</textarea>
+      </div>
+      <div class="field">
+        <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer">
+          <input type="checkbox" ${entry.placeholder ? 'checked' : ''}
+            onchange="updateLesson(${idx},'placeholder',this.checked)"
+            style="width:auto;accent-color:var(--accent-strong)">
+          Mark as draft / coming soon
+        </label>
+      </div>
+    </div>`;
+
+  return card;
+}
+
+function addLesson() {
+  if (!state.lessons.entries) state.lessons.entries = [];
+  state.lessons.entries.push({ summary: '', body: '', placeholder: false });
+  markDirty();
+  renderLessons();
+  openLastEntry('lessons-list', () => {
+    $('lessons-list').querySelector('.entry-card:last-child input')?.focus();
+  });
+}
+
+function removeLesson(idx) {
+  const name = state.lessons.entries[idx].summary || 'this lesson';
+  if (!confirm(`Remove "${name}"?`)) return;
+  state.lessons.entries.splice(idx, 1);
+  markDirty(); renderLessons();
+}
+
+function moveLessonEntry(idx, dir) {
+  const e = state.lessons.entries;
+  const ni = idx + dir;
+  if (ni < 0 || ni >= e.length) return;
+  [e[idx], e[ni]] = [e[ni], e[idx]];
+  markDirty(); renderLessons();
+}
+
+function updateLesson(idx, field, val) {
+  state.lessons.entries[idx][field] = val;
+  if (field === 'summary') {
+    const cards = $('lessons-list').querySelectorAll('.entry-card');
+    if (cards[idx]) {
+      const span = cards[idx].querySelector('.entry-title');
+      if (span) { span.textContent = val || 'Untitled lesson'; span.className = 'entry-title' + (val ? '' : ' empty'); }
+    }
+  }
+  if (field === 'placeholder') {
+    renderLessons();
+  }
+  markDirty();
+}
+
+// ── Notes ────────────────────────────────────────────────────────
+function renderNotes() {
+  const list = $('notes-list');
+  list.innerHTML = '';
+  const entries = state.notes?.entries ?? [];
+  entries.forEach((n, i) => list.appendChild(buildNoteCard(n, i)));
+  $('notes-subtitle').textContent = `${entries.length} note${entries.length === 1 ? '' : 's'}`;
+}
+
+function buildNoteCard(note, idx) {
+  const card = document.createElement('div');
+  card.className = 'entry-card';
+
+  const label = note.title || 'Untitled note';
+  const isEmpty = !note.title;
+
+  card.innerHTML = `
+    <div class="entry-head" onclick="toggleEntry(this)">
+      <span class="entry-title${isEmpty ? ' empty' : ''}">${isEmpty ? 'Untitled note' : esc(label)}</span>
+      <div class="card-controls" onclick="event.stopPropagation()">
+        ${idx > 0 ? `<button class="btn-icon" title="Move up" onclick="moveNote(${idx},-1)">↑</button>` : ''}
+        ${idx < (state.notes.entries.length-1) ? `<button class="btn-icon" title="Move down" onclick="moveNote(${idx},1)">↓</button>` : ''}
+        <button class="btn-remove" onclick="removeNote(${idx})">Remove</button>
+      </div>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="entry-body" hidden>
+      <div class="field">
+        <label>Title</label>
+        <input type="text" value="${esc(note.title ?? '')}"
+          placeholder="e.g., The Third Person"
+          oninput="updateNote(${idx},'title',this.value)">
+      </div>
+      <div class="field">
+        <label>Body</label>
+        <textarea class="tall" placeholder="Write the observation here…"
+          oninput="updateNote(${idx},'body',this.value)">${esc(note.body ?? '')}</textarea>
+      </div>
+    </div>`;
+
+  return card;
+}
+
+function addNote() {
+  if (!state.notes.entries) state.notes.entries = [];
+  state.notes.entries.push({ title: '', body: '' });
+  markDirty(); renderNotes();
+  openLastEntry('notes-list', () => {
+    $('notes-list').querySelector('.entry-card:last-child input')?.focus();
+  });
+}
+
+function removeNote(idx) {
+  const name = state.notes.entries[idx].title || 'this note';
+  if (!confirm(`Remove "${name}"?`)) return;
+  state.notes.entries.splice(idx, 1);
+  markDirty(); renderNotes();
+}
+
+function moveNote(idx, dir) {
+  const e = state.notes.entries;
+  const ni = idx + dir;
+  if (ni < 0 || ni >= e.length) return;
+  [e[idx], e[ni]] = [e[ni], e[idx]];
+  markDirty(); renderNotes();
+}
+
+function updateNote(idx, field, val) {
+  state.notes.entries[idx][field] = val;
+  if (field === 'title') {
+    const cards = $('notes-list').querySelectorAll('.entry-card');
+    if (cards[idx]) {
+      const span = cards[idx].querySelector('.entry-title');
+      if (span) { span.textContent = val || 'Untitled note'; span.className = 'entry-title' + (val ? '' : ' empty'); }
+    }
+  }
+  markDirty();
+}
+
+// ── Videos ────────────────────────────────────────────────────────
+function renderVideos() {
+  const list = $('videos-list');
+  list.innerHTML = '';
+  const items = state.videos?.items ?? [];
+  items.forEach((v, i) => list.appendChild(buildVideoCard(v, i)));
+  $('videos-subtitle').textContent = `${items.length} video${items.length === 1 ? '' : 's'}`;
+}
+
+function buildVideoCard(video, idx) {
+  const card = document.createElement('div');
+  card.className = 'entry-card';
+
+  const label = video.title || 'Untitled video';
+  const isEmpty = !video.title;
+
+  card.innerHTML = `
+    <div class="entry-head" onclick="toggleEntry(this)">
+      <span class="entry-title${isEmpty ? ' empty' : ''}">${isEmpty ? 'Untitled video' : esc(label)}</span>
+      <div class="card-controls" onclick="event.stopPropagation()">
+        ${idx > 0 ? `<button class="btn-icon" title="Move up" onclick="moveVideo(${idx},-1)">↑</button>` : ''}
+        ${idx < (state.videos.items.length-1) ? `<button class="btn-icon" title="Move down" onclick="moveVideo(${idx},1)">↓</button>` : ''}
+        <button class="btn-remove" onclick="removeVideo(${idx})">Remove</button>
+      </div>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="entry-body" hidden>
+      <div class="field">
+        <label>YouTube Video ID</label>
+        <p class="field-hint">The part after ?v= in the YouTube URL. e.g., <code style="color:var(--accent)">dQw4w9WgXcQ</code></p>
+        <div class="video-id-row">
+          <input type="text" value="${esc(video.id ?? '')}"
+            placeholder="YouTube video ID"
+            oninput="updateVideo(${idx},'id',this.value)">
+          <input type="number" class="start-input" value="${video.start ?? 0}" min="0"
+            placeholder="0" title="Start time in seconds"
+            oninput="updateVideo(${idx},'start',parseInt(this.value)||0)">
+        </div>
+        <p class="field-hint" style="margin-top:0.4rem">Start time in seconds (0 = beginning). e.g., 96 = 1:36</p>
+      </div>
+      <div class="field">
+        <label>Display Title</label>
+        <input type="text" value="${esc(video.title ?? '')}"
+          placeholder="e.g., The Death Crawl — Facing the Giants"
+          oninput="updateVideo(${idx},'title',this.value)">
+      </div>
+      <div class="field">
+        <label>Your Note <small>(optional — why this one matters)</small></label>
+        <textarea placeholder="Leave blank to show no note…"
+          oninput="updateVideo(${idx},'note',this.value)">${esc(video.note ?? '')}</textarea>
+      </div>
+    </div>`;
+
+  return card;
+}
+
+function addVideo() {
+  if (!state.videos.items) state.videos.items = [];
+  state.videos.items.push({ id: '', title: '', start: 0, note: '' });
+  markDirty(); renderVideos();
+  openLastEntry('videos-list', () => {
+    $('videos-list').querySelector('.entry-card:last-child input')?.focus();
+  });
+}
+
+function removeVideo(idx) {
+  const name = state.videos.items[idx].title || 'this video';
+  if (!confirm(`Remove "${name}"?`)) return;
+  state.videos.items.splice(idx, 1);
+  markDirty(); renderVideos();
+}
+
+function moveVideo(idx, dir) {
+  const e = state.videos.items;
+  const ni = idx + dir;
+  if (ni < 0 || ni >= e.length) return;
+  [e[idx], e[ni]] = [e[ni], e[idx]];
+  markDirty(); renderVideos();
+}
+
+function updateVideo(idx, field, val) {
+  state.videos.items[idx][field] = val;
+  if (field === 'title') {
+    const cards = $('videos-list').querySelectorAll('.entry-card');
+    if (cards[idx]) {
+      const span = cards[idx].querySelector('.entry-title');
+      if (span) { span.textContent = val || 'Untitled video'; span.className = 'entry-title' + (val ? '' : ' empty'); }
+    }
+  }
+  markDirty();
+}
+
+// ── Toggle helpers ───────────────────────────────────────────────
+function toggleCard(head) {
+  const body = head.nextElementSibling;
+  const ch = head.querySelector('.chevron');
+  if (!body) return;
+  if (body.hasAttribute('hidden')) { body.removeAttribute('hidden'); if(ch) ch.style.transform='rotate(180deg)'; }
+  else { body.setAttribute('hidden',''); if(ch) ch.style.transform=''; }
+}
+
+function toggleEntry(head) {
+  const body = head.nextElementSibling;
+  const ch = head.querySelector('.chevron');
+  if (!body) return;
+  if (body.hasAttribute('hidden')) { body.removeAttribute('hidden'); if(ch) ch.style.transform='rotate(180deg)'; }
+  else { body.setAttribute('hidden',''); if(ch) ch.style.transform=''; }
+}
+
+function openLastEntry(listId, cb) {
+  setTimeout(() => {
+    const list = $(listId);
+    const last = list?.querySelector('.entry-card:last-child');
+    if (!last) return;
+    last.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    const body = last.querySelector('.entry-body');
+    const ch = last.querySelector('.entry-head .chevron');
+    if (body?.hasAttribute('hidden')) {
+      body.removeAttribute('hidden');
+      if (ch) ch.style.transform = 'rotate(180deg)';
+    }
+    cb?.();
+  }, 60);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+{
+  "meta": {
+    "title": "For Cooper — Michael Schmidt — SchmidtWorx",
+    "description": "Things Mike Schmidt figured out and wants to pass forward. For Cooper, and anyone else who finds it useful.",
+    "url": "https://schmidtworx.com/Reflections/michael-schmidt-forward.html"
+  },
+  "hero": {
+    "eyebrow": "Michael Schmidt · 1981–",
+    "title": "For Cooper",
+    "tagline": "What I'd want you to know. And anyone else who finds it useful."
+  },
+  "context": {
+    "kicker": "Context",
+    "heading": "Things figured out. Worth passing on.",
+    "body": "These aren't rules. They're patterns I noticed — usually after getting them wrong first. Some I learned young. Some took longer than I'd like to admit.\n\nThe door is open."
+  },
+  "lessons": {
+    "kicker": "Lessons",
+    "heading": "What I Know",
+    "intro": "One at a time.",
+    "entries": [
+      {
+        "summary": "Day One or One Day",
+        "body": "There are two ways to think about the thing you want to do.\n\nOne Day — someday, when the time is right, when I'm ready, when the circumstances line up.\n\nDay One — I've decided. It starts now, imperfect and incomplete.\n\nOne Day is a feeling.\nDay One is a decision.\nThe first one waits. The second one moves.\n\nYou get to choose which one you're in.\nMost people don't realize that's the choice."
+      },
+      {
+        "summary": "Don't Get Stuck in the Means",
+        "body": "You don't need a $2,000 camera to be a photographer.\nYou need a camera.\n\nThe art is the point — the gear is just the path to it.\n\nI've caught myself waiting for the right setup, the right software, the right moment to have everything in place.\nWhat I was really doing was avoiding the work by staying busy with the preparation for it.\n\nThe means matter less than you think.\nThe thing you're trying to make matters more.\n\nStart with what you have.\nUpgrade when it's actually holding you back — not before."
+      },
+      {
+        "summary": "The King Is Still a Pawn",
+        "body": "",
+        "placeholder": true
+      },
+      {
+        "summary": "The Dash",
+        "body": "",
+        "placeholder": true
+      },
+      {
+        "summary": "Two Kinds of People",
+        "body": "There are two kinds of people in this world:\nthose who say they can, and those who say they can't.\n\nThey're both usually right.\n\nWhat you tell yourself about what's possible tends to become true — not because the universe is listening, but because belief shapes what you attempt, and what you attempt shapes what you become.\n\nBe careful which camp you wander into.\nIt has a way of feeling permanent once you're there."
+      }
+    ]
+  },
+  "notes": {
+    "kicker": "Notes",
+    "heading": "What I See",
+    "intro": "Not lessons. Just what I notice.",
+    "entries": [
+      {
+        "title": "The Third Person",
+        "body": "For a while, you referred to yourself in the third person. Cooper is happy. Cooper wants to run. I don't know exactly when it stopped. I should have written more of it down while it was happening. This is me doing that now, late."
+      },
+      {
+        "title": "What I See When I Look at You",
+        "body": "When I look at you, I see everything I can no longer see in myself. My trajectory has mostly announced itself — I know roughly the shape of what I am, what I'm good at, where my edges are. Yours hasn't. You could love anything. You could be extraordinary at something that doesn't exist yet. The number of doors still open for you is one of the most beautiful things I have ever been close to. I watch you and I feel it constantly."
+      },
+      {
+        "title": "Watching You Play",
+        "body": "I did not expect it to feel the way it did. Watching you compete — the effort, the focus, the way you just play — something in me goes quiet. Just proud. I didn't know it would hit me that hard. I'm still a little surprised by it every time."
+      },
+      {
+        "title": "The Worry I Carry",
+        "body": "I think about whether I'm doing this right. Whether I'm too easy on you, too much your friend, whether I joke around when I should be serious. The goal has always been to prepare you for the road — not to prepare the road for you. I believe that. I also don't know if I've threaded the needle. I hope so."
+      },
+      {
+        "title": "What I Can't Wait to Teach You",
+        "body": "There's a difference between teaching someone what to think and teaching someone how to think. Most education confuses the two. I want to teach you the second one — how to examine an argument, how to hold a position and still question it, how to tell the difference between a belief and a feeling. The day you make a genuinely good argument against something I've told you will be one of the best days I can imagine."
+      }
+    ]
+  },
+  "videos": {
+    "kicker": "Worth Your Time",
+    "heading": "Watch These",
+    "intro": "Some things are said better by others. These are the clips I kept coming back to — the ones that put words to something I already knew but couldn't quite say.",
+    "items": [
+      { "id": "23k0RoeriBQ", "title": "The Death Crawl — Facing the Giants", "start": 0, "note": "" },
+      { "id": "nbW3avTBK1g", "title": "No Fear", "start": 0, "note": "" },
+      { "id": "6E8cDw4EHMA", "title": "How Winning Is Done — Rocky Balboa", "start": 0, "note": "" },
+      { "id": "zBMgvcN-1mc", "title": "Because Mickey Loves Ya — Rocky V", "start": 0, "note": "" },
+      { "id": "-gYpCIbZjUQ", "title": "You Should Be a Monster — Jordan Peterson", "start": 96, "note": "" },
+      { "id": "EjK5BUDZtOs", "title": "The FBI Director's Lesson — The Kingdom", "start": 0, "note": "" }
+    ]
+  },
+  "footer": ""
+}
