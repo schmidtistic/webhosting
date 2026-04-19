@@ -12,7 +12,7 @@
   "context": {
     "kicker": "Context",
     "heading": "Things figured out. Worth passing on.",
-    "body": "These aren't rules. They're patterns I've observed and noticed usually after getting them wrong first. Some I learned young. Some took longer than I'd like to admit."
+    "body": "These aren't rules. They're patterns I've observed usually after getting them wrong first. Some I learned young. Some took longer.  Hopefully they provide you with a head start."
   },
   "lessons": {
     "kicker": "Lessons",
@@ -22,6 +22,11 @@
       {
         "summary": "Day One or One Day",
         "body": "There are two ways to think about the thing you want to do:\n\nOne Day — someday, when the time is right, when I'm ready, when the circumstances line up.\nDay One — I've decided. It starts now, imperfect and incomplete.\n\nOne Day is a feeling.\nDay One is a decision.\nThe first one waits. The second one moves.\n\nYou get to choose which one you're in.\nMost people don't realize that's the choice.\n\nConditions are never ideal.\nClarity comes after action, not before\nIdentity is built by starting, not waiting\nMomentum beats intention"
+      },
+      {
+        "summary": "The Dash",
+        "body": "",
+        "placeholder": true
       },
       {
         "summary": "Two Kinds of People",
@@ -37,7 +42,7 @@
         "placeholder": true
       },
       {
-        "summary": "The Dash",
+        "summary": "Critical Thinking",
         "body": "",
         "placeholder": true
       }
@@ -108,6 +113,12 @@
       {
         "id": "EjK5BUDZtOs",
         "title": "The FBI Director's Lesson — The Kingdom",
+        "start": 0,
+        "note": ""
+      },
+      {
+        "id": "",
+        "title": "",
         "start": 0,
         "note": ""
       }
