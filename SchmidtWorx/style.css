@@ -602,6 +602,17 @@ footer {
 
 .archive-card[class*="tone-"] {
     --tone: var(--accent);
+    position: relative;
+    overflow: hidden;
+}
+
+.archive-card[class*="tone-"]::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 3px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0), var(--tone) 20%, rgba(255, 255, 255, 0));
+    opacity: 0.9;
 }
 
 .archive-card[class*="tone-"] .archive-meta {
