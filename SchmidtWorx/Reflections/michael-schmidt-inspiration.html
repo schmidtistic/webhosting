@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Inspiration — Michael Schmidt &mdash; SchmidtWorx</title>
-  <meta name="description" content="Words, ideas, and passages that moved Michael Schmidt. A desk calendar. Selected pages. Things worth keeping." />
+  <meta name="description" content="Words, ideas, and passages that moved Michael Schmidt. Things worth keeping." />
 
   <!-- Open Graph -->
   <meta property="og:title" content="Inspiration — Michael Schmidt" />
@@ -88,14 +88,6 @@
       align-items: flex-start;
       justify-content: space-between;
       gap: 1rem;
-    }
-
-    .featured-label {
-      margin: 0 0 0.4rem;
-      font-size: 0.76rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--quote-tone);
     }
 
     .featured-meta {
@@ -459,7 +451,7 @@
     <section class="hero">
       <p class="eyebrow">Michael Schmidt &middot; 1981&ndash;</p>
       <h1>Inspiration</h1>
-      <p class="tagline">A desk calendar. Selected pages. Things worth keeping.</p>
+      <p class="tagline">Things worth keeping.</p>
       <nav class="view-switcher" aria-label="Switch perspective">
         <a class="view-tab" href="michael-schmidt.html">Reflections</a>
         <a class="view-tab" href="michael-schmidt-forward.html">For Cooper</a>
@@ -480,7 +472,6 @@
       <article class="featured-quote" id="featured-quote">
         <div class="featured-head">
           <div>
-            <p class="featured-label">Desk Pull</p>
             <div class="featured-meta">
               <span class="featured-theme" id="featured-theme"></span>
               <span class="featured-position" id="featured-position"></span>
@@ -586,6 +577,13 @@
       return categoryMeta[category] ? categoryMeta[category].label : category.replace(/_/g, " ");
     }
 
+    function maybeRevealFeatured() {
+      var rect = featuredRoot.getBoundingClientRect();
+      if (rect.top < 96 || rect.top > window.innerHeight * 0.42) {
+        featuredRoot.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+
     function getVisibleIndices() {
       return quotes.reduce(function (acc, quote, index) {
         if (currentFilter === "ALL" || quote.category === currentFilter) acc.push(index);
@@ -670,6 +668,7 @@
       card.addEventListener("click", function () {
         currentIndex = index;
         setFeatured(index, { animate: true, spotlight: false });
+        maybeRevealFeatured();
       });
 
       return card;

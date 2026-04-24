@@ -576,27 +576,27 @@ footer {
 }
 
 .tone-document {
-    --tone: #dcc296;
+    --tone: #d8b56f;
     background:
-        radial-gradient(circle at 85% 18%, rgba(216, 188, 144, 0.18), transparent 24%),
-        linear-gradient(180deg, rgba(216, 188, 144, 0.08), rgba(255, 255, 255, 0.015));
+        radial-gradient(circle at 85% 18%, rgba(216, 181, 111, 0.18), transparent 24%),
+        linear-gradient(180deg, rgba(216, 181, 111, 0.09), rgba(255, 255, 255, 0.015));
 }
 
 .tone-document .mode-link,
 .tone-document .archive-link {
-    color: #f0dbb3;
+    color: #efd7a1;
 }
 
 .tone-heritage {
-    --tone: #e4d27f;
+    --tone: #e8d791;
     background:
-        radial-gradient(circle at 84% 18%, rgba(228, 210, 127, 0.18), transparent 24%),
-        linear-gradient(180deg, rgba(228, 210, 127, 0.09), rgba(255, 255, 255, 0.015));
+        radial-gradient(circle at 84% 18%, rgba(232, 215, 145, 0.18), transparent 24%),
+        linear-gradient(180deg, rgba(232, 215, 145, 0.09), rgba(255, 255, 255, 0.015));
 }
 
 .tone-heritage .mode-link,
 .tone-heritage .archive-link {
-    color: #f4e8ae;
+    color: #f5eab9;
 }
 
 .archive-group {
