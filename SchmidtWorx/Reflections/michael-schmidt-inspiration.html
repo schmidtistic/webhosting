@@ -24,51 +24,402 @@
   <link rel="stylesheet" href="/style.css" />
 
   <style>
-    /* ── Filter / toolbar ── */
-    .quotes-meta-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; margin: 2rem 0 1.25rem; }
-    .quotes-count { font-size: 0.8rem; color: var(--muted); margin-right: auto; }
-    .filter-btn { background: transparent; border: 1px solid var(--border); color: var(--muted); border-radius: 999px; padding: 0.3rem 0.9rem; font-size: 0.8rem; cursor: pointer; transition: all 0.2s; font-family: inherit; }
-    .filter-btn:hover { border-color: var(--accent); color: var(--accent); }
-    .filter-btn.active { background: var(--accent); border-color: var(--accent); color: #111; font-weight: 600; }
+    .inspiration-page .hero {
+      margin-bottom: 0.2rem;
+    }
 
-    .shuffle-btn { background: transparent; border: 1px solid var(--border); color: var(--muted); border-radius: 999px; padding: 0.3rem 0.9rem; font-size: 0.8rem; cursor: pointer; transition: all 0.2s; font-family: inherit; display: flex; align-items: center; gap: 0.35rem; }
-    .shuffle-btn:hover { border-color: var(--accent-strong); color: var(--accent-strong); }
+    .inspiration-stage {
+      margin-top: 0.2rem;
+    }
 
-    /* ── Grid ── */
-    .quotes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; }
+    .featured-quote {
+      --quote-tone: var(--accent);
+      position: relative;
+      display: grid;
+      gap: 1.25rem;
+      padding: 1.8rem;
+      border: 1px solid var(--border);
+      border-radius: calc(var(--radius) + 4px);
+      background:
+        linear-gradient(145deg, rgba(255,255,255,0.045), rgba(255,255,255,0.015) 42%, rgba(0,0,0,0.08)),
+        rgba(17, 19, 23, 0.84);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      scroll-margin-top: 6rem;
+    }
 
-    /* ── Card ── */
-    .quote-card { background: var(--bg-soft); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem 1.4rem; transition: border-color 0.2s, box-shadow 0.2s; position: relative; }
-    .quote-card.has-note { cursor: pointer; }
-    .quote-card.has-note:hover { border-color: var(--border-strong); box-shadow: 0 4px 24px rgba(0,0,0,0.3); }
-    .quote-card.open { border-color: var(--accent); }
+    .featured-quote::before {
+      content: "";
+      position: absolute;
+      inset: auto -8% -28% 22%;
+      height: 68%;
+      border-radius: 50%;
+      background: radial-gradient(circle, color-mix(in srgb, var(--quote-tone) 22%, transparent), transparent 70%);
+      pointer-events: none;
+      opacity: 0.95;
+    }
 
-    /* Shuffle spotlight animation */
-    @keyframes spotlight { 0% { box-shadow: 0 0 0 0 rgba(231,184,121,0); border-color: var(--border); } 30% { box-shadow: 0 0 0 6px rgba(231,184,121,0.18); border-color: var(--accent-strong); } 100% { box-shadow: 0 0 0 0 rgba(231,184,121,0); border-color: var(--border); } }
-    .quote-card.spotlit { animation: spotlight 1.6s ease forwards; }
+    .featured-quote::after {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 3px;
+      background: linear-gradient(90deg, rgba(255,255,255,0), var(--quote-tone) 16%, rgba(255,255,255,0));
+      opacity: 0.9;
+    }
 
-    .quote-text { font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif; font-size: 1.05rem; font-style: italic; line-height: 1.65; color: var(--fg); margin: 0 0 0.75rem; }
+    .featured-quote > * {
+      position: relative;
+      z-index: 1;
+    }
 
-    .quote-author { font-size: 0.78rem; color: var(--accent); letter-spacing: 0.06em; text-transform: uppercase; margin: 0 0 0.5rem; }
+    .featured-quote.is-refreshing {
+      animation: featured-refresh 0.45s ease;
+    }
 
-    /* Corner pip on note cards */
-    .note-pip { position: absolute; top: 0.85rem; right: 1rem; font-size: 0.6rem; color: var(--accent); opacity: 0.5; transition: opacity 0.2s; cursor: default; }
-    .quote-card.has-note:hover .note-pip,
-    .quote-card.open .note-pip { opacity: 1; }
+    @keyframes featured-refresh {
+      0% { transform: translateY(10px); opacity: 0.84; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
 
-    /* Pip tooltip */
-    .note-pip::after { content: "Why this speaks to me"; position: absolute; top: 50%; right: calc(100% + 0.6rem); transform: translateY(-50%); background: var(--bg-elevated); border: 1px solid var(--border-strong); color: var(--muted); font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif; font-style: normal; font-size: 0.7rem; letter-spacing: 0.04em; text-transform: none; white-space: nowrap; padding: 0.25rem 0.65rem; border-radius: 6px; opacity: 0; pointer-events: none; transition: opacity 0.18s; }
-    .note-pip:hover::after { opacity: 1; }
+    .featured-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+    }
 
-    .quote-note { margin-top: 0.75rem; padding-top: 0.85rem; border-top: 1px solid var(--border); display: none; }
-    .quote-card.open .quote-note { display: block; }
-    .quote-note-text { font-size: 0.9rem; color: var(--muted); line-height: 1.65; margin: 0; }
+    .featured-label {
+      margin: 0 0 0.4rem;
+      font-size: 0.76rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--quote-tone);
+    }
 
-    /* ── Hint ── */
-    .quotes-hint { font-size: 0.78rem; color: var(--muted); margin: 1.5rem 0 0; text-align: center; opacity: 0.7; display: none; }
+    .featured-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.55rem;
+    }
+
+    .featured-theme {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.35rem 0.72rem;
+      border-radius: 999px;
+      border: 1px solid color-mix(in srgb, var(--quote-tone) 70%, transparent);
+      color: var(--quote-tone);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: color-mix(in srgb, var(--quote-tone) 10%, transparent);
+    }
+
+    .featured-position {
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    .shuffle-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.55rem 0.95rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      font: inherit;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+    }
+
+    .shuffle-btn:hover,
+    .shuffle-btn:focus-visible {
+      transform: translateY(-1px);
+      border-color: color-mix(in srgb, var(--quote-tone) 70%, transparent);
+      color: var(--fg);
+      background: color-mix(in srgb, var(--quote-tone) 10%, transparent);
+    }
+
+    .featured-shell {
+      display: grid;
+      gap: 1.1rem;
+    }
+
+    .featured-main {
+      max-width: 100%;
+    }
+
+    .featured-text {
+      margin: 0;
+      font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
+      font-size: clamp(1.7rem, 3.2vw, 2.8rem);
+      line-height: 1.14;
+      letter-spacing: -0.025em;
+      max-width: 17ch;
+      text-wrap: balance;
+    }
+
+    .featured-author {
+      margin: 1.05rem 0 0;
+      font-size: 0.84rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .featured-note-panel {
+      align-self: end;
+      padding: 1rem 1.05rem;
+      border: 1px solid color-mix(in srgb, var(--quote-tone) 28%, var(--border));
+      border-radius: 18px;
+      background: rgba(0, 0, 0, 0.16);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
+    }
+
+    .featured-note-label {
+      margin: 0 0 0.45rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--quote-tone);
+    }
+
+    .featured-note {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.68;
+      font-size: 0.94rem;
+    }
+
+    .quotes-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.65rem;
+      margin-top: 1.8rem;
+    }
+
+    .quotes-count {
+      margin-right: auto;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    .quotes-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .filter-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      border-radius: 999px;
+      padding: 0.36rem 0.92rem;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+
+    .filter-btn:hover,
+    .filter-btn:focus-visible {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(255,255,255,0.025);
+    }
+
+    .filter-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #111;
+      font-weight: 700;
+    }
+
+    .quote-shelves {
+      display: grid;
+      gap: 1.35rem;
+      margin-top: 1.5rem;
+    }
+
+    .quote-shelf {
+      --quote-tone: var(--accent);
+      display: grid;
+      gap: 0.95rem;
+    }
+
+    .quote-shelf-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 0.65rem;
+    }
+
+    .quote-shelf-title {
+      margin: 0;
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--quote-tone);
+    }
+
+    .quote-shelf-count {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .quote-card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+
+    .quote-card {
+      --quote-tone: var(--accent);
+      position: relative;
+      display: grid;
+      gap: 0.85rem;
+      width: 100%;
+      padding: 1.1rem 1.15rem 1.05rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.018)),
+        rgba(17, 19, 23, 0.75);
+      color: var(--fg);
+      text-align: left;
+      cursor: pointer;
+      overflow: hidden;
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    }
+
+    .quote-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 3px;
+      background: linear-gradient(90deg, rgba(255,255,255,0), var(--quote-tone) 18%, rgba(255,255,255,0));
+      opacity: 0.88;
+    }
+
+    .quote-card:hover,
+    .quote-card:focus-visible {
+      transform: translateY(-3px);
+      border-color: color-mix(in srgb, var(--quote-tone) 72%, transparent);
+      box-shadow: 0 14px 36px rgba(0,0,0,0.28);
+    }
+
+    .quote-card.active {
+      border-color: color-mix(in srgb, var(--quote-tone) 82%, transparent);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.3);
+      background:
+        linear-gradient(180deg, color-mix(in srgb, var(--quote-tone) 12%, rgba(255,255,255,0.04)), rgba(255,255,255,0.02)),
+        rgba(17, 19, 23, 0.82);
+    }
+
+    @keyframes spotlight {
+      0% { box-shadow: 0 0 0 0 rgba(231,184,121,0); }
+      30% { box-shadow: 0 0 0 6px rgba(231,184,121,0.16), 0 16px 40px rgba(0,0,0,0.3); }
+      100% { box-shadow: 0 0 0 0 rgba(231,184,121,0), 0 16px 40px rgba(0,0,0,0.3); }
+    }
+
+    .quote-card.spotlit {
+      animation: spotlight 1.4s ease;
+    }
+
+    .quote-card-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--quote-tone);
+    }
+
+    .quote-card-note {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.22rem 0.5rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.09);
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+
+    .quote-preview {
+      margin: 0;
+      font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+      font-size: 1.02rem;
+      line-height: 1.56;
+      color: rgba(244, 239, 231, 0.94);
+      display: -webkit-box;
+      -webkit-line-clamp: 5;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .quote-card-author {
+      margin: 0;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    .quotes-hint {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin: 1.35rem 0 0;
+      text-align: center;
+      opacity: 0.78;
+    }
+
+    [data-theme="KNOWLEDGE"] {
+      --quote-tone: #dcc296;
+    }
+
+    [data-theme="COURAGE"] {
+      --quote-tone: #d5a08c;
+    }
+
+    [data-theme="CHARACTER"] {
+      --quote-tone: #9fb7a2;
+    }
+
+    [data-theme="WORK"] {
+      --quote-tone: #96b9cb;
+    }
+
+    @media (min-width: 900px) {
+      .featured-quote.has-note .featured-shell {
+        grid-template-columns: minmax(0, 1.65fr) minmax(240px, 0.9fr);
+      }
+    }
+
+    @media (max-width: 719px) {
+      .featured-quote {
+        padding: 1.35rem;
+      }
+
+      .featured-text {
+        max-width: 100%;
+      }
+    }
   </style>
 </head>
-<body>
+<body class="inspiration-page">
   <header>
     <div class="nav-container">
         <a class="site-title" href="/index.html" aria-label="SchmidtWorx home">
