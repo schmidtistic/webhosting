@@ -158,6 +158,13 @@
     .field textarea { min-height: 90px; }
     .field textarea.tall { min-height: 200px; }
     .field-hint { font-size: 0.75rem; color: var(--muted); margin-top: 0.3rem; line-height: 1.4; }
+    .paste-mode-btn {
+      font-size: 0.72rem; padding: 0.22rem 0.55rem; border-radius: 4px;
+      border: 1px dashed var(--accent); background: transparent; color: var(--accent);
+      cursor: pointer; margin-bottom: 0.4rem; transition: background 0.15s, color 0.15s;
+    }
+    .paste-mode-btn:hover { background: rgba(215,195,160,0.12); }
+    .paste-confirmed { font-size: 0.72rem; color: #6dbf7e; margin-left: 0.5rem; }
 
     .section-fields {
       background: var(--input-bg); border: 1px solid var(--border);
@@ -583,7 +590,8 @@ function buildLessonCard(entry, idx) {
       <div class="field">
         <label>Content</label>
         <p class="field-hint">Blank line = new paragraph. Single line break = line break within a paragraph.</p>
-        <textarea class="tall" placeholder="Write the lesson here…"
+        <button class="paste-mode-btn" onclick="normalizePaste(${idx}, this)">⟳ Normalize line breaks</button>
+        <textarea id="lesson-body-${idx}" class="tall" placeholder="Write the lesson here…"
           oninput="updateLesson(${idx},'body',this.value)">${esc(entry.body ?? '')}</textarea>
       </div>
       <div class="field">
@@ -597,6 +605,23 @@ function buildLessonCard(entry, idx) {
     </div>`;
 
   return card;
+}
+
+function normalizePaste(idx, btn) {
+  const ta = document.getElementById(`lesson-body-${idx}`);
+  if (!ta) return;
+  ta.value = ta.value
+    .replace(/\r\n/g, '\n')
+    .replace(/\r/g, '\n')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
+  updateLesson(idx, 'body', ta.value);
+  markDirty();
+  const confirm = document.createElement('span');
+  confirm.className = 'paste-confirmed';
+  confirm.textContent = '✓ Normalized';
+  btn.after(confirm);
+  setTimeout(() => confirm.remove(), 2500);
 }
 
 function addLesson() {
