@@ -126,6 +126,8 @@
     }
 
     .shuffle-btn {
+      appearance: none;
+      -webkit-appearance: none;
       display: inline-flex;
       align-items: center;
       gap: 0.45rem;
@@ -220,6 +222,8 @@
     }
 
     .filter-btn {
+      appearance: none;
+      -webkit-appearance: none;
       background: transparent;
       border: 1px solid var(--border);
       color: var(--muted);
@@ -285,6 +289,9 @@
     }
 
     .quote-card {
+      appearance: none;
+      -webkit-appearance: none;
+      font: inherit;
       --quote-tone: var(--accent);
       position: relative;
       display: grid;
@@ -469,19 +476,41 @@
       </p>
     </section>
 
-    <div class="quotes-meta-bar">
-      <span class="quotes-count"><span id="quotes-count"></span></span>
-      <button class="filter-btn active" data-filter="ALL">All</button>
-      <button class="filter-btn" data-filter="KNOWLEDGE">Knowledge</button>
-      <button class="filter-btn" data-filter="COURAGE">Courage</button>
-      <button class="filter-btn" data-filter="CHARACTER">Character</button>
-      <button class="filter-btn" data-filter="WORK">Work</button>
-      <button class="shuffle-btn" id="shuffle-btn" title="Spotlight a random entry">&#9645; Shuffle</button>
+    <section class="inspiration-stage">
+      <article class="featured-quote" id="featured-quote">
+        <div class="featured-head">
+          <div>
+            <p class="featured-label">Desk Pull</p>
+            <div class="featured-meta">
+              <span class="featured-theme" id="featured-theme"></span>
+              <span class="featured-position" id="featured-position"></span>
+            </div>
+          </div>
+          <button class="shuffle-btn" id="shuffle-btn" type="button" title="Spotlight a random entry">&#9645; Random Draw</button>
+        </div>
+
+        <div class="featured-shell">
+          <div class="featured-main">
+            <blockquote class="featured-text" id="featured-text"></blockquote>
+            <p class="featured-author" id="featured-author"></p>
+          </div>
+
+          <aside class="featured-note-panel" id="featured-note-panel" hidden>
+            <p class="featured-note-label">Margin Note</p>
+            <p class="featured-note" id="featured-note"></p>
+          </aside>
+        </div>
+      </article>
+    </section>
+
+    <div class="quotes-toolbar">
+      <span class="quotes-count" id="quotes-count"></span>
+      <div class="quotes-filters" id="quote-filters"></div>
     </div>
 
-    <div class="quotes-grid" id="quotes-grid"></div>
+    <div class="quote-shelves" id="quote-shelves"></div>
 
-    <p class="quotes-hint">✦ cards have a personal note &mdash; click to reveal</p>
+    <p class="quotes-hint" id="quotes-hint">Select a card to bring it forward. Cards marked Note include a personal annotation.</p>
 
   </main>
 
@@ -524,84 +553,244 @@
       { text: "Nobody loves a warrior until an enemy is at the gate.", author: "Anonymous", category: "COURAGE", note: "" }
     ];
 
-    var categories = {
-      KNOWLEDGE: [0,1,2,3,4,5,30],
-      COURAGE:   [6,7,8,9,10,11,26,27,33],
-      CHARACTER: [12,13,14,15,16,17,28,31,32],
-      WORK:      [18,19,20,21,22,23,24,25]
+    var categoryMeta = {
+      KNOWLEDGE: { label: "Knowledge" },
+      COURAGE: { label: "Courage" },
+      CHARACTER: { label: "Character" },
+      WORK: { label: "Work" }
     };
 
-    var grid = document.getElementById('quotes-grid');
-    var countEl = document.getElementById('quotes-count');
-    if (countEl) countEl.textContent = quotes.length + ' entries';
+    var categoryOrder = [];
+    var currentFilter = "ALL";
+    var currentIndex = quotes.findIndex(function (q) { return q.note && q.note.trim().length > 0; });
+    if (currentIndex < 0) currentIndex = 0;
 
-    // Build cards — full quote visible by default; notes revealed on click
-    quotes.forEach(function (q, i) {
-      var hasNote = q.note && q.note.trim().length > 0;
+    quotes.forEach(function (quote) {
+      if (categoryOrder.indexOf(quote.category) === -1) categoryOrder.push(quote.category);
+    });
 
-      var noteHTML = hasNote
-        ? '<div class="quote-note"><p class="quote-note-text">' + q.note + '</p></div>'
-        : '';
+    var featuredRoot = document.getElementById("featured-quote");
+    var featuredTheme = document.getElementById("featured-theme");
+    var featuredPosition = document.getElementById("featured-position");
+    var featuredText = document.getElementById("featured-text");
+    var featuredAuthor = document.getElementById("featured-author");
+    var featuredNotePanel = document.getElementById("featured-note-panel");
+    var featuredNote = document.getElementById("featured-note");
+    var countEl = document.getElementById("quotes-count");
+    var filtersEl = document.getElementById("quote-filters");
+    var shelvesEl = document.getElementById("quote-shelves");
+    var hintEl = document.getElementById("quotes-hint");
+    var shuffleBtn = document.getElementById("shuffle-btn");
 
-      var card = document.createElement('div');
-      card.className = 'quote-card' + (hasNote ? ' has-note' : '');
-      card.dataset.index = i;
-      card.innerHTML =
-        (hasNote ? '<span class="note-pip">&#10022;</span>' : '')
-        + '<p class="quote-author">' + q.author + '</p>'
-        + '<p class="quote-text">\u201c' + q.text + '\u201d</p>'
-        + noteHTML;
+    function getCategoryLabel(category) {
+      return categoryMeta[category] ? categoryMeta[category].label : category.replace(/_/g, " ");
+    }
 
-      if (hasNote) {
-        card.addEventListener('click', function () {
-          card.classList.toggle('open');
+    function getVisibleIndices() {
+      return quotes.reduce(function (acc, quote, index) {
+        if (currentFilter === "ALL" || quote.category === currentFilter) acc.push(index);
+        return acc;
+      }, []);
+    }
+
+    function ensureCurrentVisible() {
+      var visible = getVisibleIndices();
+      if (!visible.length) return [];
+      if (visible.indexOf(currentIndex) === -1) currentIndex = visible[0];
+      return visible;
+    }
+
+    function updateCounts(visible) {
+      if (!countEl) return;
+      if (currentFilter === "ALL") {
+        countEl.textContent = visible.length + (visible.length === 1 ? " entry" : " entries");
+      } else {
+        countEl.textContent = visible.length + (visible.length === 1 ? " entry" : " entries") + " in " + getCategoryLabel(currentFilter);
+      }
+    }
+
+    function renderFilters() {
+      filtersEl.innerHTML = "";
+
+      function buildButton(label, filter) {
+        var button = document.createElement("button");
+        button.type = "button";
+        button.className = "filter-btn" + (currentFilter === filter ? " active" : "");
+        button.dataset.filter = filter;
+        button.textContent = label;
+        button.addEventListener("click", function () {
+          currentFilter = filter;
+          renderAll();
         });
+        return button;
       }
 
-      grid.appendChild(card);
-    });
+      filtersEl.appendChild(buildButton("All", "ALL"));
+      categoryOrder.forEach(function (category) {
+        filtersEl.appendChild(buildButton(getCategoryLabel(category), category));
+      });
+    }
 
-    // Filter
-    var cards = Array.from(grid.querySelectorAll('.quote-card'));
-    document.querySelectorAll('.filter-btn').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        document.querySelectorAll('.filter-btn').forEach(function (b) { b.classList.remove('active'); });
-        btn.classList.add('active');
-        var filter = btn.dataset.filter;
-        var allowed = filter === 'ALL' ? null : categories[filter];
-        var visible = 0;
-        cards.forEach(function (card, i) {
-          var show = !allowed || allowed.indexOf(i) !== -1;
-          card.style.display = show ? '' : 'none';
-          card.classList.remove('open');
-          if (show) visible++;
+    function createCard(index) {
+      var quote = quotes[index];
+      var card = document.createElement("button");
+      var hasNote = quote.note && quote.note.trim().length > 0;
+
+      card.type = "button";
+      card.className = "quote-card";
+      card.dataset.index = index;
+      card.dataset.theme = quote.category;
+
+      var meta = document.createElement("div");
+      meta.className = "quote-card-meta";
+
+      var theme = document.createElement("span");
+      theme.textContent = getCategoryLabel(quote.category);
+      meta.appendChild(theme);
+
+      if (hasNote) {
+        var noteTag = document.createElement("span");
+        noteTag.className = "quote-card-note";
+        noteTag.textContent = "Note";
+        meta.appendChild(noteTag);
+      }
+
+      var preview = document.createElement("p");
+      preview.className = "quote-preview";
+      preview.textContent = "\"" + quote.text + "\"";
+
+      var author = document.createElement("p");
+      author.className = "quote-card-author";
+      author.textContent = quote.author;
+
+      card.appendChild(meta);
+      card.appendChild(preview);
+      card.appendChild(author);
+
+      card.addEventListener("click", function () {
+        currentIndex = index;
+        setFeatured(index, { animate: true, spotlight: false });
+      });
+
+      return card;
+    }
+
+    function renderShelves() {
+      var visible = ensureCurrentVisible();
+      shelvesEl.innerHTML = "";
+
+      categoryOrder.forEach(function (category) {
+        var items = visible.filter(function (index) {
+          return quotes[index].category === category;
         });
-        if (countEl) countEl.textContent = visible + (visible === 1 ? ' entry' : ' entries');
-      });
-    });
 
-    // Show hint only if at least one card has a note
-    var hintEl = document.querySelector('.quotes-hint');
-    if (hintEl && quotes.some(function (q) { return q.note && q.note.trim().length > 0; })) {
-      hintEl.style.display = '';
+        if (!items.length) return;
+
+        var shelf = document.createElement("section");
+        shelf.className = "quote-shelf";
+        shelf.dataset.theme = category;
+
+        var head = document.createElement("div");
+        head.className = "quote-shelf-head";
+
+        var title = document.createElement("p");
+        title.className = "quote-shelf-title";
+        title.textContent = getCategoryLabel(category);
+
+        var count = document.createElement("p");
+        count.className = "quote-shelf-count";
+        count.textContent = items.length + (items.length === 1 ? " entry" : " entries");
+
+        head.appendChild(title);
+        head.appendChild(count);
+
+        var grid = document.createElement("div");
+        grid.className = "quote-card-grid";
+
+        items.forEach(function (index) {
+          grid.appendChild(createCard(index));
+        });
+
+        shelf.appendChild(head);
+        shelf.appendChild(grid);
+        shelvesEl.appendChild(shelf);
+      });
+
+      if (hintEl) {
+        var hasVisibleNote = visible.some(function (index) {
+          return quotes[index].note && quotes[index].note.trim().length > 0;
+        });
+        hintEl.style.display = hasVisibleNote ? "" : "none";
+      }
     }
 
-    // Shuffle — spotlight a random visible card
-    var shuffleBtn = document.getElementById('shuffle-btn');
+    function updateActiveCards() {
+      Array.from(document.querySelectorAll(".quote-card")).forEach(function (card) {
+        var active = Number(card.dataset.index) === currentIndex;
+        card.classList.toggle("active", active);
+        card.setAttribute("aria-pressed", active ? "true" : "false");
+      });
+    }
+
+    function spotlightActiveCard() {
+      var activeCard = document.querySelector('.quote-card[data-index="' + currentIndex + '"]');
+      if (!activeCard) return;
+      activeCard.classList.remove("spotlit");
+      void activeCard.offsetWidth;
+      activeCard.classList.add("spotlit");
+      activeCard.addEventListener("animationend", function () {
+        activeCard.classList.remove("spotlit");
+      }, { once: true });
+    }
+
+    function setFeatured(index, options) {
+      options = options || {};
+      var visible = ensureCurrentVisible();
+      var quote = quotes[index];
+      var visiblePosition = visible.indexOf(index);
+      var hasNote = quote.note && quote.note.trim().length > 0;
+
+      featuredRoot.dataset.theme = quote.category;
+      featuredTheme.textContent = getCategoryLabel(quote.category);
+      featuredPosition.textContent = (visiblePosition + 1) + " of " + visible.length;
+      featuredText.textContent = "\u201c" + quote.text + "\u201d";
+      featuredAuthor.textContent = quote.author;
+
+      featuredRoot.classList.toggle("has-note", hasNote);
+      featuredNotePanel.hidden = !hasNote;
+      featuredNote.textContent = hasNote ? quote.note : "";
+
+      if (options.animate !== false) {
+        featuredRoot.classList.remove("is-refreshing");
+        void featuredRoot.offsetWidth;
+        featuredRoot.classList.add("is-refreshing");
+      }
+
+      updateActiveCards();
+      if (options.spotlight) spotlightActiveCard();
+    }
+
+    function renderAll() {
+      var visible = ensureCurrentVisible();
+      renderFilters();
+      renderShelves();
+      updateCounts(visible);
+      setFeatured(currentIndex, { animate: false, spotlight: false });
+    }
+
     if (shuffleBtn) {
-      shuffleBtn.addEventListener('click', function () {
-        var visible = cards.filter(function (c) { return c.style.display !== 'none'; });
+      shuffleBtn.addEventListener("click", function () {
+        var visible = ensureCurrentVisible();
         if (!visible.length) return;
-        var pick = visible[Math.floor(Math.random() * visible.length)];
-        // Remove any existing spotlight
-        cards.forEach(function (c) { c.classList.remove('spotlit'); });
-        // Force reflow so animation restarts if same card is picked twice
-        void pick.offsetWidth;
-        pick.classList.add('spotlit');
-        pick.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        pick.addEventListener('animationend', function () { pick.classList.remove('spotlit'); }, { once: true });
+        var candidates = visible.filter(function (index) { return index !== currentIndex; });
+        var pool = candidates.length ? candidates : visible;
+        currentIndex = pool[Math.floor(Math.random() * pool.length)];
+        setFeatured(currentIndex, { animate: true, spotlight: true });
+        featuredRoot.scrollIntoView({ behavior: "smooth", block: "nearest" });
       });
     }
+
+    renderAll();
   })();
   </script>
 </body>

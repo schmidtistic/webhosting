@@ -587,6 +587,18 @@ footer {
     color: #f0dbb3;
 }
 
+.tone-heritage {
+    --tone: #e4d27f;
+    background:
+        radial-gradient(circle at 84% 18%, rgba(228, 210, 127, 0.18), transparent 24%),
+        linear-gradient(180deg, rgba(228, 210, 127, 0.09), rgba(255, 255, 255, 0.015));
+}
+
+.tone-heritage .mode-link,
+.tone-heritage .archive-link {
+    color: #f4e8ae;
+}
+
 .archive-group {
     display: grid;
     gap: 1rem;
