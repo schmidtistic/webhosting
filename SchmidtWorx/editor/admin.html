@@ -610,18 +610,19 @@ function buildLessonCard(entry, idx) {
 function normalizePaste(idx, btn) {
   const ta = document.getElementById(`lesson-body-${idx}`);
   if (!ta) return;
+  const before = ta.value;
   ta.value = ta.value
     .replace(/\r\n/g, '\n')
     .replace(/\r/g, '\n')
     .replace(/\n{3,}/g, '\n\n')
+    .replace(/(?<!\n)\n(?!\n)/g, '\n\n')
     .trim();
   updateLesson(idx, 'body', ta.value);
-  markDirty();
-  const confirm = document.createElement('span');
-  confirm.className = 'paste-confirmed';
-  confirm.textContent = '✓ Normalized';
-  btn.after(confirm);
-  setTimeout(() => confirm.remove(), 2500);
+  const confirmSpan = document.createElement('span');
+  confirmSpan.className = 'paste-confirmed';
+  confirmSpan.textContent = ta.value !== before ? '✓ Normalized' : '✓ Already clean';
+  btn.after(confirmSpan);
+  setTimeout(() => confirmSpan.remove(), 2500);
 }
 
 function addLesson() {
