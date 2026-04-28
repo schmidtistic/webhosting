@@ -302,6 +302,26 @@
     border-style:dashed;
     background:transparent;
   }
+  /* Minor card — secondary in the column hierarchy.
+     Same width, lower visual weight: tighter padding, smaller heading,
+     no description paragraph, dimmer cat label. */
+  .card.minor{
+    padding:18px 22px;
+    background:rgba(236,230,216,0.025);
+  }
+  .card.minor .cat{
+    color:var(--ink-faint);
+    margin:0 0 4px;
+  }
+  .card.minor h3{
+    font-size:18px;
+    margin:0 0 6px;
+    font-weight:400;
+  }
+  .card.minor .row{
+    margin-top:10px;
+    padding-top:10px;
+  }
 
   /* "future" era — desaturated */
   .era.future .marker{
@@ -427,10 +447,21 @@
     <div class="year">1981</div>
     <h2 class="header">Michael</h2>
     <p class="lifespan">b. 1981 · The author of this archive</p>
-    <a class="card" href="/Reflections/michael-schmidt.html">
-      <p class="cat">Reflection · Living</p>
-      <h3>Personal reflections, across stages of life</h3>
-      <p>Written and re-written. Each entry preserved as it was understood at the time.</p>
+    <a class="card" href="/Reflections/michael-schmidt-forward.html">
+      <p class="cat">Reflection · For Cooper</p>
+      <h3>For Cooper</h3>
+      <p>What I'd want you to know. And anyone else who finds it useful.</p>
+      <div class="row"><span>Notes, lessons, things figured out</span><span>Read →</span></div>
+    </a>
+    <a class="card" href="/Reflections/michael-schmidt-inspiration.html">
+      <p class="cat">Curation · Words kept</p>
+      <h3>Inspiration</h3>
+      <p>Things worth keeping.</p>
+      <div class="row"><span>Quotes, lines, words that landed</span><span>Read →</span></div>
+    </a>
+    <a class="card minor" href="/Reflections/michael-schmidt.html">
+      <p class="cat">Reflection · Notes</p>
+      <h3>Reflections</h3>
       <div class="row"><span>~3,000 lines · 12 sections · Drop-caps and footnotes</span><span>Read →</span></div>
     </a>
     <a class="card dual" href="/LettersAndRecordings/michael-schmidt.html">
