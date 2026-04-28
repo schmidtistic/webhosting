@@ -1,110 +1,483 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SchmidtWorx</title>
-  <meta name="description"
-    content="A family workspace for memory, voice, and what should outlast us. Built slowly. Meant to last." />
-  <meta property="og:title" content="SchmidtWorx" />
-  <meta property="og:description"
-    content="A family workspace for memory, voice, and what should outlast us. Built slowly. Meant to last." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://schmidtworx.com/" />
-  <meta property="og:image" content="https://schmidtworx.com/og-image.png" />
-  <meta property="og:site_name" content="SchmidtWorx" />
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="SchmidtWorx" />
-  <meta name="twitter:description"
-    content="A family workspace for memory, voice, and what should outlast us. Built slowly. Meant to last." />
-  <meta name="twitter:image" content="https://schmidtworx.com/og-image.png" />
-  <link rel="stylesheet" href="/style.css" />
+<meta charset="UTF-8" />
+<title>SchmidtWorx — The Generational Spine</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="A family workspace for memory, voice, and what should outlast us. Built slowly. Meant to last." />
+<meta property="og:title" content="SchmidtWorx" />
+<meta property="og:description" content="A family workspace for memory, voice, and what should outlast us. Built slowly. Meant to last." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://schmidtworx.com/" />
+<meta property="og:image" content="https://schmidtworx.com/og-image.png" />
+<meta property="og:site_name" content="SchmidtWorx" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="SchmidtWorx" />
+<meta name="twitter:description" content="A family workspace for memory, voice, and what should outlast us. Built slowly. Meant to last." />
+<meta name="twitter:image" content="https://schmidtworx.com/og-image.png" />
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* ───────── Tokens ───────── */
+  :root{
+    --bg:#0d1117;
+    --ink:#ece6d8;
+    --ink-muted:rgba(236,230,216,0.72);
+    --ink-faint:rgba(236,230,216,0.5);
+    --ink-faintest:rgba(236,230,216,0.12);
+    --gold:#d4a76a;
+    --gold-warm:#b8763a;
+    --voice:#96b9cb;
+    --build:#c78f7d;
+
+    --serif:"Fraunces", "Iowan Old Style", Georgia, serif;
+    --sans:"Inter", -apple-system, "Segoe UI", system-ui, sans-serif;
+    --mono:"JetBrains Mono", ui-monospace, Menlo, monospace;
+
+    --container-x:64px;
+    --rule:rgba(236,230,216,0.1);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    background-image:
+      radial-gradient(circle at 80% 8%, rgba(184,118,58,0.08), transparent 40%),
+      radial-gradient(circle at 12% 92%, rgba(134,167,186,0.06), transparent 40%);
+    background-attachment:fixed;
+    min-height:100vh;
+  }
+  img{display:block;max-width:100%}
+  a{color:inherit;text-decoration:none}
+
+  /* ───────── Nav ───────── */
+  .nav{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:28px var(--container-x);
+    border-bottom:1px solid var(--rule);
+  }
+  .brand{
+    display:flex;align-items:center;gap:14px;
+    font-family:var(--mono);
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.18em;
+    color:var(--ink-muted);
+  }
+  .brand .mark{
+    width:32px;height:32px;
+    border:1px solid rgba(236,230,216,0.5);
+    display:grid;place-items:center;
+    font-family:var(--serif);
+    font-size:18px;font-weight:500;
+    color:var(--ink);
+    letter-spacing:0;
+  }
+  .brand strong{
+    color:var(--ink);
+    font-family:var(--sans);
+    font-weight:600;
+    letter-spacing:0.06em;
+  }
+  .nav-actions{
+    display:flex;gap:14px;
+    font-family:var(--sans);
+    font-size:13px;
+    color:var(--ink-muted);
+  }
+  .pill{
+    border:1px solid rgba(236,230,216,0.2);
+    padding:8px 14px;
+    border-radius:999px;
+    display:flex;align-items:center;gap:8px;
+    cursor:pointer;
+    transition:border-color .2s, color .2s;
+  }
+  .pill:hover{border-color:rgba(236,230,216,0.4);color:var(--ink)}
+  .pill .dot{width:6px;height:6px;background:var(--gold-warm);border-radius:50%}
+
+  /* ───────── Hero ───────── */
+  .hero{
+    padding:88px var(--container-x) 56px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:80px;
+    align-items:end;
+    border-bottom:1px solid var(--rule);
+  }
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.2em;
+    color:var(--gold);
+    margin:0 0 28px;
+  }
+  .hero h1{
+    font-family:var(--serif);
+    font-weight:300;
+    font-size:96px;
+    line-height:0.96;
+    letter-spacing:-0.03em;
+    margin:0;
+    text-wrap:balance;
+  }
+  .hero h1 em{font-style:italic;color:var(--gold)}
+  .hero p{
+    font-family:var(--serif);
+    font-size:20px;
+    line-height:1.5;
+    color:var(--ink-muted);
+    margin:0;
+    max-width:34em;
+  }
+  .hero p + p{margin-top:14px}
+  .scroll-cue{
+    font-family:var(--mono);
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:0.18em;
+    color:var(--ink-faint);
+    margin-top:36px;
+  }
+  .scroll-cue::before{content:"↓ ";color:var(--gold)}
+
+  /* ───────── Spine ───────── */
+  .spine{
+    position:relative;
+    padding:80px var(--container-x) 96px;
+  }
+  .spine::before{
+    content:"";
+    position:absolute;
+    left:50%;
+    top:0; bottom:0;
+    width:1px;
+    background:linear-gradient(180deg,
+      rgba(236,230,216,0) 0,
+      rgba(236,230,216,0.25) 8%,
+      rgba(236,230,216,0.25) 92%,
+      rgba(236,230,216,0) 100%);
+  }
+  .era{
+    position:relative;
+    margin-bottom:88px;
+  }
+  .era:last-child{margin-bottom:0}
+  .era .marker{
+    position:absolute;
+    left:50%;
+    top:6px;
+    transform:translateX(-50%);
+    width:14px;height:14px;
+    border-radius:50%;
+    background:var(--bg);
+    border:2px solid var(--gold);
+    z-index:2;
+  }
+  .era .year{
+    position:absolute;
+    left:50%;
+    top:34px;
+    transform:translateX(-50%);
+    font-family:var(--mono);
+    font-size:10px;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    background:var(--bg);
+    padding:2px 10px;
+    white-space:nowrap;
+    z-index:2;
+  }
+  .era.left{padding-right:calc(50% + 56px); text-align:right}
+  .era.right{padding-left:calc(50% + 56px); text-align:left}
+  .era .header{
+    font-family:var(--serif);
+    font-size:48px;
+    font-weight:300;
+    line-height:1;
+    letter-spacing:-0.02em;
+    margin:0 0 8px;
+    color:var(--ink);
+  }
+  .era .header em{font-style:italic;color:var(--gold)}
+  .era .lifespan{
+    font-family:var(--mono);
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.16em;
+    color:var(--ink-faint);
+    margin:0 0 24px;
+  }
+
+  /* Cards */
+  .card{
+    background:rgba(236,230,216,0.04);
+    border:1px solid var(--ink-faintest);
+    border-radius:14px;
+    padding:24px 28px;
+    margin-top:18px;
+    text-align:left;
+    backdrop-filter:blur(6px);
+    transition:border-color .25s ease, transform .25s ease, background .25s ease;
+    cursor:pointer;
+    display:block;
+    color:inherit;
+  }
+  .card:hover{
+    border-color:rgba(236,230,216,0.28);
+    transform:translateY(-2px);
+    background:rgba(236,230,216,0.06);
+  }
+  .card:focus-visible{
+    outline:2px solid var(--gold);
+    outline-offset:2px;
+  }
+  .card .cat{
+    font-family:var(--mono);
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:0.18em;
+    color:var(--gold);
+    margin:0 0 8px;
+  }
+  .card .cat.voice{color:var(--voice)}
+  .card .cat.build{color:var(--build)}
+  .card h3{
+    font-family:var(--serif);
+    font-size:24px;
+    font-weight:400;
+    line-height:1.2;
+    margin:0 0 8px;
+    letter-spacing:-0.01em;
+  }
+  .card p{
+    font-size:14px;
+    line-height:1.55;
+    color:var(--ink-muted);
+    margin:0;
+  }
+  .card .row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:14px;
+    padding-top:14px;
+    border-top:1px solid rgba(236,230,216,0.1);
+    font-family:var(--mono);
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:0.14em;
+    color:var(--ink-faint);
+  }
+  .card .row .play{
+    color:var(--gold);
+    display:flex;align-items:center;gap:6px;
+  }
+  .card .thumb{
+    height:120px;
+    border-radius:8px;
+    background-size:cover;
+    background-position:center;
+    margin-top:14px;
+  }
+  .card.dual{
+    display:grid;
+    grid-template-columns:1fr 140px;
+    gap:20px;
+    align-items:center;
+  }
+  .card.dual .thumb{margin-top:0; height:100%; min-height:120px}
+  .card.dashed{
+    border-style:dashed;
+    background:transparent;
+  }
+
+  /* "future" era — desaturated */
+  .era.future .marker{
+    border-color:rgba(236,230,216,0.4);
+    background:rgba(236,230,216,0.04);
+  }
+  .era.future .year{color:rgba(236,230,216,0.4)}
+  .era.future .header{
+    color:rgba(236,230,216,0.55);
+    font-style:italic;
+  }
+
+  /* ───────── Footer ───────── */
+  footer{
+    padding:80px var(--container-x);
+    border-top:1px solid var(--rule);
+    text-align:center;
+  }
+  footer .quote{
+    font-family:var(--serif);
+    font-style:italic;
+    font-size:32px;
+    line-height:1.25;
+    color:var(--ink);
+    max-width:22ch;
+    margin:0 auto 24px;
+    letter-spacing:-0.01em;
+  }
+  footer .quote::before{content:"“";color:var(--gold);font-style:normal;margin-right:2px}
+  footer .quote::after{content:"”";color:var(--gold);font-style:normal;margin-left:2px}
+  footer .sig{
+    font-family:var(--mono);
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:0.18em;
+    color:var(--ink-faint);
+  }
+
+  /* ───────── Responsive ───────── */
+  @media (max-width: 980px){
+    :root{ --container-x: 28px; }
+    .hero{
+      grid-template-columns:1fr;
+      gap:32px;
+      padding-top:56px;
+    }
+    .hero h1{ font-size:64px; }
+    .nav-actions .pill:not(:last-child){ display:none; }
+    .spine::before{ left:18px; }
+    .era.left, .era.right{
+      padding-left:42px;
+      padding-right:0;
+      text-align:left;
+    }
+    .era .marker{ left:18px; }
+    .era .year{
+      left:18px;
+      transform:translate(-50%, 0);
+      top:26px;
+    }
+    .era .header{ font-size:36px; margin-top:48px; }
+    .card.dual{ grid-template-columns:1fr; }
+    .card.dual .thumb{ height:160px; }
+    footer .quote{ font-size:24px; }
+  }
+</style>
 </head>
+<body>
 
-<body class="home-page">
+<nav class="nav">
+  <div class="brand">
+    <span class="mark">Sw</span>
+    <strong>SCHMIDTWORX</strong>
+    <span>Archive · Est. 2024</span>
+  </div>
+  <div class="nav-actions">
+    <span class="pill"><span class="dot"></span>3 generations · 12 entries</span>
+    <span class="pill">⌕ Search the archive</span>
+    <span class="pill">Index</span>
+  </div>
+</nav>
 
-  <!-- Header loads here -->
-  <header>
-    <div class="nav-container">
-      <a class="site-title" href="/index.html" aria-label="SchmidtWorx home">
-        <span class="site-title-mark">Archive</span>
-        <span class="site-title-text">SchmidtWorx</span>
-      </a>
-      <button class="hamburger" id="hamburger" type="button" aria-expanded="false" aria-controls="menu"
-        aria-label="Open navigation">
-        <span aria-hidden="true">☰</span>
-      </button>
+<header class="hero">
+  <div>
+    <p class="eyebrow">A family archive, told along a line</p>
+    <h1>One <em>spine.</em><br/>Many voices.</h1>
+  </div>
+  <div>
+    <p>Stories from those who came before, and messages for those who come after — generations of the Schmidt family.</p>
+    <p>Built slowly. Meant to last.</p>
+    <p class="scroll-cue">Scroll to walk the years</p>
+  </div>
+</header>
+
+<section class="spine">
+
+  <!-- Era: Kenneth -->
+  <div class="era left">
+    <div class="marker"></div>
+    <div class="year">1905</div>
+    <h2 class="header">Kenneth Oswald</h2>
+    <p class="lifespan">b. 1905 · d. 1997 · The eldest voice</p>
+    <a class="card" href="/Reflections/kenneth-oswald-schmidt.html">
+      <p class="cat">Reflection · Heritage</p>
+      <h3>Written for the 1995 Schmidt Family Reunion</h3>
+      <p>Preserved as a primary document — a 90-year-old man writing to people he would never meet.</p>
+      <div class="row"><span>4 pages · PDF + transcript</span><span>Read →</span></div>
+    </a>
+  </div>
+
+  <!-- Era: Gregory -->
+  <div class="era right">
+    <div class="marker"></div>
+    <div class="year">1956</div>
+    <h2 class="header"><em>Gregory</em></h2>
+    <p class="lifespan">b. 1956 · The middle generation</p>
+    <a class="card" href="/Reflections/gregory-schmidt.html">
+      <p class="cat">Reflection · In progress</p>
+      <h3>Family perspective</h3>
+      <p>Reflections held in place while this part of the archive is still being expanded. A page that grows as life does.</p>
+      <div class="row"><span>Draft · Last touched March 2026</span><span>Read →</span></div>
+    </a>
+  </div>
+
+  <!-- Era: Michael -->
+  <div class="era left">
+    <div class="marker"></div>
+    <div class="year">1981</div>
+    <h2 class="header">Michael</h2>
+    <p class="lifespan">b. 1981 · The author of this archive</p>
+    <a class="card" href="/Reflections/michael-schmidt.html">
+      <p class="cat">Reflection · Living</p>
+      <h3>Personal reflections, across stages of life</h3>
+      <p>Written and re-written. Each entry preserved as it was understood at the time.</p>
+      <div class="row"><span>~3,000 lines · 12 sections · Drop-caps and footnotes</span><span>Read →</span></div>
+    </a>
+    <a class="card dual" href="/LettersAndRecordings/michael-schmidt.html">
+      <div>
+        <p class="cat voice">Voice · Available now</p>
+        <h3>A personal archive of recordings</h3>
+        <p>Readings, messages, and preserved moments addressed forward.</p>
+        <div class="row"><span class="play">▶ Sample · 0:42</span><span>Listen →</span></div>
+      </div>
+      <div class="thumb" style="background:linear-gradient(135deg,#13435a,#0d2433)"></div>
+    </a>
+    <a class="card dual" href="/Builds/index.html">
+      <div>
+        <p class="cat build">Build · Spaces and systems</p>
+        <h3>The Builds</h3>
+        <p>Things made by hand — the present, in objects.</p>
+        <div class="row"><span>7 builds · 2015 — Ongoing</span><span>View all →</span></div>
+      </div>
+      <div class="thumb" style="background-image:url(/assets/theater-finished.jpg)"></div>
+    </a>
+  </div>
+
+  <!-- Era: future -->
+  <div class="era right future">
+    <div class="marker"></div>
+    <div class="year">—</div>
+    <h2 class="header">For those who come after</h2>
+    <p class="lifespan">Messages addressed forward · Read when needed</p>
+    <div class="card dashed">
+      <p class="cat">Sealed · for later</p>
+      <h3>Letters held until a date or an event</h3>
+      <p>Some things are not meant to be read yet. This page lists what waits, not what's said.</p>
+      <div class="row"><span>3 sealed · the oldest opens 2041</span><span>About →</span></div>
     </div>
+  </div>
 
-    <nav id="menu" aria-label="Primary navigation">
-      <a class="nav-link" href="/index.html">Home</a>
-      <a class="nav-link" href="/Reflections/index.html">Reflections</a>
-      <a class="nav-link" href="/LettersAndRecordings/index.html">Recordings and Artifacts</a>
-    </nav>
-  </header>
-  <!-- Header ends here -- Populate Body starting right below -->
+</section>
 
-  <main class="container page-shell">
-
-    <section class="hero">
-      <p class="eyebrow">Family Archive</p>
-      <h1>SchmidtWorx</h1>
-      <p class="tagline">
-        Stories from those who came before, and messages for those who come after — generations of the Schmidt family.
-      </p>
-      <p class="tagline">Built slowly. Meant to last.</p>
-    </section>
-
-    <section id="what-this-is" class="feature-panel">
-      <p class="section-kicker">What This Is</p>
-      <h2 class="section-heading">A workspace for memory, voice, and what should outlast us.</h2>
-      <p>
-        SchmidtWorx is a family workspace.
-      </p>
-      <p>
-        Some belongs to those who came before. Some reflects the present. Some is meant for those who will come after.
-      </p>
-      <p>
-        <strong>All of it is intentional.</strong>
-      </p>
-    </section>
-
-    <section class="mode-grid" aria-label="Archive modes">
-      <article id="reflections" class="mode-card tone-document">
-        <span class="mode-meta">Writings</span>
-        <h3>Reflections and Legacy</h3>
-        <p>
-          Writings and records created by those who came before.
-        </p>
-        <p class="mode-snippet">This section exists to keep those voices from disappearing and to acknowledge that
-          today’s work eventually becomes someone else’s history.</p>
-        <a class="mode-link" href="/Reflections/index.html">Enter the reflections archive</a>
-      </article>
-
-      <article id="letters" class="mode-card tone-voice">
-        <span class="mode-meta">Audio and Video</span>
-        <h3>Recordings and Artifacts</h3>
-        <p>
-          Messages, readings, and preserved moments addressed forward.
-        </p>
-        <p class="mode-snippet">Some things are better spoken than written. This section holds the pieces where presence
-          matters as much as words.</p>
-        <a class="mode-link" href="/LettersAndRecordings/index.html">Open recordings and artifacts</a>
-      </article>
-    </section>
-
-    <footer>
-      <p>
-        SchmidtWorx exists to document, preserve,
-        and pass forward what matters.
-      </p>
-    </footer>
-
-  </main>
-
-  <script src="/scripts/menu.js"></script>
+<footer>
+  <p class="quote">We do not remember what is said but instead how it makes us feel.</p>
+  <p class="sig">SchmidtWorx — built slowly · meant to last</p>
+</footer>
 
 </body>
-
 </html>
