@@ -29,8 +29,11 @@ Deployment is via GitHub Pages (push to main).
 ### Content sections
 
 - `Reflections/` — Written essays and reflections (collapsible `<details>` pattern)
-- `LettersAndRecordings/` — Audio/video archive
-- Each section has an `index.html` listing page and per-author content pages
+- `LettersAndRecordings/` — "Recordings and Artifacts" in the nav. Mixed-media personal archive: recordings, video montages, readings read aloud, scanned documents and ephemera, and links into `Builds/`. Audio/video is just one slice — physical artifacts (report cards, letters, photos, etc.) are first-class citizens here too.
+- `Builds/` — Per-build pages for physical projects (home theater, smart home, home gym, deck, etc.). Linked from `LettersAndRecordings/michael-schmidt.html` under "Spaces and Systems Built."
+- Each section has an `index.html` listing page and per-author content pages.
+
+**Naming note:** the folder `LettersAndRecordings/` predates the current section name. On disk it's `LettersAndRecordings/`; in the nav and page titles it reads "Recordings and Artifacts." Don't invent a new section for artifact-style content — add it here.
 
 ### Header component pattern
 
@@ -54,3 +57,5 @@ CSS variables defined in `:root`:
 ### Content patterns
 
 Reflections pages use nested `<details>`/`<summary>` elements with custom +/− icons for collapsible essays. Cards use the `.section-card` and `.archive-card` classes defined in `style.css`.
+
+Per-person pages in `LettersAndRecordings/` (e.g., `michael-schmidt.html`) organize content into Roman-numeral subsections by medium — currently I. Personal Messages, II. Documentary Interviews, III. Readings, IV. Videos and Montages, V. Spaces and Systems Built. New artifact types (scanned documents, ephemera, etc.) should be added as additional Roman-numeral sections on the same page rather than spawning new top-level sections. Individual entries inside each section use the `details-card` / `<details><summary>` pattern.
