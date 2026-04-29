@@ -14,6 +14,17 @@
     "heading": "A place reserved for reflections that are still being gathered.",
     "body": "This section is being prepared to hold Gregory Schmidt's reflections, stories, and perspective."
   },
-  "sections": [],
-  "footer": "Footnote Here"
+  "sections": [
+    {
+      "title": "Section 1 ",
+      "note": "Stuff Under Here",
+      "entries": [
+        {
+          "summary": "Thought 1",
+          "body": "Space for Space"
+        }
+      ]
+    }
+  ],
+  "footer": "Footnote Here (Test)"
 }
