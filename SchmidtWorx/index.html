@@ -323,6 +323,34 @@
     padding-top:10px;
   }
 
+  /* Staggered era — for eras dense enough to use both sides of the spine.
+     The era's name/lifespan anchors on its assigned side; cards alternate
+     left/right from there with breathing room between rows. */
+  .era.staggered.left,
+  .era.staggered.right{
+    padding-left:0;
+    padding-right:0;
+    text-align:left;
+  }
+  .era.staggered .era-stagger{
+    display:flex;
+    flex-direction:column;
+    gap:32px;
+  }
+  .era.staggered .era-stagger > *{
+    width:calc(50% - 56px);
+  }
+  .era.staggered .era-stagger > .side-left{
+    align-self:flex-start;
+  }
+  .era.staggered .era-stagger > .side-right{
+    align-self:flex-end;
+  }
+  .era.staggered .era-head.side-left{ text-align:right }
+  .era.staggered .era-head.side-right{ text-align:left }
+  .era.staggered .era-head .lifespan{ margin-bottom:0 }
+  .era.staggered .card{ margin-top:0 }
+
   /* "future" era — desaturated */
   .era.future .marker{
     border-color:rgba(236,230,216,0.4);
@@ -369,7 +397,6 @@
       padding-top:56px;
     }
     .hero h1{ font-size:64px; }
-    .nav-actions .pill:not(:last-child){ display:none; }
     .spine::before{ left:18px; }
     .era.left, .era.right{
       padding-left:42px;
@@ -385,6 +412,21 @@
     .era .header{ font-size:36px; margin-top:48px; }
     .card.dual{ grid-template-columns:1fr; }
     .card.dual .thumb{ height:160px; }
+    /* Staggered era collapses to single left-rail column on narrow screens */
+    .era.staggered.left,
+    .era.staggered.right{
+      padding-left:42px;
+      padding-right:0;
+      text-align:left;
+    }
+    .era.staggered .era-stagger{ gap:18px }
+    .era.staggered .era-stagger > *{
+      width:100%;
+      align-self:stretch;
+      text-align:left;
+    }
+    .era.staggered .era-head.side-left,
+    .era.staggered .era-head.side-right{ text-align:left }
     footer .quote{ font-size:24px; }
   }
 </style>
@@ -441,47 +483,47 @@
     </a>
   </div>
 
-  <!-- Era: Michael -->
-  <div class="era left">
+  <!-- Era: Michael — staggered across both sides of the spine -->
+  <div class="era staggered left">
     <div class="marker"></div>
     <div class="year">1981</div>
-    <h2 class="header">Michael</h2>
-    <p class="lifespan">b. 1981 · The author of this archive</p>
-    <a class="card" href="/Reflections/michael-schmidt-forward.html">
-      <p class="cat">Reflection · For Cooper</p>
-      <h3>For Cooper</h3>
-      <p>What I'd want you to know. And anyone else who finds it useful.</p>
-      <div class="row"><span>Notes, lessons, things figured out</span><span>Read →</span></div>
-    </a>
-    <a class="card" href="/Reflections/michael-schmidt-inspiration.html">
-      <p class="cat">Curation · Words kept</p>
-      <h3>Inspiration</h3>
-      <p>Things worth keeping.</p>
-      <div class="row"><span>Quotes, lines, words that landed</span><span>Read →</span></div>
-    </a>
-    <a class="card minor" href="/Reflections/michael-schmidt.html">
-      <p class="cat">Reflection · Notes</p>
-      <h3>Reflections</h3>
-      <div class="row"><span>~3,000 lines · 12 sections · Drop-caps and footnotes</span><span>Read →</span></div>
-    </a>
-    <a class="card dual" href="/LettersAndRecordings/michael-schmidt.html">
-      <div>
-        <p class="cat voice">Voice · Available now</p>
-        <h3>A personal archive of recordings</h3>
-        <p>Readings, messages, and preserved moments addressed forward.</p>
-        <div class="row"><span class="play">▶ Sample · 0:42</span><span>Listen →</span></div>
+    <div class="era-stagger">
+      <div class="era-head side-left">
+        <h2 class="header">Michael</h2>
+        <p class="lifespan">b. 1981 · The author of this archive</p>
       </div>
-      <div class="thumb" style="background:linear-gradient(135deg,#13435a,#0d2433)"></div>
-    </a>
-    <a class="card dual" href="/Builds/index.html">
-      <div>
+      <a class="card side-right" href="/Reflections/michael-schmidt-forward.html">
+        <p class="cat">Reflection · For Cooper</p>
+        <h3>For Cooper</h3>
+        <p>What I'd want you to know. And anyone else who finds it useful.</p>
+        <div class="row"><span>Notes, lessons, things figured out</span><span>Read →</span></div>
+      </a>
+      <a class="card side-left" href="/Reflections/michael-schmidt-inspiration.html">
+        <p class="cat">Curation · Words kept</p>
+        <h3>Inspiration</h3>
+        <p>Things worth keeping.</p>
+        <div class="row"><span>Quotes, lines, words that landed</span><span>Read →</span></div>
+      </a>
+      <a class="card minor side-right" href="/Reflections/michael-schmidt.html">
+        <p class="cat">Reflection · Notes</p>
+        <h3>Reflections</h3>
+        <div class="row"><span>~3,000 lines · 12 sections · Drop-caps and footnotes</span><span>Read →</span></div>
+      </a>
+      <a class="card dual side-left" href="/LettersAndRecordings/michael-schmidt.html">
+        <div>
+          <p class="cat voice">Voice · Available now</p>
+          <h3>A personal archive of recordings</h3>
+          <p>Readings, messages, and preserved moments addressed forward.</p>
+          <div class="row"><span class="play">▶ Sample · 0:42</span><span>Listen →</span></div>
+        </div>
+        <div class="thumb" style="background:linear-gradient(135deg,#13435a,#0d2433)"></div>
+      </a>
+      <a class="card minor side-right" href="/Builds/index.html">
         <p class="cat build">Build · Spaces and systems</p>
         <h3>The Builds</h3>
-        <p>Things made by hand — the present, in objects.</p>
         <div class="row"><span>7 builds · 2015 — Ongoing</span><span>View all →</span></div>
-      </div>
-      <div class="thumb" style="background-image:url(/assets/theater-finished.jpg)"></div>
-    </a>
+      </a>
+    </div>
   </div>
 
   <!-- Era: future -->
@@ -489,12 +531,11 @@
     <div class="marker"></div>
     <div class="year">—</div>
     <h2 class="header">For those who come after</h2>
-    <p class="lifespan">Messages addressed forward · Read when needed</p>
+    <p class="lifespan">Voices yet to arrive</p>
     <div class="card dashed">
-      <p class="cat">Sealed · for later</p>
-      <h3>Letters held until a date or an event</h3>
-      <p>Some things are not meant to be read yet. This page lists what waits, not what's said.</p>
-      <div class="row"><span>3 sealed · the oldest opens 2041</span><span>About →</span></div>
+      <p class="cat">Open · Always</p>
+      <h3>Space for what comes next</h3>
+      <p>This part of the archive belongs to whoever adds to it. Cooper, when he's ready. Anyone else who finds their way here.</p>
     </div>
   </div>
 
