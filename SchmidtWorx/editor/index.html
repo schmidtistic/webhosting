@@ -321,6 +321,20 @@
       line-height: 1.4;
     }
 
+    .paste-mode-btn {
+      font-size: 0.72rem;
+      padding: 0.22rem 0.55rem;
+      border-radius: 4px;
+      border: 1px dashed var(--accent);
+      background: transparent;
+      color: var(--accent);
+      cursor: pointer;
+      margin-bottom: 0.4rem;
+      transition: background 0.15s, color 0.15s;
+    }
+    .paste-mode-btn:hover { background: rgba(215, 195, 160, 0.12); }
+    .paste-confirmed { font-size: 0.72rem; color: #6dbf7e; margin-left: 0.5rem; }
+
     /* ── Entry cards ─────────────────────────────── */
     .entry-card {
       background: var(--bg);
@@ -676,8 +690,9 @@ function buildEntryCard(entry, secIdx, entIdx) {
       </div>
       <div class="field">
         <label>Content</label>
-        <p class="field-hint">Write freely. Leave a blank line between paragraphs to separate them on the page.</p>
-        <textarea class="tall" placeholder="Write your reflection here…"
+        <p class="field-hint">Blank line = new paragraph. Single line break = line break within a paragraph.</p>
+        <button class="paste-mode-btn" onclick="normalizePaste(${secIdx}, ${entIdx}, this)">⟳ Normalize line breaks</button>
+        <textarea id="entry-body-${secIdx}-${entIdx}" class="tall" placeholder="Write your reflection here…"
           oninput="updateEntry(${secIdx},${entIdx},'body',this.value)">${esc(entry.body ?? '')}</textarea>
       </div>
     </div>`;
@@ -819,6 +834,25 @@ function moveEntry(secIdx, entIdx, dir) {
 function markDirty() {
   setStatus('unsaved', 'Unsaved changes — remember to Publish');
   schedulePreview();
+}
+
+// ── Paste normalization ────────────────────────────────────────
+function normalizePaste(secIdx, entIdx, btn) {
+  const ta = document.getElementById(`entry-body-${secIdx}-${entIdx}`);
+  if (!ta) return;
+  const before = ta.value;
+  ta.value = ta.value
+    .replace(/\r\n/g, '\n')
+    .replace(/\r/g, '\n')
+    .replace(/\n{3,}/g, '\n\n')
+    .replace(/(?<!\n)\n(?!\n)/g, '\n\n')
+    .trim();
+  updateEntry(secIdx, entIdx, 'body', ta.value);
+  const confirmSpan = document.createElement('span');
+  confirmSpan.className = 'paste-confirmed';
+  confirmSpan.textContent = ta.value !== before ? '✓ Normalized' : '✓ Already clean';
+  btn.after(confirmSpan);
+  setTimeout(() => confirmSpan.remove(), 2500);
 }
 </script>
 </body>
