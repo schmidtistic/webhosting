@@ -302,25 +302,6 @@
     border-style:dashed;
     background:transparent;
   }
-  /* Waveform thumb — replaces a placeholder image with a vector
-     visualization of sound. Bars stretch to fill the thumb;
-     non-scaling-stroke keeps line weight constant. */
-  .thumb-waveform{
-    background:rgba(150,185,203,0.04);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:0;
-    overflow:hidden;
-  }
-  .thumb-waveform .waveform{
-    width:100%;
-    height:100%;
-    display:block;
-  }
-  .thumb-waveform .waveform line{
-    vector-effect:non-scaling-stroke;
-  }
   /* Minor card — secondary in the column hierarchy.
      Same width, lower visual weight: tighter padding, smaller heading,
      no description paragraph, dimmer cat label. */
@@ -527,47 +508,11 @@
         <p class="cat">Reflection · Notes</p>
         <h3>Reflections</h3>
       </a>
-      <a class="card dual side-left" href="/LettersAndRecordings/michael-schmidt.html">
-        <div>
-          <p class="cat voice">Voice · Available now</p>
-          <h3>A personal archive of recordings</h3>
-          <p>Readings, messages, and preserved moments addressed forward.</p>
-          <div class="row"><span class="play">▶ Sample · 0:42</span><span>Listen →</span></div>
-        </div>
-        <div class="thumb thumb-waveform" aria-hidden="true">
-          <svg class="waveform" viewBox="0 0 140 120" preserveAspectRatio="none">
-            <g stroke="#96b9cb" stroke-width="2" stroke-linecap="round" fill="none">
-              <line x1="4"   y1="58" x2="4"   y2="62"/>
-              <line x1="9"   y1="56" x2="9"   y2="64"/>
-              <line x1="14"  y1="54" x2="14"  y2="66"/>
-              <line x1="19"  y1="48" x2="19"  y2="72"/>
-              <line x1="24"  y1="44" x2="24"  y2="76"/>
-              <line x1="29"  y1="46" x2="29"  y2="74"/>
-              <line x1="34"  y1="40" x2="34"  y2="80"/>
-              <line x1="39"  y1="30" x2="39"  y2="90"/>
-              <line x1="44"  y1="20" x2="44"  y2="100"/>
-              <line x1="49"  y1="35" x2="49"  y2="85"/>
-              <line x1="54"  y1="25" x2="54"  y2="95"/>
-              <line x1="59"  y1="15" x2="59"  y2="105"/>
-              <line x1="64"  y1="28" x2="64"  y2="92"/>
-              <line x1="69"  y1="35" x2="69"  y2="85"/>
-              <line x1="74"  y1="33" x2="74"  y2="87"/>
-              <line x1="79"  y1="25" x2="79"  y2="95"/>
-              <line x1="84"  y1="30" x2="84"  y2="90"/>
-              <line x1="89"  y1="38" x2="89"  y2="82"/>
-              <line x1="94"  y1="35" x2="94"  y2="85"/>
-              <line x1="99"  y1="40" x2="99"  y2="80"/>
-              <line x1="104" y1="43" x2="104" y2="77"/>
-              <line x1="109" y1="48" x2="109" y2="72"/>
-              <line x1="114" y1="51" x2="114" y2="69"/>
-              <line x1="119" y1="54" x2="119" y2="66"/>
-              <line x1="124" y1="57" x2="124" y2="63"/>
-              <line x1="129" y1="58" x2="129" y2="62"/>
-              <line x1="134" y1="59" x2="134" y2="61"/>
-              <line x1="139" y1="59" x2="139" y2="61"/>
-            </g>
-          </svg>
-        </div>
+      <a class="card side-left" href="/LettersAndRecordings/michael-schmidt.html">
+        <p class="cat voice">Voice · Available now</p>
+        <h3>A record of being</h3>
+        <p>Messages, readings, and evidence of ordinary life.</p>
+        <div class="row"><span class="play">▶ Sample · 0:42</span><span>Listen →</span></div>
       </a>
       <a class="card minor side-right" href="/Builds/index.html">
         <p class="cat build">Build · Spaces and systems</p>
