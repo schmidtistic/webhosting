@@ -24,62 +24,46 @@
   <link rel="stylesheet" href="/style.css" />
 
   <style>
-    .inspiration-page .hero {
-      margin-bottom: 0.2rem;
-    }
+    /* Inspiration — quote gallery, restyled to match the spine.
+       Flat surfaces, restrained chrome, type-first. Theme tones
+       (--quote-tone) carry the only color signal that varies per quote. */
 
-    .inspiration-stage {
-      margin-top: 0.2rem;
-    }
+    .inspiration-page .hero { margin-bottom: 0.2rem; }
+    .inspiration-stage { margin-top: 0.2rem; }
 
+    /* ── Featured quote — the page's centerpiece ──────── */
     .featured-quote {
       --quote-tone: var(--accent);
       position: relative;
       display: grid;
       gap: 1.25rem;
       padding: 1.8rem;
-      border: 1px solid var(--border);
-      border-radius: calc(var(--radius) + 4px);
-      background:
-        linear-gradient(145deg, rgba(255,255,255,0.045), rgba(255,255,255,0.015) 42%, rgba(0,0,0,0.08)),
-        rgba(17, 19, 23, 0.84);
-      box-shadow: var(--shadow);
+      border: 1px solid var(--ink-faintest);
+      border-radius: var(--radius);
+      background: rgba(236, 230, 216, 0.06);
       overflow: hidden;
       scroll-margin-top: 6rem;
     }
 
-    .featured-quote::before {
-      content: "";
-      position: absolute;
-      inset: auto -8% -28% 22%;
-      height: 68%;
-      border-radius: 50%;
-      background: radial-gradient(circle, color-mix(in srgb, var(--quote-tone) 22%, transparent), transparent 70%);
-      pointer-events: none;
-      opacity: 0.95;
-    }
-
+    /* Slim colored top-rule signals which theme this quote belongs to. */
     .featured-quote::after {
       content: "";
       position: absolute;
       inset: 0 0 auto 0;
-      height: 3px;
-      background: linear-gradient(90deg, rgba(255,255,255,0), var(--quote-tone) 16%, rgba(255,255,255,0));
-      opacity: 0.9;
+      height: 2px;
+      background: linear-gradient(90deg, rgba(255,255,255,0), var(--quote-tone) 18%, var(--quote-tone) 82%, rgba(255,255,255,0));
+      opacity: 0.85;
     }
 
-    .featured-quote > * {
-      position: relative;
-      z-index: 1;
-    }
+    .featured-quote > * { position: relative; z-index: 1; }
 
     .featured-quote.is-refreshing {
       animation: featured-refresh 0.45s ease;
     }
 
     @keyframes featured-refresh {
-      0% { transform: translateY(10px); opacity: 0.84; }
-      100% { transform: translateY(0); opacity: 1; }
+      0%   { transform: translateY(10px); opacity: 0.84; }
+      100% { transform: translateY(0);    opacity: 1; }
     }
 
     .featured-head {
@@ -101,20 +85,24 @@
       display: inline-flex;
       align-items: center;
       gap: 0.35rem;
-      padding: 0.35rem 0.72rem;
+      padding: 0.32rem 0.72rem;
       border-radius: 999px;
-      border: 1px solid color-mix(in srgb, var(--quote-tone) 70%, transparent);
+      border: 1px solid color-mix(in srgb, var(--quote-tone) 38%, transparent);
+      background: color-mix(in srgb, var(--quote-tone) 6%, transparent);
       color: var(--quote-tone);
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
-      background: color-mix(in srgb, var(--quote-tone) 10%, transparent);
     }
 
     .featured-position {
-      font-size: 0.82rem;
-      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
     }
 
     .shuffle-btn {
@@ -123,39 +111,36 @@
       display: inline-flex;
       align-items: center;
       gap: 0.45rem;
-      padding: 0.55rem 0.95rem;
+      padding: 0.5rem 0.92rem;
+      border: 1px solid var(--ink-faintest);
       border-radius: 999px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.03);
+      background: transparent;
       color: var(--muted);
-      font: inherit;
-      font-size: 0.8rem;
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
       cursor: pointer;
-      transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+      transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
     }
 
     .shuffle-btn:hover,
     .shuffle-btn:focus-visible {
-      transform: translateY(-1px);
-      border-color: color-mix(in srgb, var(--quote-tone) 70%, transparent);
+      border-color: color-mix(in srgb, var(--quote-tone) 60%, transparent);
       color: var(--fg);
-      background: color-mix(in srgb, var(--quote-tone) 10%, transparent);
+      background: color-mix(in srgb, var(--quote-tone) 6%, transparent);
     }
 
-    .featured-shell {
-      display: grid;
-      gap: 1.1rem;
-    }
-
-    .featured-main {
-      max-width: 100%;
-    }
+    .featured-shell { display: grid; gap: 1.1rem; }
+    .featured-main  { max-width: 100%; }
 
     .featured-text {
       margin: 0;
-      font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
+      font-family: var(--serif);
       font-size: clamp(1.7rem, 3.2vw, 2.8rem);
-      line-height: 1.14;
+      font-weight: 400;
+      line-height: 1.18;
       letter-spacing: -0.025em;
       max-width: 17ch;
       text-wrap: balance;
@@ -163,25 +148,25 @@
 
     .featured-author {
       margin: 1.05rem 0 0;
-      font-size: 0.84rem;
-      color: var(--muted);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
+      font-size: 0.92rem;
+      font-style: italic;
+      color: var(--ink-faint);
     }
 
     .featured-note-panel {
       align-self: end;
       padding: 1rem 1.05rem;
-      border: 1px solid color-mix(in srgb, var(--quote-tone) 28%, var(--border));
-      border-radius: 18px;
+      border: 1px solid var(--ink-faintest);
+      border-radius: 12px;
       background: rgba(0, 0, 0, 0.16);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
     }
 
     .featured-note-label {
       margin: 0 0 0.45rem;
-      font-size: 0.72rem;
-      letter-spacing: 0.14em;
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
       color: var(--quote-tone);
     }
@@ -189,10 +174,11 @@
     .featured-note {
       margin: 0;
       color: var(--muted);
-      line-height: 1.68;
+      line-height: 1.65;
       font-size: 0.94rem;
     }
 
+    /* ── Filters and toolbar ──────────────────────────── */
     .quotes-toolbar {
       display: flex;
       flex-wrap: wrap;
@@ -203,8 +189,11 @@
 
     .quotes-count {
       margin-right: auto;
-      font-size: 0.82rem;
-      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
     }
 
     .quotes-filters {
@@ -217,30 +206,33 @@
       appearance: none;
       -webkit-appearance: none;
       background: transparent;
-      border: 1px solid var(--border);
+      border: 1px solid var(--ink-faintest);
       color: var(--muted);
       border-radius: 999px;
       padding: 0.36rem 0.92rem;
-      font-size: 0.8rem;
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
       cursor: pointer;
-      transition: all 0.2s ease;
-      font-family: inherit;
+      transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
     }
 
     .filter-btn:hover,
     .filter-btn:focus-visible {
       border-color: var(--accent);
       color: var(--accent);
-      background: rgba(255,255,255,0.025);
     }
 
     .filter-btn.active {
       background: var(--accent);
       border-color: var(--accent);
-      color: #111;
-      font-weight: 700;
+      color: var(--bg);
+      font-weight: 600;
     }
 
+    /* ── Quote shelves and grid ───────────────────────── */
     .quote-shelves {
       display: grid;
       gap: 1.35rem;
@@ -263,15 +255,20 @@
 
     .quote-shelf-title {
       margin: 0;
-      font-size: 0.78rem;
-      letter-spacing: 0.18em;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
       color: var(--quote-tone);
     }
 
     .quote-shelf-count {
-      font-size: 0.8rem;
-      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
     }
 
     .quote-card-grid {
@@ -290,51 +287,44 @@
       gap: 0.85rem;
       width: 100%;
       padding: 1.1rem 1.15rem 1.05rem;
-      border: 1px solid var(--border);
+      border: 1px solid var(--ink-faintest);
       border-radius: var(--radius);
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.018)),
-        rgba(17, 19, 23, 0.75);
+      background: rgba(236, 230, 216, 0.04);
       color: var(--fg);
       text-align: left;
       cursor: pointer;
       overflow: hidden;
-      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+      transition: transform 0.25s ease, border-color 0.25s ease, background-color 0.25s ease;
     }
 
     .quote-card::before {
       content: "";
       position: absolute;
       inset: 0 0 auto 0;
-      height: 3px;
-      background: linear-gradient(90deg, rgba(255,255,255,0), var(--quote-tone) 18%, rgba(255,255,255,0));
-      opacity: 0.88;
+      height: 2px;
+      background: linear-gradient(90deg, rgba(255,255,255,0), var(--quote-tone) 18%, var(--quote-tone) 82%, rgba(255,255,255,0));
+      opacity: 0.78;
     }
 
     .quote-card:hover,
     .quote-card:focus-visible {
-      transform: translateY(-3px);
-      border-color: color-mix(in srgb, var(--quote-tone) 72%, transparent);
-      box-shadow: 0 14px 36px rgba(0,0,0,0.28);
+      transform: translateY(-2px);
+      border-color: color-mix(in srgb, var(--quote-tone) 55%, transparent);
+      background: rgba(236, 230, 216, 0.06);
     }
 
     .quote-card.active {
-      border-color: color-mix(in srgb, var(--quote-tone) 82%, transparent);
-      box-shadow: 0 16px 40px rgba(0,0,0,0.3);
-      background:
-        linear-gradient(180deg, color-mix(in srgb, var(--quote-tone) 12%, rgba(255,255,255,0.04)), rgba(255,255,255,0.02)),
-        rgba(17, 19, 23, 0.82);
+      border-color: color-mix(in srgb, var(--quote-tone) 75%, transparent);
+      background: rgba(236, 230, 216, 0.07);
     }
 
     @keyframes spotlight {
-      0% { box-shadow: 0 0 0 0 rgba(231,184,121,0); }
-      30% { box-shadow: 0 0 0 6px rgba(231,184,121,0.16), 0 16px 40px rgba(0,0,0,0.3); }
-      100% { box-shadow: 0 0 0 0 rgba(231,184,121,0), 0 16px 40px rgba(0,0,0,0.3); }
+      0%   { box-shadow: 0 0 0 0   rgba(212, 167, 106, 0); }
+      30%  { box-shadow: 0 0 0 4px rgba(212, 167, 106, 0.18); }
+      100% { box-shadow: 0 0 0 0   rgba(212, 167, 106, 0); }
     }
 
-    .quote-card.spotlit {
-      animation: spotlight 1.4s ease;
-    }
+    .quote-card.spotlit { animation: spotlight 1.4s ease; }
 
     .quote-card-meta {
       display: flex;
@@ -342,8 +332,10 @@
       align-items: center;
       justify-content: space-between;
       gap: 0.5rem;
-      font-size: 0.68rem;
-      letter-spacing: 0.12em;
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
       color: var(--quote-tone);
     }
@@ -354,17 +346,17 @@
       gap: 0.3rem;
       padding: 0.22rem 0.5rem;
       border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.09);
-      color: var(--muted);
-      letter-spacing: 0.08em;
+      border: 1px solid var(--ink-faintest);
+      color: var(--ink-faint);
+      letter-spacing: 0.14em;
     }
 
     .quote-preview {
       margin: 0;
-      font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
-      font-size: 1.02rem;
-      line-height: 1.56;
-      color: rgba(244, 239, 231, 0.94);
+      font-family: var(--serif);
+      font-size: 1.05rem;
+      line-height: 1.5;
+      color: var(--ink-muted);
       display: -webkit-box;
       -webkit-line-clamp: 5;
       -webkit-box-orient: vertical;
@@ -373,33 +365,26 @@
 
     .quote-card-author {
       margin: 0;
-      font-size: 0.82rem;
-      color: var(--muted);
+      font-size: 0.86rem;
+      font-style: italic;
+      color: var(--ink-faint);
     }
 
     .quotes-hint {
-      font-size: 0.78rem;
-      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
       margin: 1.35rem 0 0;
       text-align: center;
-      opacity: 0.78;
     }
 
-    [data-theme="KNOWLEDGE"] {
-      --quote-tone: #dcc296;
-    }
-
-    [data-theme="COURAGE"] {
-      --quote-tone: #d5a08c;
-    }
-
-    [data-theme="CHARACTER"] {
-      --quote-tone: #9fb7a2;
-    }
-
-    [data-theme="WORK"] {
-      --quote-tone: #96b9cb;
-    }
+    /* Theme tones — the only color that varies per quote */
+    [data-theme="KNOWLEDGE"] { --quote-tone: #dcc296; }
+    [data-theme="COURAGE"]   { --quote-tone: #d5a08c; }
+    [data-theme="CHARACTER"] { --quote-tone: #9fb7a2; }
+    [data-theme="WORK"]      { --quote-tone: var(--voice); }
 
     @media (min-width: 900px) {
       .featured-quote.has-note .featured-shell {
@@ -408,13 +393,8 @@
     }
 
     @media (max-width: 719px) {
-      .featured-quote {
-        padding: 1.35rem;
-      }
-
-      .featured-text {
-        max-width: 100%;
-      }
+      .featured-quote { padding: 1.35rem; }
+      .featured-text  { max-width: 100%; }
     }
   </style>
 </head>
