@@ -268,7 +268,8 @@
           <div class="field">
             <label>Body</label>
             <p class="field-hint">Leave a blank line between paragraphs.</p>
-            <textarea data-path="context.body" rows="4"></textarea>
+            <button class="paste-mode-btn" onclick="normalizePaste('context-body', this)">⟳ Normalize line breaks</button>
+            <textarea id="context-body" data-path="context.body" rows="4"></textarea>
           </div>
         </div>
       </div>
@@ -590,7 +591,7 @@ function buildLessonCard(entry, idx) {
       <div class="field">
         <label>Content</label>
         <p class="field-hint">Blank line = new paragraph. Single line break = line break within a paragraph.</p>
-        <button class="paste-mode-btn" onclick="normalizePaste(${idx}, this)">⟳ Normalize line breaks</button>
+        <button class="paste-mode-btn" onclick="normalizePaste('lesson-body-${idx}', this)">⟳ Normalize line breaks</button>
         <textarea id="lesson-body-${idx}" class="tall" placeholder="Write the lesson here…"
           oninput="updateLesson(${idx},'body',this.value)">${esc(entry.body ?? '')}</textarea>
       </div>
@@ -607,8 +608,8 @@ function buildLessonCard(entry, idx) {
   return card;
 }
 
-function normalizePaste(idx, btn) {
-  const ta = document.getElementById(`lesson-body-${idx}`);
+function normalizePaste(textareaId, btn) {
+  const ta = document.getElementById(textareaId);
   if (!ta) return;
   const before = ta.value;
   ta.value = ta.value
@@ -617,7 +618,8 @@ function normalizePaste(idx, btn) {
     .replace(/\n{3,}/g, '\n\n')
     .replace(/(?<!\n)\n(?!\n)/g, '\n\n')
     .trim();
-  updateLesson(idx, 'body', ta.value);
+  // Trigger any oninput / data-path handlers bound to this textarea
+  ta.dispatchEvent(new Event('input', { bubbles: true }));
   const confirmSpan = document.createElement('span');
   confirmSpan.className = 'paste-confirmed';
   confirmSpan.textContent = ta.value !== before ? '✓ Normalized' : '✓ Already clean';
@@ -700,7 +702,9 @@ function buildNoteCard(note, idx) {
       </div>
       <div class="field">
         <label>Body</label>
-        <textarea class="tall" placeholder="Write the observation here…"
+        <p class="field-hint">Blank line = new paragraph. Single line break = line break within a paragraph.</p>
+        <button class="paste-mode-btn" onclick="normalizePaste('note-body-${idx}', this)">⟳ Normalize line breaks</button>
+        <textarea id="note-body-${idx}" class="tall" placeholder="Write the observation here…"
           oninput="updateNote(${idx},'body',this.value)">${esc(note.body ?? '')}</textarea>
       </div>
     </div>`;
