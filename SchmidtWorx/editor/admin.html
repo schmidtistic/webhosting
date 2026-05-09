@@ -268,8 +268,8 @@
           <div class="field">
             <label>Body</label>
             <p class="field-hint">Leave a blank line between paragraphs.</p>
-            <button class="paste-mode-btn" onclick="normalizePaste('context-body', this)">⟳ Normalize line breaks</button>
-            <textarea id="context-body" data-path="context.body" rows="4"></textarea>
+            <button class="paste-mode-btn" onclick="normalizePaste(this)">⟳ Normalize line breaks</button>
+            <textarea data-path="context.body" rows="4"></textarea>
           </div>
         </div>
       </div>
@@ -591,8 +591,8 @@ function buildLessonCard(entry, idx) {
       <div class="field">
         <label>Content</label>
         <p class="field-hint">Blank line = new paragraph. Single line break = line break within a paragraph.</p>
-        <button class="paste-mode-btn" onclick="normalizePaste('lesson-body-${idx}', this)">⟳ Normalize line breaks</button>
-        <textarea id="lesson-body-${idx}" class="tall" placeholder="Write the lesson here…"
+        <button class="paste-mode-btn" onclick="normalizePaste(this)">⟳ Normalize line breaks</button>
+        <textarea class="tall" placeholder="Write the lesson here…"
           oninput="updateLesson(${idx},'body',this.value)">${esc(entry.body ?? '')}</textarea>
       </div>
       <div class="field">
@@ -608,9 +608,14 @@ function buildLessonCard(entry, idx) {
   return card;
 }
 
-function normalizePaste(textareaId, btn) {
-  const ta = document.getElementById(textareaId);
-  if (!ta) return;
+function normalizePaste(btn) {
+  // Walk the DOM to find the textarea in the same .field — no ID lookup
+  const field = btn.closest('.field') || btn.parentElement;
+  const ta = field?.querySelector('textarea');
+  if (!ta) {
+    console.warn('normalizePaste: no textarea found near button', btn);
+    return;
+  }
   const before = ta.value;
   ta.value = ta.value
     .replace(/\r\n/g, '\n')
@@ -703,8 +708,8 @@ function buildNoteCard(note, idx) {
       <div class="field">
         <label>Body</label>
         <p class="field-hint">Blank line = new paragraph. Single line break = line break within a paragraph.</p>
-        <button class="paste-mode-btn" onclick="normalizePaste('note-body-${idx}', this)">⟳ Normalize line breaks</button>
-        <textarea id="note-body-${idx}" class="tall" placeholder="Write the observation here…"
+        <button class="paste-mode-btn" onclick="normalizePaste(this)">⟳ Normalize line breaks</button>
+        <textarea class="tall" placeholder="Write the observation here…"
           oninput="updateNote(${idx},'body',this.value)">${esc(note.body ?? '')}</textarea>
       </div>
     </div>`;
