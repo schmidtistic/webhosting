@@ -120,12 +120,16 @@ ${bodyHTML}
         </li>`;
   }).join('');
 
-  // Notes entries (strong + paragraph)
-  const noteItems = (notes.entries ?? []).map(n => `
+  // Notes entries (strong title + paragraphs)
+  const noteItems = (notes.entries ?? []).map(n => {
+    const bodyHTML = n.body?.trim()
+      ? `\n${renderParagraphs(n.body, '          ')}`
+      : '';
+    return `
         <li>
-          <strong>${esc(n.title)}</strong>
-          <p>${esc(n.body)}</p>
-        </li>`).join('');
+          <strong>${esc(n.title)}</strong>${bodyHTML}
+        </li>`;
+  }).join('');
 
   // Videos JS array
   const videoArray = (videos.items ?? []).map(v =>
