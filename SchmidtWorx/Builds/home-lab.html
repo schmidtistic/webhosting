@@ -4,17 +4,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HomeLab — SchmidtWorx</title>
-  <meta name="description" content="A self-hosted home lab built from a Synology NAS to a custom Unraid server — replacing streaming services, cloud storage, and smart home subscriptions with infrastructure that just runs." />
-  <meta property="og:title" content="HomeLab — SchmidtWorx" />
-  <meta property="og:description" content="A self-hosted home lab built from a Synology NAS to a custom Unraid server — replacing streaming services, cloud storage, and smart home subscriptions with infrastructure that just runs." />
+  <title>HomeLab | SchmidtWorx</title>
+  <meta name="description" content="A self-hosted home lab built from a Synology NAS to a custom Unraid server, replacing streaming services, cloud storage, and smart home subscriptions with infrastructure that just runs." />
+  <meta property="og:title" content="HomeLab | SchmidtWorx" />
+  <meta property="og:description" content="A self-hosted home lab built from a Synology NAS to a custom Unraid server, replacing streaming services, cloud storage, and smart home subscriptions with infrastructure that just runs." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://schmidtworx.com/Builds/home-lab.html" />
   <meta property="og:image" content="https://schmidtworx.com/og-image.png" />
   <meta property="og:site_name" content="SchmidtWorx" />
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="HomeLab — SchmidtWorx" />
-  <meta name="twitter:description" content="A self-hosted home lab built from a Synology NAS to a custom Unraid server — replacing streaming services, cloud storage, and smart home subscriptions with infrastructure that just runs." />
+  <meta name="twitter:title" content="HomeLab | SchmidtWorx" />
+  <meta name="twitter:description" content="A self-hosted home lab built from a Synology NAS to a custom Unraid server, replacing streaming services, cloud storage, and smart home subscriptions with infrastructure that just runs." />
   <meta name="twitter:image" content="https://schmidtworx.com/og-image.png" />
   <link rel="stylesheet" href="/style.css" />
   <style>
@@ -413,23 +413,23 @@
 
       <div class="phases">
 
-        <!-- Phase 01 — Synology DS220+ -->
+        <!-- Phase 01, Synology DS220+ -->
         <div class="phase">
           <div class="phase-header">
             <span class="phase-number">Phase 01</span>
-            <h3 class="phase-title">Synology DS220+ — The Starting Point</h3>
+            <h3 class="phase-title">Synology DS220+: The Starting Point</h3>
           </div>
           <p class="phase-desc">
             It started with a problem: too many devices, not enough storage, and no good way to
             share files between them without handing everything to a cloud service. The Synology
-            DS220+ was the answer — a plug-and-play 2-bay NAS with a clean web interface and
+            DS220+ was the answer, a plug-and-play 2-bay NAS with a clean web interface and
             enough smarts to get serious with. Two drives in RAID 1 for mirroring, 2 TB each.
             It worked well enough to reveal exactly what was possible next.
           </p>
           <p class="phase-desc">
-            Docker containers came with it. A handful at first — Home Assistant to centralize the
+            Docker containers came with it. A handful at first, Home Assistant to centralize the
             smart home, a media stack starting to take shape. The collection grew faster than the
-            storage. Sixteen terabyte drives went in. But the real ceiling wasn't the drives —
+            storage. Sixteen terabyte drives went in. But the real ceiling wasn't the drives,
             it was the architecture. Two bays, RAID 1 only, no path to expand without replacing
             the whole unit, and Synology locking newer hardware to proprietary drives. The NAS
             that taught everything had hit its limit.
@@ -439,21 +439,21 @@
           </div>
         </div>
 
-        <!-- Phase 02 — Unraid Server Build -->
+        <!-- Phase 02, Unraid Server Build -->
         <div class="phase">
           <div class="phase-header">
             <span class="phase-number">Phase 02</span>
             <h3 class="phase-title">Building the Unraid Server</h3>
           </div>
           <p class="phase-desc">
-            The replacement wasn't a bigger Synology. It was a full ATX build — the same chassis
+            The replacement wasn't a bigger Synology. It was a full ATX build, the same chassis
             logic as a gaming PC, but purpose-built for storage and always-on workloads. The
             operating system was Unraid, chosen specifically because it doesn't require matching
             drives. Add one drive at a time, any size, and parity protection covers the whole
             array. Three 16 TB Seagate Exos drives went in: two data, one parity, ~30 TB usable.
           </p>
           <p class="phase-desc">
-            The real revelation was the cache pool — two 2 TB NVMe drives in mirrored BTRFS RAID1.
+            The real revelation was the cache pool, two 2 TB NVMe drives in mirrored BTRFS RAID1.
             All Docker containers run from the NVMe cache. New media writes to the fast drives
             first; the overnight mover pushes it to the spinning array. The performance difference
             from the Synology was immediate and obvious. The drives from the old NAS moved over;
@@ -461,15 +461,15 @@
             and AI object detection for the security cameras via Frigate.
           </p>
           <div class="photo-strip" style="margin-bottom: 1rem;">
-            <div class="strip-photo" data-src="/assets/HomeLab/UnraidBuild-exterior.jpg" data-caption="The full Unraid build — drives, GPU, and PSU all in frame">
+            <div class="strip-photo" data-src="/assets/HomeLab/UnraidBuild-exterior.jpg" data-caption="The full Unraid build, drives, GPU, and PSU all in frame">
               <img src="/assets/HomeLab/UnraidBuild-exterior.jpg" alt="Unraid server exterior showing full case with drives and components" loading="lazy">
               <span class="strip-caption">Full build</span>
             </div>
-            <div class="strip-photo" data-src="/assets/HomeLab/UnraidBuild-drives.jpg" data-caption="Interior — all drive bays loaded, Seagate Exos drives in parity config">
+            <div class="strip-photo" data-src="/assets/HomeLab/UnraidBuild-drives.jpg" data-caption="Interior, all drive bays loaded, Seagate Exos drives in parity config">
               <img src="/assets/HomeLab/UnraidBuild-drives.jpg" alt="Unraid server interior showing drive bays filled" loading="lazy">
               <span class="strip-caption">Drive bays loaded</span>
             </div>
-            <div class="strip-photo" data-src="/assets/HomeLab/UnraidNAS.jpg" data-caption="The server in its home — attic shelf, wired in and running">
+            <div class="strip-photo" data-src="/assets/HomeLab/UnraidNAS.jpg" data-caption="The server in its home, attic shelf, wired in and running">
               <img src="/assets/HomeLab/UnraidNAS.jpg" alt="Unraid server installed on attic shelf" loading="lazy">
               <span class="strip-caption">In production</span>
             </div>
@@ -477,14 +477,14 @@
           <img src="/assets/HomeLab/UnraidBuild.gif" alt="Unraid server build walkthrough" class="media-embed" loading="lazy" style="max-width: 480px;">
         </div>
 
-        <!-- Phase 03 — Infrastructure as Code -->
+        <!-- Phase 03, Infrastructure as Code -->
         <div class="phase">
           <div class="phase-header">
             <span class="phase-number">Phase 03</span>
             <h3 class="phase-title">Infrastructure as Code</h3>
           </div>
           <p class="phase-desc">
-            The early years of running containers was manual — configure through a UI, tweak
+            The early years of running containers was manual, configure through a UI, tweak
             settings over time, accumulate changes that exist nowhere but inside the running
             container. Rebuild it and you start over. That fragility was the next thing to fix.
           </p>
@@ -493,7 +493,7 @@
             repository on the MacBook. Syncthing automatically syncs that repository to the
             Unraid server. Dockhand reads the compose files and manages deployments. Watchtower
             handles image version updates. The result: the entire stack can be rebuilt from
-            the repo. Changes flow from Git to the server without any SSH session — edit the
+            the repo. Changes flow from Git to the server without any SSH session, edit the
             file, save it, and Syncthing carries it over. It's a DevOps pipeline for a home
             server, and it's made the whole system feel solid rather than fragile.
           </p>
@@ -502,32 +502,32 @@
           </div>
         </div>
 
-        <!-- Phase 04 — SCHMIDTFLIX -->
+        <!-- Phase 04, SCHMIDTFLIX -->
         <div class="phase">
           <div class="phase-header">
             <span class="phase-number">Phase 04</span>
-            <h3 class="phase-title">SCHMIDTFLIX — The Gaming PC Joins the Stack</h3>
+            <h3 class="phase-title">SCHMIDTFLIX: The Gaming PC Joins the Stack</h3>
           </div>
           <p class="phase-desc">
-            The second machine in the lab isn't a server — it's a gaming rig that pulled too
+            The second machine in the lab isn't a server, it's a gaming rig that pulled too
             much homelab weight to pretend otherwise. AMD Ryzen 7 7700X, 128 GB RAM, and an
             NVIDIA RTX 5080. It runs Plex Media Server natively, hosts a Hyper-V Kali Linux VM,
             runs WSL2 Ubuntu for development, and runs LM Studio for local AI inference directly
             on the 5080. Everything that benefits from raw GPU compute lives here.
           </p>
           <p class="phase-desc">
-            The name SCHMIDTFLIX comes from the Plex instance — it's been the household's
+            The name SCHMIDTFLIX comes from the Plex instance, it's been the household's
             streaming service since the media stack outgrew relying solely on the Unraid server
             for playback. The gaming PC handles the transcoding load on the most demanding
             sessions. It lives in a dedicated closet alongside the networking stack, quietly
             doing multiple jobs at once.
           </p>
           <div class="photo-strip" style="margin-bottom: 1rem;">
-            <div class="strip-photo" data-src="/assets/HomeLab/GamingPC and Networking.jpg" data-caption="SCHMIDTFLIX in its closet — gaming PC alongside the networking stack">
+            <div class="strip-photo" data-src="/assets/HomeLab/GamingPC and Networking.jpg" data-caption="SCHMIDTFLIX in its closet, gaming PC alongside the networking stack">
               <img src="/assets/HomeLab/GamingPC and Networking.jpg" alt="Gaming PC and networking equipment in closet" loading="lazy">
               <span class="strip-caption">The closet setup</span>
             </div>
-            <div class="strip-photo" data-src="/assets/HomeLab/GamingPC-RGB.jpg" data-caption="SCHMIDTFLIX interior — ASUS RTX 5080, water cooling, RGB fans">
+            <div class="strip-photo" data-src="/assets/HomeLab/GamingPC-RGB.jpg" data-caption="SCHMIDTFLIX interior, ASUS RTX 5080, water cooling, RGB fans">
               <img src="/assets/HomeLab/GamingPC-RGB.jpg" alt="Gaming PC interior with RGB lighting and RTX 5080" loading="lazy">
               <span class="strip-caption">RTX 5080 inside</span>
             </div>
@@ -646,7 +646,7 @@
       <div class="services-group">
         <p class="services-group-label">Networking &amp; Access</p>
         <div class="photo-strip" style="margin-bottom: 1rem;">
-          <div class="strip-photo" data-src="/assets/HomeLab/NetworkWallMount.jpg" data-caption="The network wall mount — Firewalla 'Schmidt Filter', CyberPower UPS, and coax distribution">
+          <div class="strip-photo" data-src="/assets/HomeLab/NetworkWallMount.jpg" data-caption="The network wall mount, Firewalla 'Schmidt Filter', CyberPower UPS, and coax distribution">
             <img src="/assets/HomeLab/NetworkWallMount.jpg" alt="Network wall mount showing Firewalla and UPS" loading="lazy">
             <span class="strip-caption">Schmidt Filter</span>
           </div>
