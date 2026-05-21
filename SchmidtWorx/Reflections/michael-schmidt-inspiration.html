@@ -516,7 +516,8 @@
       { text: "When someone is drowning, that is not the time to teach them how to swim.", author: "Adele Faber", category: "CHARACTER", note: "" },
       { text: "A man who lacks purpose distracts himself with pleasure.", author: "Viktor Frankl", category: "CHARACTER", note: "" },
       { text: "Nobody loves a warrior until an enemy is at the gate.", author: "Anonymous", category: "COURAGE", note: "" },
-      { text: "Time heals all wounds, but it is also the great destroyer. Time is relative but also relentless. There is time for every purpose under heaven, but there is never enough. Time flies, crawls, and races. Seconds can be both split and stretched. Like the tide, time waits for no man, but in dramatic moments it also stands still.", author: "Scientific American Editors, “What Time Is It?” (2012)", category: "KNOWLEDGE", note: "Every clause contradicts itself and every contradiction is true. That’s the part that stops me." }
+      { text: "Time heals all wounds, but it is also the great destroyer. Time is relative but also relentless. There is time for every purpose under heaven, but there is never enough. Time flies, crawls, and races. Seconds can be both split and stretched. Like the tide, time waits for no man, but in dramatic moments it also stands still.", author: "Scientific American Editors, “What Time Is It?” (2012)", category: "KNOWLEDGE", note: "Every clause contradicts itself and every contradiction is true. That’s the part that stops me." },
+      { text: "You cannot swim for new horizons until you have the courage to lose sight of the shore.", author: "William Faulkner", category: "COURAGE", note: "" }
     ];
 
     var categoryMeta = {
@@ -528,8 +529,8 @@
 
     var categoryOrder = [];
     var currentFilter = "ALL";
-    var currentIndex = quotes.findIndex(function (q) { return q.note && q.note.trim().length > 0; });
-    if (currentIndex < 0) currentIndex = 0;
+    // Pick a random quote on first load so the page doesn't always open with the same one.
+    var currentIndex = quotes.length ? Math.floor(Math.random() * quotes.length) : 0;
 
     quotes.forEach(function (quote) {
       if (categoryOrder.indexOf(quote.category) === -1) categoryOrder.push(quote.category);

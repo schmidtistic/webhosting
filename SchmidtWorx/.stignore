@@ -1,0 +1,20 @@
+# Syncthing ignore patterns for SchmidtWorx
+# Created 2026-05-21 after a sync-conflict storm corrupted .git/
+#
+# CRITICAL: never sync the git database across devices. Git already
+# handles cross-machine sync via push/pull. Syncing .git/ in parallel
+# guarantees conflicts on objects, refs, index, packed-refs, etc.
+
+.git
+.git/**
+
+# Transient editor / tool state
+.aider*
+.DS_Store
+.vscode
+.idea
+*.swp
+*.swo
+
+# Sync-conflict files themselves — never propagate them
+(?d)*sync-conflict-*
