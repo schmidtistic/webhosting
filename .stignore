@@ -1,4 +1,5 @@
-# Syncthing ignore patterns for SchmidtWorx
+# Syncthing ignore patterns for the webhosting Syncthing share
+# Covers webhosting/ and everything under it (including SchmidtWorx/)
 # Created 2026-05-21 after a sync-conflict storm corrupted .git/
 #
 # CRITICAL: never sync the git database across devices. Git already
