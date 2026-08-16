@@ -59,3 +59,75 @@ CSS variables defined in `:root`:
 Reflections pages use nested `<details>`/`<summary>` elements with custom +/− icons for collapsible essays. Cards use the `.section-card` and `.archive-card` classes defined in `style.css`.
 
 Per-person pages in `LettersAndRecordings/` (e.g., `michael-schmidt.html`) organize content into Roman-numeral subsections by medium — currently I. Personal Messages, II. Documentary Interviews, III. Readings, IV. Videos and Montages, V. Spaces and Systems Built. New artifact types (scanned documents, ephemera, etc.) should be added as additional Roman-numeral sections on the same page rather than spawning new top-level sections. Individual entries inside each section use the `details-card` / `<details><summary>` pattern.
+
+### Page scans (preserved documents)
+
+Reflections pages built from a scanned source document — currently
+`Reflections/ronald-schmidt.html` and `Reflections/kenneth-oswald-schmidt.html` — show
+the original sheets alongside the transcription. Two parts:
+
+1. Each `<summary>` carries a one-line teaser so the collapsed list is skimmable.
+2. Each open entry ends with a strip of page thumbnails; clicking one opens a
+   full-size viewer.
+
+**Storage convention.** For a source document at `assets/<Name>.pdf`, its rendered
+pages live in `assets/<Name>-pages/`:
+
+```
+assets/Schmidt-Reunion-1995.pdf
+assets/Schmidt-Reunion-1995-pages/p01.jpg        1200px wide — the viewer
+assets/Schmidt-Reunion-1995-pages/p01-thumb.jpg   320px wide — the strip
+```
+
+`NN` is the page's **1-based position in that PDF**, zero-padded to two digits.
+That is the entire naming rule — no per-story folders, no slugs, no renumbering.
+Any thumbnail on the site can be checked against its source by opening the PDF to
+that page number.
+
+Consequences worth knowing:
+
+- A sheet holding two stories is referenced by both entries rather than duplicated
+  (e.g. reunion p25 is both *Little Boy Lost* and *Growing Up*; p30, p33 likewise).
+- A page can be referenced across documents. *Finches* appears on Kenneth's page but
+  the sheet was kept with Ronald's papers, so it points at
+  `Schmidt-Ronald-Stories-pages/p16.jpg`.
+- `-pages/` folders are generated output. They are safe to delete and rebuild.
+
+**Regenerating.** Never make these by hand:
+
+```bash
+python3 scripts/make-page-scans.py assets/Schmidt-Reunion-1995.pdf
+python3 scripts/make-page-scans.py --all      # every PDF that already has a -pages/ folder
+```
+
+Requires poppler (`brew install poppler`) and Pillow.
+
+⚠️ **If a source PDF is edited, page numbers shift.** Re-run the script, then re-check
+every page number referenced in that document's HTML. Ronald's PDF had a duplicate
+page removed on 2026-08-16, which moved the 80th-birthday sheets from 18–24 to 17–23.
+
+**Markup and styling.** The strip markup is:
+
+```html
+<div class="scan-strip">
+  <p class="scan-strip-label">The original pages · 2</p>
+  <div class="scan-row">
+    <button type="button" class="scan-page"
+            data-src="/assets/<Name>-pages/p03.jpg"
+            data-caption="Story Title — page 1 of 2">
+      <img src="/assets/<Name>-pages/p03-thumb.jpg" alt="…" loading="lazy"
+           width="320" height="414">
+    </button>
+  </div>
+</div>
+```
+
+Every page using it needs one `.lightbox` block before the closing scripts, plus
+`<script src="/scripts/page-scans.js"></script>`. Styles (`.entry-teaser`,
+`.scan-strip`, `.scan-page`, `.lightbox`) live at the end of `style.css`; behaviour
+lives in `scripts/page-scans.js`, which scopes the viewer to the `.scan-row` that was
+clicked so the counter reads within one document.
+
+Deliberately **no sepia or tinting** — the paper is already warm against the dark
+background. What makes a scan read as an object is the contact edge, the cast shadow
+and a half-degree rotation, all in CSS.

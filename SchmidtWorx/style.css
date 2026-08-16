@@ -1019,14 +1019,16 @@ details[open] .entry-teaser {
     margin: 0 0 0.9rem;
 }
 
+/* A grid, not a flex row: every sheet lands on the same column width
+   whether an entry has two pages or eleven, and long strips wrap into a
+   tidy contact sheet instead of shrinking to slivers. */
 .scan-row {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
     gap: 1rem;
     margin-bottom: 0.4rem;
 }
 
-/* Sheets sit at 84px but may shrink, so even the longest strip stays
-   on one row rather than orphaning a single sheet onto a second. */
 .scan-page {
     appearance: none;
     border: 0;
@@ -1036,7 +1038,6 @@ details[open] .entry-teaser {
     line-height: 0;
     cursor: zoom-in;
     border-radius: 2px;
-    flex: 0 1 84px;
     min-width: 0;
     transition: transform 0.25s ease, filter 0.25s ease;
 }
@@ -1187,14 +1188,8 @@ details[open] .entry-teaser {
 
 @media (max-width: 720px) {
 
-    /* Let the strip wrap rather than shrink — seven sheets squeezed onto
-       one row stop reading as paper. */
     .scan-row {
-        flex-wrap: wrap;
+        grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
         gap: 0.75rem;
-    }
-
-    .scan-page {
-        flex: 0 0 64px;
     }
 }
