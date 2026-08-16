@@ -1,0 +1,1409 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PREVIEW · Reflections – Ronald Schmidt | SchmidtWorx</title>
+  <meta name="description"
+    content="Stories written by Ronald Schmidt (1927–2019): a Nebraska boyhood during the Depression and service with the Seabees in the Pacific, preserved as he typed them." />
+  <meta property="og:title" content="Reflections – Ronald Schmidt | SchmidtWorx" />
+  <meta property="og:description"
+    content="Stories written by Ronald Schmidt (1927–2019): a Nebraska boyhood during the Depression and service with the Seabees in the Pacific, preserved as he typed them." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://schmidtworx.com/Reflections/ronald-schmidt.html" />
+  <meta property="og:image" content="https://schmidtworx.com/og-image.png" />
+  <meta property="og:site_name" content="SchmidtWorx" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Reflections – Ronald Schmidt | SchmidtWorx" />
+  <meta name="twitter:description"
+    content="Stories written by Ronald Schmidt (1927–2019): a Nebraska boyhood during the Depression and service with the Seabees in the Pacific, preserved as he typed them." />
+  <meta name="twitter:image" content="https://schmidtworx.com/og-image.png" />
+  <link rel="stylesheet" href="/style.css" />
+
+  <style>
+    /* ── Prototype-only: scanned page facsimiles ──────────────────
+       If this treatment is kept, these rules move into style.css. */
+
+    /* Summary gains a second line: a one-line teaser under the title. */
+    .entry-head { display: flex; flex-direction: column; gap: 0.3rem; flex: 1; min-width: 0; }
+    .entry-name { font-size: 1.08rem; font-weight: 600; line-height: 1.3; }
+    .entry-teaser {
+      font-family: var(--sans);
+      font-size: 0.88rem;
+      font-weight: 400;
+      line-height: 1.45;
+      color: var(--ink-faint);
+      text-wrap: pretty;
+    }
+    details[open] .entry-teaser { color: var(--ink-muted); }
+
+    /* The strip of original pages at the foot of an open entry. */
+    .scan-strip {
+      margin-top: 1.7rem;
+      padding-top: 1.1rem;
+      border-top: 1px solid rgba(215, 195, 160, 0.12);
+    }
+    .scan-strip-label {
+      font-family: var(--mono);
+      font-size: 0.66rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin: 0 0 0.9rem;
+    }
+    .scan-row { display: flex; gap: 1rem; margin-bottom: 0.4rem; }
+
+    /* Sheets sit at 84px, but may shrink so that even the longest strip
+       (the 7 birthday pages) stays on one row and never orphans a sheet. */
+    .scan-page {
+      appearance: none;
+      border: 0;
+      background: none;
+      padding: 0;
+      margin: 0;
+      line-height: 0;
+      cursor: zoom-in;
+      border-radius: 2px;
+      flex: 0 1 84px;
+      min-width: 0;
+      transition: transform 0.25s ease, filter 0.25s ease;
+    }
+    .scan-page img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 2px;
+      /* The paper sits on the page rather than in it: a hard contact
+         edge plus a soft cast shadow. No filter, no tinting. */
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.55), 0 12px 26px rgba(0, 0, 0, 0.45);
+      outline: 1px solid rgba(0, 0, 0, 0.4);
+    }
+    /* Barely-there rotation. Enough to read as paper, not enough to look styled. */
+    .scan-page:nth-child(odd)  { transform: rotate(-0.5deg); }
+    .scan-page:nth-child(even) { transform: rotate(0.65deg); }
+    .scan-page:hover,
+    .scan-page:focus-visible { transform: rotate(0deg) translateY(-3px); filter: brightness(1.05); }
+    .scan-page:focus-visible { outline: 2px solid var(--accent); outline-offset: 5px; }
+
+    @media (max-width: 720px) {
+      /* On phones let the strip wrap instead of shrinking — seven sheets
+         squeezed onto one row stop reading as paper. */
+      .scan-row { flex-wrap: wrap; gap: 0.75rem; }
+      .scan-page { flex: 0 0 64px; }
+    }
+
+    /* ── Lightbox (same pattern as the Builds pages) ───────────── */
+    .lightbox {
+      display: none; position: fixed; inset: 0; z-index: 9999;
+      background: rgba(0, 0, 0, 0.92); backdrop-filter: blur(14px);
+      align-items: center; justify-content: center;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox-inner {
+      position: relative; display: flex; flex-direction: column;
+      align-items: center; gap: 1rem; max-width: 90vw;
+    }
+    .lightbox img {
+      max-width: 90vw; max-height: 80vh; object-fit: contain;
+      border-radius: 4px; display: block;
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.6);
+    }
+    .lightbox-caption { color: var(--muted); font-size: 0.9rem; text-align: center; margin: 0; }
+    .lightbox-close {
+      position: absolute; top: -3.25rem; right: 0;
+      width: 2.5rem; height: 2.5rem; border-radius: 50%;
+      border: 1px solid var(--border); background: rgba(255, 255, 255, 0.06);
+      color: var(--fg); cursor: pointer; font-size: 1.4rem; line-height: 1;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+    .lightbox-close:hover { background: rgba(255, 255, 255, 0.12); border-color: var(--border-strong); }
+    .lightbox-nav {
+      position: fixed; top: 50%; transform: translateY(-50%);
+      width: 3rem; height: 3rem; border-radius: 50%;
+      border: 1px solid var(--border); background: rgba(18, 20, 22, 0.8);
+      color: var(--fg); cursor: pointer; font-size: 1.5rem;
+      display: flex; align-items: center; justify-content: center;
+      backdrop-filter: blur(8px);
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+    .lightbox-nav:hover { background: rgba(18, 20, 22, 1); border-color: var(--border-strong); }
+    .lightbox-prev { left: 1.25rem; }
+    .lightbox-next { right: 1.25rem; }
+    .lightbox-counter {
+      position: fixed; top: 1.25rem; left: 50%; transform: translateX(-50%);
+      font-size: 0.8rem; letter-spacing: 0.08em; color: var(--muted);
+      background: rgba(18, 20, 22, 0.7); padding: 0.3rem 0.9rem;
+      border-radius: 999px; border: 1px solid var(--border); backdrop-filter: blur(8px);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Header loads here -->
+  <header>
+    <div class="nav-container">
+      <a class="site-title" href="/index.html" aria-label="SchmidtWorx home">
+        <span class="site-title-mark">Sw</span>
+        <strong class="site-title-name">SCHMIDTWORX</strong>
+        <span class="site-title-sub">Archive · Est. 2026</span>
+      </a>
+      <button class="hamburger" id="hamburger" type="button" aria-expanded="false" aria-controls="menu"
+        aria-label="Open navigation">
+        <span aria-hidden="true">☰</span>
+      </button>
+    </div>
+
+    <nav id="menu" aria-label="Primary navigation">
+      <a class="nav-link" href="/index.html">Home</a>
+    </nav>
+  </header>
+  <!-- Header ends here -- Populate Body starting right below -->
+
+  <main class="container page-shell">
+
+    <nav aria-label="Breadcrumb" class="breadcrumb">
+      <ol>
+        <li><a href="/index.html">Home</a></li>
+        <li aria-current="page">Ronald Schmidt</li>
+      </ol>
+    </nav>
+
+    <section class="hero">
+      <p class="eyebrow">Preserved Document</p>
+      <h1>Reflections of Ronald Schmidt (1927-2019)</h1>
+      <p class="tagline">
+        A collection of writings preserved as they were written.
+      </p>
+    </section>
+
+    <section id="context" class="section-card">
+      <p class="section-kicker">Context</p>
+      <h2 class="section-heading">Stories typed out in his own words, one at a time.</h2>
+
+      <p>
+        Ronald Schmidt was the son of Kenneth "Big Daddy" Oswald Schmidt and the
+        father of Gregory Schmidt. He grew up during the Depression on a small
+        place in Nebraska with his brother Dick and his sister Marge, and he
+        joined the Navy near the end of the Second World War, arriving in Hawaii
+        in September 1945 and shipping on to Okinawa that fall.
+      </p>
+
+      <p>
+        The stories here were typed individually, each one titled and finished
+        with a small mark at the end. They were kept together with letters and
+        loose papers that came down with them.
+      </p>
+
+      <p>
+        The original document has been preserved in its entirety, including
+        pages written by others that were kept alongside his.
+      </p>
+
+      <p class="pdf-link">
+        <strong>
+          <a href="../assets/Schmidt-Ronald-Stories.pdf" target="_blank">
+            View or download the complete original document (PDF)
+          </a>
+        </strong>
+      </p>
+    </section>
+
+    <section id="contents" class="content-panel">
+      <h2 class="content-title">Contents</h2>
+
+      <ul class="content-list">
+
+        <!-- I -->
+        <li>
+          <strong>I. Growing Up in Nebraska</strong>
+          <ul>
+
+            <li>
+              <details>
+                <summary>
+                  <span class="entry-head">
+                    <span class="entry-name">Bathrooms and Toilets</span>
+                    <span class="entry-teaser">A two-holer, a candle, and last year&#x27;s Sears catalogue.</span>
+                  </span>
+                </summary>
+
+                <p>
+                  Until I was 12 years old none of the houses we lived in had
+                  inside bathrooms. They all had running water and kitchen sinks,
+                  but no bathroom facilities. They all had outside, 2 hole, pit
+                  toilets, located 30 or 40 yards from the back door. There was
+                  usually a plank walk from the back door to the toilet. The
+                  toilet was framed with 2x4's and covered with 1x12's butted
+                  together. It had a sloped roof and a hinged door with a hook
+                  lock on the inside. It was not insulated, lighted , or heated.
+                </p>
+
+                <p>
+                  Outside toilets were not to bad in nice weather. There was
+                  usually a flashlight near the back door for night time trips.
+                  At night my brother or sister might go along with me. After all
+                  it was a "two holer".
+                </p>
+
+                <p>
+                  The Wilson's next door had a 4 holer. One large hole, one
+                  medium hole, and two smaller holes. They had 5 boys and an
+                  uncle in that family. The toilet paper was usually last years
+                  Sears catalogue.
+                </p>
+
+                <p>
+                  In cold weather I would put on a long coat when I went to the
+                  toilet. It was surprising how much warmth you could from a
+                  candle. If it was windy out, the breezes would blow through and
+                  up, and many times blew the candle out.
+                </p>
+
+                <p>
+                  In the cold weather we had a pot in each bedroom. This was a
+                  tinkle pot, and we would use it before going to bed or if we
+                  had to go in the middle of the night. Of course one of the
+                  first chores in the morning was to go dump the pots. This was
+                  usually one of the kid's chores.
+                </p>
+
+                <p>
+                  The other problem of "no inside bathroom" was taking a bath.
+                  We only took a bath on Saturday, so that was the only day it
+                  was a problem.
+                </p>
+
+                <p>
+                  Mom would heat up several pans of hot water on the stove and
+                  pour them into a large galvanized tub in the middle of the
+                  kitchen floor. Mom was the first to use the bath water. When
+                  she was done my sister or dad would use the water. Each of the
+                  family would take a bath [the cleanest one first, the dirtiest
+                  one last]. Mom would try to keep everyone out of the kitchen
+                  and would have a pan of warm water ready to rinse you off when
+                  you stood up after your bath.
+                </p>
+
+                <p>
+                  We had a large cast iron range in the kitchen. In the winter
+                  time Mom would open the oven door and put the tub right in
+                  front of it. This would really keep us warm.
+                </p>
+
+                <p>
+                  There was soap, a wash pan, and a towel next to the sink for
+                  washing before meals and at bedtime.
+                </p>
+
+                <p>
+                  I imagine a lot of people are still living this way today.
+                </p>
+
+                <div class="scan-strip">
+                  <p class="scan-strip-label">The original pages · 2</p>
+                  <div class="scan-row">
+                    <button type="button" class="scan-page" data-src="/assets/Schmidt-Ronald-Stories-pages/p01.jpg" data-caption="Bathrooms and Toilets — page 1 of 2">
+                      <img src="/assets/Schmidt-Ronald-Stories-pages/p01-thumb.jpg" alt="Scan of bathrooms and toilets — page 1 of 2" loading="lazy" width="320" height="414">
+                    </button>
+                    <button type="button" class="scan-page" data-src="/assets/Schmidt-Ronald-Stories-pages/p02.jpg" data-caption="Bathrooms and Toilets — page 2 of 2">
+                      <img src="/assets/Schmidt-Ronald-Stories-pages/p02-thumb.jpg" alt="Scan of bathrooms and toilets — page 2 of 2" loading="lazy" width="320" height="414">
+                    </button>
+                  </div>
+                </div>
+              </details>
+            </li>
+
+            <li>
+              <details>
+                <summary>
+                  <span class="entry-head">
+                    <span class="entry-name">The Screaming Toad</span>
+                    <span class="entry-teaser">Something was squealing under the front stoop.</span>
+                  </span>
+                </summary>
+
+                <p>
+                  The last place we lived in Nebraska had about 5 acres of land
+                  and a large yard. Our dog, Mugs, kept other dogs and most other
+                  creatures away from the house. He would even attack toads when
+                  he found them. The strange part was that when he would bite the
+                  toad, a chemical on the toad would cause the dog to foam at the
+                  mouth, so we usually tried to keep the dog from the toad. We
+                  would pick them up, but thought that if they would pee on us,
+                  we would get warts
+                </p>
+
+                <p>
+                  I was alone in the back yard one evening at dusk, when I heard
+                  a high pitched squeal. I didn't have any idea what it was, so I
+                  started following the sound. It got louder as I got out in
+                  front of the house.
+                </p>
+
+                <p>
+                  The front of the house did not have a front porch. It had a
+                  large concrete stoop at the front door. The sound got louder as
+                  I got to the one side of the stoop. It was nearly dark and I
+                  did not have any kind of light, so I got down on my hands and
+                  knees to see where the squealing was coming from.
+                </p>
+
+                <p>
+                  There it was! I could see it! A toad was stuck in a crack in
+                  the side of the stoop. It's two back legs were sticking out and
+                  it was squealing. Poor thing, must have got stuck trying to get
+                  into the crack.
+                </p>
+
+                <p>
+                  I decided to ease it out. I grabbed both hind legs and gently
+                  started to pull. After a couple of tugs it started to slowly
+                  come out. I pulled it out about a foot, when it dawned on me
+                  that I must be pulling its insides out.
+                </p>
+
+                <p>
+                  I wanted to get a closer look. But it was too dark, I had to
+                  bend my head way down next to the toad to see it. YIPES! I was
+                  looking at the head of a snake. The front end of the toad was
+                  in a snakes mouth. I dropped the toad, jumped up and ran into
+                  the house to get a flashlight and Mugs. Mugs could kill a snake
+                  in the wink of an eye.
+                </p>
+
+                <p>
+                  When we got back out in front, I couldn't find a trace of the
+                  toad or the snake.
+                </p>
+
+                <div class="scan-strip">
+                  <p class="scan-strip-label">The original pages · 2</p>
+                  <div class="scan-row">
+                    <button type="button" class="scan-page" data-src="/assets/Schmidt-Ronald-Stories-pages/p03.jpg" data-caption="The Screaming Toad — page 1 of 2">
+                      <img src="/assets/Schmidt-Ronald-Stories-pages/p03-thumb.jpg" alt="Scan of the screaming toad — page 1 of 2" loading="lazy" width="320" height="414">
+                    </button>
+                    <button type="button" class="scan-page" data-src="/assets/Schmidt-Ronald-Stories-pages/p04.jpg" data-caption="The Screaming Toad — page 2 of 2">
+                      <img src="/assets/Schmidt-Ronald-Stories-pages/p04-thumb.jpg" alt="Scan of the screaming toad — page 2 of 2" loading="lazy" width="320" height="414">
+                    </button>
+                  </div>
+                </div>
+              </details>
+            </li>
+
+            <li>
+              <details>
+                <summary>
+                  <span class="entry-head">
+                    <span class="entry-name">Quarantined</span>
+                    <span class="entry-teaser">A red sign on the door, and crossbows firing notes down the block.</span>
+                  </span>
+                </summary>
+
+                <p>
+                  In an attempt to reduce the spread of contagious diseases, it
+                  was the law during the depression, that anyone with a
+                  contagious disease would be quarantined. Once a doctor
+                  diagnosed a person to have a contagious disease, a man from the
+                  county would come to the house and tack a big red sign
+                  " QUARANTINED " next to the front door.
+                </p>
+
+                <p>
+                  When a house was put in quarantine, people living there could
+                  not leave the property until the quarantine was over. Anyone
+                  coming to the house could not even go up to the front door.
+                  Supposedly anyone going into the house had to stay there or go
+                  to their own house and be quarantined there.
+                </p>
+
+                <p>
+                  When I was 9 or 10 years old, I was diagnosed with scarlet
+                  fever. A contagious disease. A man from the county came out and
+                  put a quarantined sign next to the front door. It was during
+                  the school year which meant my brother and sister had to stay
+                  home too. I think that the quarantine was for three weeks.
+                </p>
+
+                <p>
+                  Fortunately my case was pretty light and I was only sick for a
+                  few days. I don't think my brother or sister ever did get it.
+                </p>
+
+                <p>
+                  The Rudder family, who lived at the other of the same block,
+                  was quarantined at the same time. We both built crossbows out
+                  of tongue and groove boards and innertubes. The arrows were
+                  made out of shingles. We spent the days tying notes to the
+                  arrows and sending messages back and forth.
+                </p>
+
+                <p>
+                  My dad didn't want to loose any time at work, so he couldn't
+                  come in the house. He slept in the barn. Mr. Rudder slept in a
+                  cave they had dug on his property. I can't remember what they
+                  did for meals, but I suppose mom fed them somehow.
+                </p>
+
+                <div class="scan-strip">
+                  <p class="scan-strip-label">The original pages · 2</p>
+                  <div class="scan-row">
+                    <button type="button" class="scan-page" data-src="/assets/Schmidt-Ronald-Stories-pages/p05.jpg" data-caption="Quarantined — page 1 of 2">
+                      <img src="/assets/Schmidt-Ronald-Stories-pages/p05-thumb.jpg" alt="Scan of quarantined — page 1 of 2" loading="lazy" width="320" height="414">
+                    </button>
+                    <button type="button" class="scan-page" data-src="/assets/Schmidt-Ronald-Stories-pages/p06.jpg" data-caption="Quarantined — page 2 of 2">
+                      <img src="/assets/Schmidt-Ronald-Stories-pages/p06-thumb.jpg" alt="Scan of quarantined — page 2 of 2" loading="lazy" width="320" height="414">
+                    </button>
+                  </div>
+                </div>
+              </details>
+            </li>
+
+            <li>
+              <details>
+                <summary>
+                  <span class="entry-head">
+                    <span class="entry-name">A Rat in the Feed Barrel</span>
+                    <span class="entry-teaser">The rat found a way out. It went through his overalls.</span>
+                  </span>
+                </summary>
+
+                <p>
+                  When we were kids living in Nebraska, my brother, sister, and I
+                  were all assigned chores.
+                </p>
+
+                <p>
+                  My brother Dick took care of our cow, Tillie. He had to see
+                  that the cow got fed, had water, and was taken to good pasture.
+                  He also had to milk it twice a day.
+                </p>
+
+                <p>
+                  My sister Marge was assigned daily house chores. These included
+                  making the beds and doing the dishes.
+                </p>
+
+                <p>
+                  My job was taking care of the chickens. The number of chickens
+                  we had varied. The most we ever had was two hundred. In the
+                  spring we incubated new chicks. The average number was about
+                  30.
+                </p>
+
+                <p>
+                  My job was to feed them twice a day, make sure they had water,
+                  and gather the eggs. The chicken feed, which was cracked corn,
+                  was kept in a 55 gallon drum in the feed shed. I used a one
+                  gallon can to measure out the feed. The feed can was always
+                  left in the barrel.
+                </p>
+
+                <p>
+                  One day, when I was about eleven years old, I went out to give
+                  them their afternoon feeding. It must have been a hot day
+                  because all that I had on was my underwear and bibbed overalls.
+                  I was bare footed. The feed in the feed barrel was very low. I
+                  bent over the edge of the barrel, feeling in the bottom for the
+                  feed can. All of a sudden I felt something run across my hand.
+                  I jumped back. The lighting was poor and I had to tip the
+                  barrel towards the door to see in the bottom of the barrel.
+                  There was a rat frantically running around the bottom of the
+                  barrel. It had fallen in and couldn't climb up the slippery
+                  sides to get out.
+                </p>
+
+                <p>
+                  We had a dog, Mugs, that was an excellent ratter. He would kill
+                  a rat in the wink of an eye. I called Mugs, picked him up, held
+                  him over the barrel, and showed him the rat. He was really
+                  excited, but when I tried to put him in the barrel, he would
+                  spread his legs and I couldn't get him in the barrel. I figured
+                  the best thing to do was to give the rat a path to get out.
+                  When it came out the dog would catch and kill it.
+                </p>
+
+                <p>
+                  I looked around and found an old broom stick. This would do
+                  just fine. I put the one end of the stick down into the barrel.
+                  Before the stick touched bottom, out came the rat. I still had
+                  a hold on the other end of the stick. The rat jumped from the
+                  stick --- inside the bib of my overalls --- down through my
+                  overalls --- and out my pants leg to freedom. I looked down at
+                  Mugs and he was still looking up at me. He hadn't even seen the
+                  rat. I was so mad that I turned around and scolded the dog.
+                </p>
+
+                <div class="scan-strip">
+                  <p class="scan-strip-label">The original pages · 2</p>
+                  <div class="scan-row">
+                    <button type="button" class="scan-page" data-src="/assets/Schmidt-Ronald-Stories-pages/p07.jpg" data-caption="A Rat in the Feed Barrel — page 1 of 2">
+                      <img src="/assets/Schmidt-Ronald-Stories-pages/p07-thumb.jpg" alt="Scan of a rat in the feed barrel — page 1 of 2" loading="lazy" width="320" height="414">
+                    </button>
+                    <button type="button" class="scan-page" data-src="/assets/Schmidt-Ronald-Stories-pages/p08.jpg" data-caption="A Rat in the Feed Barrel — page 2 of 2">
+                      <img src="/assets/Schmidt-Ronald-Stories-pages/p08-thumb.jpg" alt="Scan of a rat in the feed barrel — page 2 of 2" loading="lazy" width="320" height="414">
+                    </button>
+                  </div>
+                </div>
+              </details>
+            </li>
+
+            <li>
+              <details>
+                <summary>
+                  <span class="entry-head">
+                    <span class="entry-name">Hatching Chickens</span>
+                    <span class="entry-teaser">Two hundred eggs, an X on one side and an O on the other.</span>
+                  </span>
+                </summary>
+
+                <p>
+                  When I was living in Nebraska one of my chores was taking care
+                  of the chickens. A couple of times, in the spring of the year,
+                  we hatched new chicks. This was quite a chore and everybody in
+                  the house helped.
+                </p>
+
+                <p>
+                  Dad would buy 200 fertile eggs for us to hatch in an incubator.
+                  I think he must have rented the incubator. The incubator was a
+                  little smaller than a card table and had a big heated drawer,
+                  big enough to put all 200 eggs in it with room left around each
+                  egg. The incubator was heated with kerosine and I think we kept
+                  it in the storm cellar.
+                </p>
+
+                <p>
+                  Before we could start we had to put a big "X" on one side of
+                  the egg and a big "O" on the other side. Then we let the
+                  incubator heat up to 104 degrees. We then we put the eggs in,
+                  with all the "X"s up. In the evening we would open the drawer
+                  and turn all the "O"s up. Every morning we put the "X" up,
+                  every evening we turned the "O" up. It seems mama hen moves the
+                  eggs around when she is hatching them and we had to do the
+                  same.
+                </p>
+
+                <p>
+                  For three weeks we watched and waited. We had to make sure that
+                  the flame was always lit and that the incubator did not run out
+                  of kerosine.
+                </p>
+
+                <p>
+                  After three weeks the eggs would start to hatch. That was the
+                  exciting time. The drawer had a glass front so that you could
+                  look in at the eggs near the front. The little chicks would
+                  peck a hole in the shell to break it. When the shell broke, out
+                  would come the little chick. He would be all wet and kind of
+                  droopy looking. In a little bit the 104 degree temperature had
+                  the little chick dry and fluffy yellow.
+                </p>
+
+                <p>
+                  Every once in a while we would open the drawer, take the dry
+                  chicks out and put them in a brooder. The brooder was like a
+                  big flat tin can with a light bulb in it. This was put down
+                  over the chicks to contain them and keep them warm. Most of the
+                  eggs hatched. A few didn't, and we never knew why.
+                </p>
+
+                <p>
+                  The chicks were kept in the brooder for a week or so, until
+                  they were strong enough to survive on their own.
+                </p>
+
+                <div class="scan-strip">
+                  <p class="scan-strip-label">The original pages · 2</p>
+                  <div class="scan-row">
+                    <button type="button" class="scan-page" data-src="/assets/Schmidt-Ronald-Stories-pages/p09.jpg" data-caption="Hatching Chickens — page 1 of 2">
+                      <img src="/assets/Schmidt-Ronald-Stories-pages/p09-thumb.jpg" alt="Scan of hatching chickens — page 1 of 2" loading="lazy" width="320" height="414">
+                    </button>
+                    <button type="button" class="scan-page" data-src="/assets/Schmidt-Ronald-Stories-pages/p10.jpg" data-caption="Hatching Chickens — page 2 of 2">
+                      <img src="/assets/Schmidt-Ronald-Stories-pages/p10-thumb.jpg" alt="Scan of hatching chickens — page 2 of 2" loading="lazy" width="320" height="414">
+                    </button>
+                  </div>
+                </div>
+              </details>
+            </li>
+
+          </ul>
+        </li>
+
+        <!-- II -->
+        <li>
+          <strong>II. The Navy Years, 1945</strong>
+          <ul>
+
+            <li>
+              <details>
+                <summary>
+                  <span class="entry-head">
+                    <span class="entry-name">Splinter Belly</span>
+                    <span class="entry-teaser">How he earned the nickname, thirty feet up a telephone pole.</span>
+                  </span>
+                </summary>
+
+                <p>
+                  I arrived in Hawaii in early September 1945. I was transferred
+                  to the Seabees and sent to telephone school. In this school we
+                  were taught how to install and maintain telephone systems. One
+                  of things we were taught was how to climb telephone poles.
+                </p>
+
+                <p>
+                  Pole climbing "hooks" are bent metal straps which fit in the
+                  instep of your shoes and up the inside calf of the leg. They
+                  are strapped to the leg at the ankle and above the calf of the
+                  leg. Each "hook" has a big pointed spike at the instep. This
+                  allows a person to climb the poles.
+                </p>
+
+                <p>
+                  Each time you climb a pole, the spike makes a hole in the pole
+                  on each step of the climb. This hole makes a big splinter
+                  sticking out from the pole. You make a hole for each step going
+                  up and for each step coming down. Practice poles used for
+                  teaching climbing were soon full of holes and splinters.
+                </p>
+
+                <p>
+                  I was a pretty good climber up to about 15 feet. Above that I
+                  was not very good. As I got above 15 feet I would get my body
+                  closer and closer to the pole. The higher I got the closer I
+                  would get to the pole. This was bad, because the closer to the
+                  pole you got, the more apt you were to "cut out". This means
+                  the spike would not go into the pole and you would have to grab
+                  onto the pole to keep from falling.
+                </p>
+
+                <p>
+                  To wrap your arms and legs around a pole full of splinters was
+                  not much fun. It was even less fun to shinny down a 30 foot
+                  pole. As time went on I got a little better, but there for a
+                  while I was known as "SPLINTER BELLY".
+                </p>
+
+                <div class="scan-strip">
+                  <p class="scan-strip-label">The original page</p>
+                  <div class="scan-row">
+                    <button type="button" class="scan-page" data-src="/assets/Schmidt-Ronald-Stories-pages/p11.jpg" data-caption="Splinter Belly">
+                      <img src="/assets/Schmidt-Ronald-Stories-pages/p11-thumb.jpg" alt="Scan of splinter belly" loading="lazy" width="320" height="414">
+                    </button>
+                  </div>
+                </div>
+              </details>
+            </li>
+
+            <li>
+              <details>
+                <summary>
+                  <span class="entry-head">
+                    <span class="entry-name">Rats</span>
+                    <span class="entry-teaser">Okinawa, 1945. Everything that went missing was under the floor.</span>
+                  </span>
+                </summary>
+
+                <p>
+                  In the fall of 1945 I was transferred from Hawaii to Okinawa.
+                  The trip was made on a troop ship, and only took about 10 days.
+                  A typhoon had hit the island just a couple weeks before we got
+                  there, and everything was a mess. There were no living quarters
+                  available, so we were given temporary housing right on the
+                  beach of Buckner Bay. The housing was tents [about 12 ft.
+                  square]. A piece of plywood was put on the ground and the tent
+                  erected over it.
+                </p>
+
+                <p>
+                  Four men were assigned to each tent. We were given army type
+                  cots to sleep on. Two cots end to end on each side of the tent.
+                  We put an old orange crate at the end of the tent and kept
+                  snack food there. Peanut butter, crackers, silverware etc. We
+                  wern't there very long before the rats moved in.
+                </p>
+
+                <p>
+                  We seldom saw the rats in the day time, but it was common to
+                  wake up in the middle of the night by one galloping across your
+                  bunk. No one ever got very excited about them, and I never
+                  heard of anyone getting bit.
+                </p>
+
+                <p>
+                  Our biggest hazard was Leon Sinknecht. He slept across from me
+                  next to the door flap. In the middle of the night, the rats
+                  would make so much noise in the orange crate that they would
+                  wake Leon up. He had a bolo knife [a knife about 2 feet long],
+                  he would let out yell of profanity, and through the knife at
+                  the orange crate. Whing-whing-whing it would spin through the
+                  air and crash into the orange crate. He usually hit the orange
+                  crate, but never hit a rat. It did quiet them down long enough
+                  for everyone to get back to sleep.
+                </p>
+
+                <p>
+                  Another problem we had is that things would disapear. More than
+                  once I would wash a pair of socks and hang them on a line
+                  across my corner of the tent. I would awake in the morning to
+                  find one or both socks missing.
+                </p>
+
+                <p>
+                  We were only in this camp for maybe 6 weeks. Then we were told
+                  to tear down the tents and pack them up. We took the tents down
+                  and lifted the plywood floor, and there were all the missing
+                  items. The socks, the silverwear, and a few trinkets. It seems
+                  these were pack rats, and they were living right under our
+                  floor. I dont really remember seeing the rats when we lifted
+                  the floor. Just the booty.
+                </p>
+
+                <div class="scan-strip">
+                  <p class="scan-strip-label">The original pages · 2</p>
+                  <div class="scan-row">
+                    <button type="button" class="scan-page" data-src="/assets/Schmidt-Ronald-Stories-pages/p12.jpg" data-caption="Rats — page 1 of 2">
+                      <img src="/assets/Schmidt-Ronald-Stories-pages/p12-thumb.jpg" alt="Scan of rats — page 1 of 2" loading="lazy" width="320" height="414">
+                    </button>
+                    <button type="button" class="scan-page" data-src="/assets/Schmidt-Ronald-Stories-pages/p13.jpg" data-caption="Rats — page 2 of 2">
+                      <img src="/assets/Schmidt-Ronald-Stories-pages/p13-thumb.jpg" alt="Scan of rats — page 2 of 2" loading="lazy" width="320" height="414">
+                    </button>
+                  </div>
+                </div>
+              </details>
+            </li>
+
+          </ul>
+        </li>
+
+        <!-- III -->
+        <li>
+          <strong>III. Letters</strong>
+          <ul>
+
+            <li>
+              <details>
+                <summary>
+                  <span class="entry-head">
+                    <span class="entry-name">To Hermie — Friday, September 5</span>
+                    <span class="entry-teaser">Florida, a flight to Oregon, and a firm, bold signature.</span>
+                  </span>
+                </summary>
+
+                <p><em>Fri. Sept 5,</em></p>
+
+                <p>Dear Hermie,</p>
+
+                <p>
+                  Hi again. Received your letter a while back and was glad to
+                  hear from you. Our trip to Florida was fun. Most of Dick and
+                  Marges kids and grandkids were there. Two of our kids couldn't
+                  make it. (money problems). We took some pictures. I'll try to
+                  remember to bring some when I come to see you..
+                </p>
+
+                <p>
+                  Yes we are plannig on coming to Chicago sometime after the 16th
+                  of September. We are going to drive to Chicago. Then Dick
+                  Marge, and I and our better halves are going to fly to Oregon
+                  to visit our uncle and celebrate his 92nd birthday. When we
+                  come back we are going to stay in Chicago for a day or two
+                  before returning to Pittsburgh.
+                </p>
+
+                <p>
+                  I don't know if I'll see you before or after the Oregon trip,
+                  but I'll try to call a day ahead of time and I'll have to call
+                  and get directions.
+                </p>
+
+                <p>
+                  I hope the weather is better for our trip than it has been
+                  here.. We have had rain rain rain..
+                </p>
+
+                <p>
+                  Your handwritting is very good. I'm glad that you noticed the
+                  firm, bolld hand in my signiture. I have always tried to
+                  pattern myself after Tarz Tayler The strong silent type
+                  (MRRUMPH)
+                </p>
+
+                <div class="scan-strip">
+                  <p class="scan-strip-label">The original page</p>
+                  <div class="scan-row">
+                    <button type="button" class="scan-page" data-src="/assets/Schmidt-Ronald-Stories-pages/p14.jpg" data-caption="To Hermie — Friday, September 5">
+                      <img src="/assets/Schmidt-Ronald-Stories-pages/p14-thumb.jpg" alt="Scan of to hermie — friday, september 5" loading="lazy" width="320" height="414">
+                    </button>
+                  </div>
+                </div>
+              </details>
+            </li>
+
+          </ul>
+        </li>
+
+        <!-- IV -->
+        <li>
+          <strong>IV. Kept With His Papers</strong>
+          <ul>
+
+            <li>
+              <details>
+                <summary>
+                  <span class="entry-head">
+                    <span class="entry-name">Happy 80th Birthday — from his family</span>
+                    <span class="entry-teaser">Forty-odd memories from his children, their spouses, and the grandkids.</span>
+                  </span>
+                </summary>
+
+                <p class="entry-meta">Written to Ron, not by him · c. 2007</p>
+
+                <p>
+                  Pages of memories written for Ron's eightieth birthday by his
+                  children, their spouses, and his grandchildren. Each memory is
+                  signed by whoever wrote it, and they are set down here in the
+                  order they appear on the original pages.
+                </p>
+
+                <p>
+                  You made a swing set for gymnastics in the back yard and then
+                  almost had a heart attack when the bar broke on it's maiden
+                  voyage and Greg did a flip in the air and almost landed on his
+                  neck (Your an electrical engineer, not mechanical)
+                  <em>— Gregg</em>
+                </p>
+
+                <p>
+                  You made me a Frankenstein costume from boxes, an old coat,
+                  mask—You worked a long time on it, and then I could not see
+                  out of it, so I carried it all night.
+                  <em>— James</em>
+                </p>
+
+                <p>
+                  Halloween— You stapled Gregg's ear to his mummy suit.
+                  <em>— James and Gregg</em>
+                </p>
+
+                <p>
+                  Helping me with my homework – especially math
+                  <em>— James</em>
+                </p>
+
+                <p>
+                  I went with you to buy a pool table for the family for
+                  Christmas and the 8 ball had a hole in it from use as a gear
+                  shift!
+                  <em>— James</em>
+                </p>
+
+                <p>
+                  The infamous first trip to Maine in 1970. It was the first
+                  time we spent time with you away from Mom (You were very
+                  naughty!)
+                  <em>— James &amp; Gregg</em>
+                </p>
+
+                <p>
+                  Backyard Croquet in the summer and Barbecues (Well done!)
+                  <em>— All</em>
+                </p>
+
+                <p>
+                  The Steelers games at the house and the good dug out seats
+                  from USS for Pirate baseball
+                </p>
+
+                <p>
+                  Listening from the top of the stairs to you and Mom and the
+                  Riley's on your Friday night late night card games
+                  <em>— all</em>
+                </p>
+
+                <p>
+                  Letting me finish your beer
+                  <em>— James</em>
+                </p>
+
+                <p>
+                  Taking walks on the golf course in Lakeland Florida – looking
+                  for gators.
+                  <em>— James</em>
+                </p>
+
+                <p>
+                  Flying my Lion King kite in Roswell Park and LOSING IT!
+                  <em>— Sophia</em>
+                </p>
+
+                <p>
+                  Skittles!
+                  <em>— Sophia</em>
+                </p>
+
+                <p>
+                  When I was little I came home from ballet class with a tutu
+                  on. You called it a "one one" and it cracked me up!
+                  <em>— Olivia</em>
+                </p>
+
+                <p>
+                  Every time I would drop something, you'll say "don't drop
+                  that!"
+                  <em>— Olivia</em>
+                </p>
+
+                <p>
+                  When you were staying with us during Jared's illness, I was
+                  really sick and had laryngitis. I remember coming home from
+                  the hospital, sitting at the kitchen table with you, having a
+                  toddy to help my throat and talking for several hours.
+                  <em>— Deniece</em>
+                </p>
+
+                <p>
+                  You would come up to my room when I was on bed-rest with
+                  Jared and teach me to play chess
+                  <em>— Deniece</em>
+                </p>
+
+                <p>
+                  When my parents went away on vacation you came down to take
+                  care of me.
+                  <em>— Jared</em>
+                </p>
+
+                <p>
+                  For making the best breakfast ever!
+                  <em>— Jared and Zach</em>
+                </p>
+
+                <p>
+                  When I sprained my ankle you spent a whole day driving me
+                  around to the hospital and to get food and you called me names
+                  like gimpy, hop a long etc.
+                  <em>— Zach</em>
+                </p>
+
+                <p>
+                  Spending time at your house in the morning before school
+                  <em>— Zach</em>
+                </p>
+
+                <p>
+                  I remember going to lunch in the USX Tower - We would eat at
+                  the Grog Shop on Fridays. Our waitress was Cassie, but the "C"
+                  came off her name tag so it said "Assie". Dad thought that was
+                  so funny.
+                  <em>— Muzz</em>
+                </p>
+
+                <p>
+                  Here are my food memories of dad – He invented "blackened
+                  chicken" – long before it was "hip". He liked peanut butter
+                  and mayo sandwiches (actually pretty good). I remember mom and
+                  dad making french fries and watching studio wrestling on
+                  Saturday nights. Then dad decided he had to go on a diet and
+                  everything was translated to "beer units" – I could have a
+                  piece of cake, but that would be the same as 3 beers – I think
+                  I'll have the beer!
+                  <em>— Muzz</em>
+                </p>
+
+                <p>
+                  We were all in church – maybe for Karen's first holy
+                  communion? It was remarkable because dad was there with us.
+                  Half way through the ceremony someone around us farted and it
+                  was really potent. Dad kept making faces as if he were the one
+                  who farted – embarrassed faces. We couldn't laugh out loud
+                  because we were in church and that just made it funnier. I am
+                  sure all of our shoulders were shaking up and down though.
+                  <em>— Muzz</em>
+                </p>
+
+                <p>
+                  Once I crawled in bed with him when I was little and I
+                  remarked on all the hair on his chest. He told me it was his
+                  onion patch and that he could pick onions and held the salt in
+                  his belly button.
+                  <em>— Muzz</em>
+                </p>
+
+                <p>
+                  When we were little, Dad would take us to South Park swimming
+                  pool – it cost ten cents admission. We would beg him to go
+                  every Saturday, and every now and then he would agree. I
+                  remember going to Myrtle Beach every summer. Mike bought the
+                  alligator and it was so much fun to watch everyone ride the
+                  waves. I can picture dad on that thing – riding into shore and
+                  grinning. (Once we got mom in the water too – we were trying
+                  to see how many we could fit on a double raft.)
+                  <em>— Karen</em>
+                </p>
+
+                <p>
+                  I remember shopping for Christmas trees. I remember it would
+                  be a week before Christmas and it would always be cold and
+                  miserable out, and we would all sit in the car and point and
+                  poor dad had to show us the tree we were pointing to. We were
+                  very selective and inevitably when we found one we liked and
+                  brought it home it would be crooked or have a bare patch. Then
+                  one year Dad said he'd had enough – he was buying an
+                  artificial tree. We kids were so upset, we went out ourselves
+                  and got a real one.
+                  <em>— Muzz</em>
+                </p>
+
+                <p>
+                  One time when I was little I was in the bathroom trying to set
+                  my hair with pink foam curlers. I could not get them in right
+                  – they kept falling out. I think I was crying. Dad noticed and
+                  came in and set my hair for me.
+                  <em>— Muzz</em>
+                </p>
+
+                <p>
+                  When Zack was born, he would always be fussy from about 6 to 8
+                  at night. Dad would sit in the red chair every night and hold
+                  Zack and watch Married with Children. We always teased that
+                  Zack had his hand in his diaper, just like Ed Bundy.
+                  <em>— Muzz</em>
+                </p>
+
+                <p>
+                  I remember Dad's "famous" Halloween costume – the whistling
+                  belly button. He wore an old grey sweater and tucked the "arms
+                  in the pocket. The hat ended at his chest and his "man
+                  breasts" were his eyes, and the belly button was his mouth. He
+                  would push his stomach in and out and whistle.
+                  <em>— Karen</em>
+                </p>
+
+                <p>
+                  Dad took me and the kids fishing at our lake. I think I had
+                  more fun than the kids! But I know they enjoyed because they
+                  always ask me to take them fishing.
+                  <em>— Karen</em>
+                </p>
+
+                <p>
+                  After I had Jake, mom and dad came down to help out. Dad could
+                  always get that pacifier in Jake's mouth. Even if it took 10
+                  times!
+                  <em>— Karen</em>
+                </p>
+
+                <p>
+                  I remember after a huge storm, dad piled us in the car and we
+                  drove around the neighborhoods to check out the fallen trees
+                  etc.
+                  <em>— Karen</em>
+                </p>
+
+                <p>
+                  Dad was always fun swimming at the pool. He would lie on his
+                  back and bring his knees up to his chest and say he was a
+                  dirty old man swimming.
+                  <em>— Karen</em>
+                </p>
+
+                <p>
+                  Both mom and dad would help us with homework. Mom was the
+                  English expert and dad the math expert. As much as I hated the
+                  math then, dad always knew how to explain it and make it fun.
+                  I got to enjoy solving math word problems.
+                  <em>— Karen</em>
+                </p>
+
+                <p>
+                  The Schmidt Steeler parties were not only a family favorite,
+                  but my friends Jill and Sue remember them well.
+                  <em>— Karen</em>
+                </p>
+
+                <p>
+                  Thanks to dad, I got my first job out of college at U S
+                  Agri-Chem - Sorry dad!
+                  <em>— Karen</em>
+                </p>
+
+                <p>
+                  In Florida, dad and I would take a creature walk looking for
+                  alligators. One time during our walk, dad spotted a huge
+                  spider web with a gigantor spider in the middle of it. That
+                  ended my creature walks with dad.
+                  <em>— Karen</em>
+                </p>
+
+                <p>
+                  Jamie was always their favorite!!!!!!
+                  <em>— Karen</em>
+                </p>
+
+                <p>
+                  Okay, Jamie stole all the good ideas and memories. Of course
+                  he did, he never has an original thought.
+                  <em>— Gregg</em>
+                </p>
+
+                <p>
+                  Dad as the manager of the Cardinals/Hawks baseball teams. We
+                  always won the final game of the season. That was always the
+                  only game we won every year. I guess we didn't spend much on
+                  ice cream.
+                  <em>— Gregg</em>
+                </p>
+
+                <p>
+                  My Dad the hero,
+                </p>
+
+                <p>
+                  On one of our annual camping trips Jamie was climbing down a
+                  hillside when he stirred up a hornets nest. All I remember was
+                  the sound of a tea-pot, wait…that was Jamie screaming at the
+                  top of his lungs. When I got close enough to see what was
+                  happening all I saw was a swarm of hornets circling Jamie's
+                  head and Dad swatting them away while he tried to lead him
+                  away. Of course, I froze. I remember thinking how brave that
+                  was.
+                  <em>— Gregg</em>
+                </p>
+
+                <p>
+                  Watching Steeler and Penn State games with dad.
+                  <em>— Bruce</em>
+                </p>
+
+                <p>
+                  Timing the grilled chicken to our cigars.
+                  <em>— Bruce</em>
+                </p>
+
+                <div class="scan-strip">
+                  <p class="scan-strip-label">The original pages · 7</p>
+                  <div class="scan-row">
+                    <button type="button" class="scan-page" data-src="/assets/Schmidt-Ronald-Stories-pages/p17.jpg" data-caption="Happy 80th Birthday — from his family — page 1 of 7">
+                      <img src="/assets/Schmidt-Ronald-Stories-pages/p17-thumb.jpg" alt="Scan of happy 80th birthday — from his family — page 1 of 7" loading="lazy" width="320" height="414">
+                    </button>
+                    <button type="button" class="scan-page" data-src="/assets/Schmidt-Ronald-Stories-pages/p18.jpg" data-caption="Happy 80th Birthday — from his family — page 2 of 7">
+                      <img src="/assets/Schmidt-Ronald-Stories-pages/p18-thumb.jpg" alt="Scan of happy 80th birthday — from his family — page 2 of 7" loading="lazy" width="320" height="414">
+                    </button>
+                    <button type="button" class="scan-page" data-src="/assets/Schmidt-Ronald-Stories-pages/p19.jpg" data-caption="Happy 80th Birthday — from his family — page 3 of 7">
+                      <img src="/assets/Schmidt-Ronald-Stories-pages/p19-thumb.jpg" alt="Scan of happy 80th birthday — from his family — page 3 of 7" loading="lazy" width="320" height="414">
+                    </button>
+                    <button type="button" class="scan-page" data-src="/assets/Schmidt-Ronald-Stories-pages/p20.jpg" data-caption="Happy 80th Birthday — from his family — page 4 of 7">
+                      <img src="/assets/Schmidt-Ronald-Stories-pages/p20-thumb.jpg" alt="Scan of happy 80th birthday — from his family — page 4 of 7" loading="lazy" width="320" height="414">
+                    </button>
+                    <button type="button" class="scan-page" data-src="/assets/Schmidt-Ronald-Stories-pages/p21.jpg" data-caption="Happy 80th Birthday — from his family — page 5 of 7">
+                      <img src="/assets/Schmidt-Ronald-Stories-pages/p21-thumb.jpg" alt="Scan of happy 80th birthday — from his family — page 5 of 7" loading="lazy" width="320" height="414">
+                    </button>
+                    <button type="button" class="scan-page" data-src="/assets/Schmidt-Ronald-Stories-pages/p22.jpg" data-caption="Happy 80th Birthday — from his family — page 6 of 7">
+                      <img src="/assets/Schmidt-Ronald-Stories-pages/p22-thumb.jpg" alt="Scan of happy 80th birthday — from his family — page 6 of 7" loading="lazy" width="320" height="414">
+                    </button>
+                    <button type="button" class="scan-page" data-src="/assets/Schmidt-Ronald-Stories-pages/p23.jpg" data-caption="Happy 80th Birthday — from his family — page 7 of 7">
+                      <img src="/assets/Schmidt-Ronald-Stories-pages/p23-thumb.jpg" alt="Scan of happy 80th birthday — from his family — page 7 of 7" loading="lazy" width="320" height="414">
+                    </button>
+                  </div>
+                </div>
+              </details>
+            </li>
+
+            <li>
+              <details>
+                <summary>
+                  <span class="entry-head">
+                    <span class="entry-name">An email from Mary Ellen — February 3, 1997</span>
+                    <span class="entry-teaser">A promotion announcement, printed off America Online and kept.</span>
+                  </span>
+                </summary>
+
+                <p class="entry-meta">Written by his daughter Mary Ellen ("Muzz") · printed and kept</p>
+
+                <p>
+                  A printout of an email sent by Ron's daughter Mary Ellen, whom
+                  the family called Muzz or Mel, to her mother and to her sister Karen.
+                  It was printed off America Online in February 1997 and kept
+                  with Ron's papers.
+                </p>
+
+                <p>Mom and Karen,</p>
+
+                <p>
+                  Here's the announcement that went out last week about my new
+                  promotion:
+                </p>
+
+                <p>
+                  "Bob Hughes and I will announce tomorrow for company
+                  distribution that Gus Agostinelli—V.P.—HR—AFL, will leave the
+                  company April 1 and be replaced by Jim Michaud. Jim will
+                  complete his assignment in defining the most effective/efficient
+                  architecture for HR processes in Europe through the HR Network.
+                  Jim will be replaced as Director—HR—Benefits by Mary Ellen
+                  Lammel. Mary Ellen joined us about five years ago after
+                  considerable experience in financial operations with
+                  manufacturing companies. She brings a finance and process
+                  orientation to continue our pursuit of proper balance of
+                  efficiency, simplification and customer satisfaction. She will
+                  attend HR Network meetings as appropriate and will also be in
+                  contact over the coming weeks with individual members of the IR
+                  Council."
+                </p>
+
+                <p>
+                  I couldn't find Jamie's address again - doesn't it start
+                  jsschmidt?
+                </p>
+
+                <p>
+                  Anyway, so far its been work, work, work and politics,
+                  politics, politics (my least favorite subject). Not much fun.
+                  Mom sorry I didn't call yesterday, I was scrambling to catch up
+                  and never did get my bills written, finally fell into bed at
+                  11:30. Good thing I feel better in the morning, else I would
+                  never get out of bed. Bruce has pool tonight, and I think I'll
+                  take the kids to McDonalds. They can run off some energy there,
+                  and I can read through piles of papers.
+                </p>
+
+                <p>
+                  I heard a song this morning, something about "feel like a
+                  junkyard dog", and I thought, boy that's exactly how I feel
+                  today: mean, snippy but with my tail dragging down between my
+                  legs. In need of good grooming and lots of love! So today I'm
+                  an HR junkyard Dog. Watch out!
+                </p>
+
+                <p>
+                  Love you guys!!!
+                </p>
+
+                <p>
+                  Muzz
+                </p>
+
+                <div class="scan-strip">
+                  <p class="scan-strip-label">The original page</p>
+                  <div class="scan-row">
+                    <button type="button" class="scan-page" data-src="/assets/Schmidt-Ronald-Stories-pages/p15.jpg" data-caption="An email from Mary Ellen — February 3, 1997">
+                      <img src="/assets/Schmidt-Ronald-Stories-pages/p15-thumb.jpg" alt="Scan of an email from mary ellen — february 3, 1997" loading="lazy" width="320" height="414">
+                    </button>
+                  </div>
+                </div>
+              </details>
+            </li>
+
+            <li>
+              <details>
+                <summary>
+                  <span class="entry-head">
+                    <span class="entry-name">Finches — by Kenneth "Big Daddy" Oswald Schmidt</span>
+                    <span class="entry-teaser">A soda bottle hung from the eave, and what nested in it.</span>
+                  </span>
+                </summary>
+
+                <p class="entry-meta">Written by his father · filed on Kenneth's page</p>
+
+                <p>
+                  A page titled <em>Finches</em> was kept with Ron's stories, but
+                  it was written by his father. It is signed "Big Daddy" and
+                  refers to "my daughter Marjorie" — Ron's sister Marge. It has
+                  been placed with the rest of Kenneth's writing.
+                </p>
+
+                <p class="pdf-link">
+                  <strong>
+                    <a href="/Reflections/kenneth-oswald-schmidt.html#contents">
+                      Read Finches on Kenneth's page
+                    </a>
+                  </strong>
+                </p>
+
+                <div class="scan-strip">
+                  <p class="scan-strip-label">The original page</p>
+                  <div class="scan-row">
+                    <button type="button" class="scan-page" data-src="/assets/Schmidt-Ronald-Stories-pages/p16.jpg" data-caption="Finches — by Kenneth &quot;Big Daddy&quot; Oswald Schmidt">
+                      <img src="/assets/Schmidt-Ronald-Stories-pages/p16-thumb.jpg" alt="Scan of finches — by kenneth &quot;big daddy&quot; oswald schmidt" loading="lazy" width="320" height="414">
+                    </button>
+                  </div>
+                </div>
+              </details>
+            </li>
+
+          </ul>
+        </li>
+
+      </ul>
+    </section>
+
+    <footer>
+      <p>
+        … I imagine a lot of people are still living this way today.
+      </p>
+    </footer>
+
+  </main>
+
+  <!-- ── Lightbox ───────────────────────────────────────── -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Page viewer">
+    <span class="lightbox-counter" id="lightboxCounter">1 / 1</span>
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close">×</button>
+    <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Previous">‹</button>
+    <div class="lightbox-inner">
+      <img id="lightboxImg" src="" alt="">
+      <p class="lightbox-caption" id="lightboxCaption"></p>
+    </div>
+    <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Next">›</button>
+  </div>
+
+  <script>
+    /* ── Page-scan lightbox ───────────────────────────── */
+    (function () {
+      const lb = document.getElementById('lightbox');
+      const lbImg = document.getElementById('lightboxImg');
+      const lbCap = document.getElementById('lightboxCaption');
+      const lbCount = document.getElementById('lightboxCounter');
+      /* The gallery is scoped to the entry you clicked in, so the counter
+         reads "3 / 7" within that document, not 17 / 23 across the page. */
+      let pages = [], idx = 0;
+
+      function show(i) {
+        idx = (i + pages.length) % pages.length;
+        const el = pages[idx];
+        lbImg.src = el.dataset.src;
+        lbImg.alt = el.querySelector('img').alt;
+        lbCap.textContent = el.dataset.caption;
+        lbCount.textContent = (idx + 1) + ' / ' + pages.length;
+      }
+      function open(el) {
+        pages = Array.from(el.closest('.scan-row').querySelectorAll('.scan-page'));
+        show(pages.indexOf(el));
+        lb.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+      function close() { lb.classList.remove('open'); document.body.style.overflow = ''; }
+
+      document.querySelectorAll('.scan-page').forEach(el =>
+        el.addEventListener('click', () => open(el)));
+      document.getElementById('lightboxClose').addEventListener('click', close);
+      document.getElementById('lightboxPrev').addEventListener('click', () => show(idx - 1));
+      document.getElementById('lightboxNext').addEventListener('click', () => show(idx + 1));
+      lb.addEventListener('click', e => { if (e.target === lb) close(); });
+      document.addEventListener('keydown', e => {
+        if (!lb.classList.contains('open')) return;
+        if (e.key === 'Escape') close();
+        if (e.key === 'ArrowLeft') show(idx - 1);
+        if (e.key === 'ArrowRight') show(idx + 1);
+      });
+    })();
+  </script>
+
+  <script src="/scripts/menu.js"></script>
+
+</body>
+
+</html>
