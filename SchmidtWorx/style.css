@@ -968,3 +968,233 @@ footer {
         padding: 1.2rem;
     }
 }
+
+/* ─────────────────────────────────────────────────────────────
+   Preserved-document entries: teasers and page facsimiles.
+   Used by Reflections/ronald-schmidt.html. Behaviour lives in
+   scripts/page-scans.js.
+   ───────────────────────────────────────────────────────────── */
+
+/* A <summary> gains a second line: one dim sentence under the title. */
+.entry-head {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    flex: 1;
+    min-width: 0;
+}
+
+.entry-name {
+    font-size: 1.08rem;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.entry-teaser {
+    font-family: var(--sans);
+    font-size: 0.88rem;
+    font-weight: 400;
+    line-height: 1.45;
+    color: var(--ink-faint);
+    text-wrap: pretty;
+}
+
+details[open] .entry-teaser {
+    color: var(--ink-muted);
+}
+
+/* The strip of original pages at the foot of an open entry. */
+.scan-strip {
+    margin-top: 1.7rem;
+    padding-top: 1.1rem;
+    border-top: 1px solid rgba(215, 195, 160, 0.12);
+}
+
+.scan-strip-label {
+    font-family: var(--mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin: 0 0 0.9rem;
+}
+
+.scan-row {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 0.4rem;
+}
+
+/* Sheets sit at 84px but may shrink, so even the longest strip stays
+   on one row rather than orphaning a single sheet onto a second. */
+.scan-page {
+    appearance: none;
+    border: 0;
+    background: none;
+    padding: 0;
+    margin: 0;
+    line-height: 0;
+    cursor: zoom-in;
+    border-radius: 2px;
+    flex: 0 1 84px;
+    min-width: 0;
+    transition: transform 0.25s ease, filter 0.25s ease;
+}
+
+.scan-page img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 2px;
+    /* The sheet sits on the page rather than in it: a hard contact edge
+       plus a soft cast shadow. No filter, no tinting — the paper is
+       already warm against the background. */
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.55), 0 12px 26px rgba(0, 0, 0, 0.45);
+    outline: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+/* Barely-there rotation: enough to read as paper, not enough to look styled. */
+.scan-page:nth-child(odd) {
+    transform: rotate(-0.5deg);
+}
+
+.scan-page:nth-child(even) {
+    transform: rotate(0.65deg);
+}
+
+.scan-page:hover,
+.scan-page:focus-visible {
+    transform: rotate(0deg) translateY(-3px);
+    filter: brightness(1.05);
+}
+
+.scan-page:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 5px;
+}
+
+/* ── Page viewer ─────────────────────────────────────────────── */
+.lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(0, 0, 0, 0.92);
+    backdrop-filter: blur(14px);
+    align-items: center;
+    justify-content: center;
+}
+
+.lightbox.open {
+    display: flex;
+}
+
+.lightbox-inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    max-width: 90vw;
+}
+
+.lightbox img {
+    max-width: 90vw;
+    max-height: 80vh;
+    object-fit: contain;
+    border-radius: 4px;
+    display: block;
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.6);
+}
+
+.lightbox-caption {
+    color: var(--muted);
+    font-size: 0.9rem;
+    text-align: center;
+    margin: 0;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: -3.25rem;
+    right: 0;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--fg);
+    cursor: pointer;
+    font-size: 1.4rem;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.lightbox-close:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: var(--border-strong);
+}
+
+.lightbox-nav {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: rgba(18, 20, 22, 0.8);
+    color: var(--fg);
+    cursor: pointer;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(8px);
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.lightbox-nav:hover {
+    background: rgba(18, 20, 22, 1);
+    border-color: var(--border-strong);
+}
+
+.lightbox-prev {
+    left: 1.25rem;
+}
+
+.lightbox-next {
+    right: 1.25rem;
+}
+
+.lightbox-counter {
+    position: fixed;
+    top: 1.25rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    background: rgba(18, 20, 22, 0.7);
+    padding: 0.3rem 0.9rem;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    backdrop-filter: blur(8px);
+}
+
+@media (max-width: 720px) {
+
+    /* Let the strip wrap rather than shrink — seven sheets squeezed onto
+       one row stop reading as paper. */
+    .scan-row {
+        flex-wrap: wrap;
+        gap: 0.75rem;
+    }
+
+    .scan-page {
+        flex: 0 0 64px;
+    }
+}
