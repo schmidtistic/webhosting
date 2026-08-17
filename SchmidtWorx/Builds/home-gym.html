@@ -92,38 +92,6 @@
     .ba-label-before { left: 1rem; }
     .ba-label-after  { right: 1rem; }
 
-    /* ── Stats bar ───────────────────────────────────────── */
-    .build-stats {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      gap: 1rem;
-    }
-
-    .stat {
-      padding: 1.25rem 1rem;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      background: linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0.015));
-      text-align: center;
-    }
-
-    .stat-value {
-      display: block;
-      font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
-      font-size: 2rem;
-      font-weight: 600;
-      color: var(--accent-strong);
-      line-height: 1;
-      margin-bottom: 0.4rem;
-    }
-
-    .stat-label {
-      font-size: 0.75rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
     /* ── Phase timeline ──────────────────────────────────── */
     .phases { display: grid; gap: 2.75rem; min-width: 0; }
     .phase  { min-width: 0; }
@@ -282,7 +250,6 @@
     /* ── Mobile overrides ────────────────────────────────── */
     @media (max-width: 600px) {
       .before-after { aspect-ratio: 4 / 3; }
-      .build-stats  { grid-template-columns: repeat(2, 1fr); }
       .phase-header { flex-wrap: wrap; gap: 0.25rem; }
       .photo-strip {
         display: grid;
@@ -453,26 +420,6 @@
         <span class="ba-label ba-label-after">Built Out</span>
       </div>
     </section>
-
-    <!-- ── Stats ─────────────────────────────────────────── -->
-    <div class="build-stats">
-      <div class="stat">
-        <span class="stat-value">2</span>
-        <span class="stat-label">Houses</span>
-      </div>
-      <div class="stat">
-        <span class="stat-value">315</span>
-        <span class="stat-label">lbs bench</span>
-      </div>
-      <div class="stat">
-        <span class="stat-value">0</span>
-        <span class="stat-label">Spotter needed</span>
-      </div>
-      <div class="stat">
-        <span class="stat-value">2</span>
-        <span class="stat-label">Safety features</span>
-      </div>
-    </div>
 
     <!-- ── Phase Timeline ────────────────────────────────── -->
     <section class="section-card" style="padding: 1.5rem 1.25rem; gap: 0; display: grid;">
