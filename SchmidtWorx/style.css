@@ -757,6 +757,118 @@ li + li {
     border: 0;
 }
 
+/* Video facade — a full-resolution poster standing in for the YouTube iframe
+   until the visitor clicks. Behaviour lives in scripts/video-facade.js; the
+   reason it exists is in that file's header comment. */
+.video-facade-button {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    background: #0a0b0c;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.video-facade-button img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.25s ease, transform 0.4s ease;
+}
+
+.video-facade-button:hover img,
+.video-facade-button:focus-visible img {
+    opacity: 0.72;
+    transform: scale(1.02);
+}
+
+.video-facade-button:focus-visible {
+    outline: 2px solid var(--accent-strong);
+    outline-offset: -3px;
+}
+
+/* Shown only when JavaScript is unavailable, so the video is still reachable. */
+.video-facade-fallback {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    text-align: center;
+    font-family: var(--sans);
+    font-size: 0.95rem;
+    color: var(--accent-strong);
+}
+
+.video-facade-play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 72px;
+    height: 72px;
+    border-radius: 999px;
+    border: 1px solid var(--border-strong);
+    background: rgba(13, 17, 23, 0.68);
+    backdrop-filter: blur(8px);
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.video-facade-play::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-42%, -50%);
+    border-style: solid;
+    border-width: 11px 0 11px 18px;
+    border-color: transparent transparent transparent var(--accent-strong);
+}
+
+.video-facade-button:hover .video-facade-play,
+.video-facade-button:focus-visible .video-facade-play {
+    background: rgba(13, 17, 23, 0.85);
+    border-color: var(--accent-strong);
+    transform: translate(-50%, -50%) scale(1.06);
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .video-facade-button img,
+    .video-facade-play {
+        transition: none;
+    }
+
+    .video-facade-button:hover img,
+    .video-facade-button:focus-visible img {
+        transform: none;
+    }
+
+    .video-facade-button:hover .video-facade-play,
+    .video-facade-button:focus-visible .video-facade-play {
+        transform: translate(-50%, -50%);
+    }
+}
+
+@media (max-width: 720px) {
+
+    .video-facade-play {
+        width: 56px;
+        height: 56px;
+    }
+
+    .video-facade-play::before {
+        border-width: 9px 0 9px 14px;
+    }
+}
+
 .audio-wrapper {
     margin-top: 1rem;
     padding: 1rem;

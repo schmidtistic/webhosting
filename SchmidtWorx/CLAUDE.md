@@ -28,6 +28,7 @@ page's `<head>`.
   and the home page's is `<header class="hero">`).
 - `style.css` — Complete design system (CSS variables, all component styles)
 - `scripts/menu.js` — Mobile menu toggle + active page detection
+- `scripts/video-facade.js` — Poster stand-in for YouTube embeds (see "Video embeds" below)
 - `scripts/update-header.py` — Inlines `components/header.html` into every page (run after any header change)
 - `scripts/check-site.py` — Pre-merge check: dead internal links, case-only mismatches
   (fine on macOS, fatal on GitHub Pages), missing `#anchor` targets, duplicate ids,
@@ -103,6 +104,36 @@ source, but Facebook, LinkedIn and iMessage will not render SVG previews).
 Reflections pages use nested `<details>`/`<summary>` elements with custom +/− icons for collapsible essays. Cards use the `.section-card` and `.archive-card` classes defined in `style.css`.
 
 Per-person pages in `LettersAndRecordings/` (e.g., `michael-schmidt.html`) organize content into Roman-numeral subsections by medium — currently I. Personal Messages, II. Documentary Interviews, III. Readings, IV. Videos and Montages, V. Spaces and Systems Built. New artifact types (scanned documents, ephemera, etc.) should be added as additional Roman-numeral sections on the same page rather than spawning new top-level sections. Individual entries inside each section use the `details-card` / `<details><summary>` pattern.
+
+### Video embeds
+
+**Never put a raw YouTube `<iframe>` inside a collapsed `<details>`.** A closed
+`<details>` has no layout box, so the player initialises at zero size, fetches its
+smallest poster, and upscales that blurry image when the section is expanded. Use the
+facade instead — an empty div that `scripts/video-facade.js` fills with a
+full-resolution poster and a play button, swapping in the real iframe on click:
+
+```html
+<div class="video-wrapper video-facade"
+     data-video-id="9Psy1oRpZ6A"
+     data-title="Message to Cooper">
+  <noscript>
+    <a class="video-facade-fallback"
+       href="https://www.youtube.com/watch?v=9Psy1oRpZ6A"
+       target="_blank" rel="noopener noreferrer">Watch &ldquo;Message to Cooper&rdquo; on YouTube</a>
+  </noscript>
+</div>
+```
+
+Any page using it needs `<script src="/scripts/video-facade.js"></script>` alongside
+`menu.js`. Styles (`.video-facade-button`, `.video-facade-play`,
+`.video-facade-fallback`) sit next to `.video-wrapper` in `style.css`.
+
+The poster is `maxresdefault.jpg` (1280×720), which exists for anything uploaded at
+720p or better; the script falls back to `hqdefault.jpg` on a 404, and `object-fit:
+cover` crops that image's 4:3 letterbox bars. Because the poster URL is fixed rather
+than negotiated by the player, collapse state no longer affects resolution — and the
+page stops booting one player per video on every visit.
 
 ### Page scans (preserved documents)
 
