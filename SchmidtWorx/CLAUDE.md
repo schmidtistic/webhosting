@@ -16,14 +16,31 @@ Deployment is via GitHub Pages (push to main).
 
 ## Architecture
 
-**SchmidtWorx** is a family heritage/archive website. Static site with zero external dependencies.
+**SchmidtWorx** is a family heritage/archive website. Static site, no build step. The only
+external dependency is Google Fonts (Fraunces / Inter / JetBrains Mono), linked from each
+page's `<head>`.
 
 ### Key files
 
-- `index.html` — Home page with hero and navigation to the two main sections
+- `index.html` — Home page. Self-contained: its own inline `<style>`, its own `<nav>`, and a
+  `<header class="hero">`. It does **not** load `style.css` or `menu.js`, and
+  `scripts/update-header.py` deliberately skips it (that script matches a bare `<header>`,
+  and the home page's is `<header class="hero">`).
 - `style.css` — Complete design system (CSS variables, all component styles)
 - `scripts/menu.js` — Mobile menu toggle + active page detection
 - `scripts/update-header.py` — Inlines `components/header.html` into every page (run after any header change)
+- `scripts/check-site.py` — Pre-merge check: dead internal links, case-only mismatches
+  (fine on macOS, fatal on GitHub Pages), missing `#anchor` targets, duplicate ids,
+  malformed markup, and headers that have drifted from the component. Run it before
+  every merge to main:
+
+  ```bash
+  python3 scripts/check-site.py
+  ```
+
+  Exits non-zero on failure. Unreferenced assets are reported as a warning only —
+  the section-divider sheets in the `-pages/` folders (reunion p02, p04, p11, p15,
+  p24, p40) are unreferenced on purpose.
 - `components/header.html` — Single source of truth for the site header/nav
 
 ### Content sections
@@ -31,9 +48,19 @@ Deployment is via GitHub Pages (push to main).
 - `Reflections/` — Written essays and reflections (collapsible `<details>` pattern)
 - `LettersAndRecordings/` — "Recordings and Artifacts" in the nav. Mixed-media personal archive: recordings, video montages, readings read aloud, scanned documents and ephemera, and links into `Builds/`. Audio/video is just one slice — physical artifacts (report cards, letters, photos, etc.) are first-class citizens here too.
 - `Builds/` — Per-build pages for physical projects (home theater, smart home, home gym, deck, etc.). Linked from `LettersAndRecordings/michael-schmidt.html` under "Spaces and Systems Built."
-- Each section has an `index.html` listing page and per-author content pages.
+- Only `Builds/` has an `index.html` listing page. `Reflections/` and `LettersAndRecordings/`
+  have no index — the home page links straight to the per-author pages. Don't add an index
+  for them without also wiring it into `index.html`.
 
 **Naming note:** the folder `LettersAndRecordings/` predates the current section name. On disk it's `LettersAndRecordings/`; in the nav and page titles it reads "Recordings and Artifacts." Don't invent a new section for artifact-style content — add it here.
+
+### Retired code
+
+`_to_delete/` holds retired files kept out of the deploy: the `editor/` UI and its
+`functions/` Cloudflare Pages handlers (they POST to `/api/*`, which does not exist on GitHub
+Pages), `data/*.json` that fed them, the superseded `Builds/theater-platform.html`,
+`styleold.css`, and a 1.8 MB `favicon.svg`. Nothing in the live site references any of it.
+`_to_delete/` is gitignored.
 
 ### Header component pattern
 
@@ -52,7 +79,24 @@ The script finds every `<header>…</header>` block in the repo and replaces it 
 CSS variables defined in `:root`:
 - `--bg: #121416`, `--fg: #f2eee6`, `--accent: #d7c3a0`, `--accent-strong: #e7b879`, `--muted: #b4ad9f`
 - Breakpoints: 720px (reading width) and 860px (two-column layout, desktop nav)
-- Serif headers (Iowan Old Style / Palatino), sans-serif body (Avenir Next / Segoe UI)
+- `--serif: Fraunces`, `--sans: Inter`, `--mono: JetBrains Mono`, each with a local fallback
+  stack (Iowan Old Style / Avenir Next / Menlo)
+
+**Fonts are linked, not `@import`ed.** Every page carries this block in `<head>`, above the
+stylesheet link:
+
+```html
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:…" />
+```
+
+An `@import` at the top of `style.css` would serialise the font request behind the CSS
+download and block rendering — it was removed on 2026-08-17. Keep it out.
+
+The same block also carries the favicon and manifest links. If you add a page, copy the whole
+block; `og:image` must point at `/og-image.png` (a real 1200×630 PNG — `og-image.svg` is the
+source, but Facebook, LinkedIn and iMessage will not render SVG previews).
 
 ### Content patterns
 

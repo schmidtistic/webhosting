@@ -10,4 +10,4 @@ Auth is stored in macOS keyring (account: schmidtistic). Persists across session
 
 Remote origin was changed from SSH to HTTPS: `https://github.com/schmidtistic/webhosting.git`
 
-Repos: schmidtistic/webhosting (this site), schmidtistic/Docker-Containers, schmidtistic/RunCondition (private)
+Repos: schmidtistic/webhosting (this site), schmidtistic/Docker-Containers
