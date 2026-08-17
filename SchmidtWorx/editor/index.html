@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Greg's Page Editor — SchmidtWorx</title>
+  <style>
+    :root {
+      --bg: #121416;
+      --fg: #f2eee6;
+      --accent: #d7c3a0;
+      --accent-strong: #e7b879;
+      --muted: #b4ad9f;
+      --panel: #1a1d20;
+      --border: #2a2d32;
+      --input-bg: #0e1012;
+      --green: #4caf82;
+      --red: #e05c5c;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Avenir Next", "Segoe UI", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* ── Login ───────────────────────────────────── */
+    #login-overlay {
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+    }
+
+    .login-box {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 2.5rem 2rem;
+      width: min(380px, 90vw);
+      text-align: center;
+    }
+
+    .login-box .wordmark {
+      font-family: "Iowan Old Style", Palatino, Georgia, serif;
+      font-size: 1rem;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .login-box h1 {
+      font-family: "Iowan Old Style", Palatino, Georgia, serif;
+      font-size: 1.6rem;
+      color: var(--fg);
+      margin-bottom: 0.4rem;
+    }
+
+    .login-box p {
+      font-size: 0.875rem;
+      color: var(--muted);
+      margin-bottom: 1.75rem;
+    }
+
+    .login-box input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background: var(--input-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--fg);
+      font-size: 1rem;
+      margin-bottom: 0.75rem;
+      outline: none;
+    }
+
+    .login-box input:focus { border-color: var(--accent); }
+
+    .login-error {
+      font-size: 0.8rem;
+      color: var(--red);
+      min-height: 1.2em;
+      margin-bottom: 0.5rem;
+    }
+
+    /* ── Buttons ─────────────────────────────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      padding: 0.55rem 1.1rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font: 600 0.875rem/1 "Avenir Next", "Segoe UI", system-ui, sans-serif;
+      transition: opacity .15s, background .15s;
+      white-space: nowrap;
+    }
+
+    .btn:hover:not(:disabled) { opacity: 0.85; }
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .btn-primary   { background: var(--accent-strong); color: #121416; width: 100%; padding: 0.75rem; font-size: 1rem; }
+    .btn-publish   { background: var(--accent-strong); color: #121416; font-size: 0.875rem; }
+    .btn-ghost     { background: transparent; color: var(--accent); border: 1px dashed var(--accent); width: 100%; margin-top: 0.6rem; padding: 0.55rem; font-weight: 500; }
+    .btn-ghost-sm  { background: transparent; color: var(--accent); border: 1px dashed var(--accent); font-size: 0.78rem; padding: 0.3rem 0.65rem; font-weight: 500; }
+    .btn-icon      { background: transparent; color: var(--muted); border: 1px solid var(--border); padding: 0.25rem 0.5rem; font-size: 0.8rem; border-radius: 4px; cursor: pointer; transition: color .15s, border-color .15s; }
+    .btn-icon:hover { color: var(--fg); border-color: var(--accent); }
+    .btn-remove    { background: transparent; color: var(--red); border: 1px solid var(--red); font-size: 0.75rem; padding: 0.25rem 0.6rem; border-radius: 4px; cursor: pointer; font-family: inherit; transition: opacity .15s; }
+    .btn-remove:hover { opacity: 0.75; }
+
+    /* ── Top bar ─────────────────────────────────── */
+    #topbar {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.6rem 1.25rem;
+      background: var(--panel);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .topbar-logo {
+      font-family: "Iowan Old Style", Palatino, Georgia, serif;
+      font-size: 1rem;
+      color: var(--accent-strong);
+      flex-shrink: 0;
+    }
+
+    .topbar-logo span { color: var(--muted); font-size: 0.85rem; }
+
+    #status-msg {
+      flex: 1;
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    #status-msg.unsaved { color: var(--accent); }
+    #status-msg.saving  { color: var(--accent-strong); }
+    #status-msg.saved   { color: var(--green); }
+    #status-msg.error   { color: var(--red); }
+
+    /* ── Layout ──────────────────────────────────── */
+    #main {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+      min-height: 0;
+    }
+
+    #editor-col {
+      width: 44%;
+      min-width: 300px;
+      max-width: 560px;
+      overflow-y: auto;
+      padding: 1.25rem 1.25rem 3rem;
+      border-right: 1px solid var(--border);
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+    }
+
+    #preview-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    #preview-label {
+      padding: 0.45rem 1rem;
+      background: var(--panel);
+      border-bottom: 1px solid var(--border);
+      font-size: 0.7rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      flex-shrink: 0;
+    }
+
+    #preview-frame {
+      flex: 1;
+      border: none;
+      background: #fff;
+    }
+
+    /* ── Section dividers ────────────────────────── */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin: 1.25rem 0 0.75rem;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+    }
+
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── Cards ───────────────────────────────────── */
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      margin-bottom: 0.75rem;
+      overflow: hidden;
+    }
+
+    .card.section-card { border-left: 3px solid var(--accent-strong); }
+
+    .card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 1rem;
+      cursor: pointer;
+      user-select: none;
+      gap: 0.5rem;
+    }
+
+    .card-head-info { flex: 1; min-width: 0; }
+
+    .card-head h3 {
+      font-family: "Iowan Old Style", Palatino, Georgia, serif;
+      font-size: 0.95rem;
+      color: var(--accent);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .card-subtitle {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 0.15rem;
+    }
+
+    .roman-badge {
+      font-size: 0.7rem;
+      background: var(--accent-strong);
+      color: #121416;
+      padding: 0.1rem 0.45rem;
+      border-radius: 3px;
+      font-weight: 700;
+      margin-right: 0.35rem;
+      flex-shrink: 0;
+    }
+
+    .card-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      flex-shrink: 0;
+    }
+
+    .chevron {
+      color: var(--muted);
+      font-size: 0.7rem;
+      transition: transform 0.2s;
+      flex-shrink: 0;
+    }
+
+    .card-body {
+      padding: 0 1rem 1rem;
+    }
+
+    .card-body[hidden] { display: none; }
+
+    /* ── Form fields ─────────────────────────────── */
+    .field { margin-bottom: 1rem; }
+
+    .field label {
+      display: block;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 0.35rem;
+    }
+
+    .field input,
+    .field textarea {
+      width: 100%;
+      padding: 0.55rem 0.75rem;
+      background: var(--input-bg);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      color: var(--fg);
+      font: 0.875rem/1.55 "Avenir Next", "Segoe UI", system-ui, sans-serif;
+      outline: none;
+      resize: vertical;
+    }
+
+    .field input:focus,
+    .field textarea:focus { border-color: var(--accent); }
+
+    .field textarea { min-height: 110px; }
+    .field textarea.tall { min-height: 220px; }
+
+    .field-hint {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 0.3rem;
+      line-height: 1.4;
+    }
+
+    .paste-mode-btn {
+      font-size: 0.72rem;
+      padding: 0.22rem 0.55rem;
+      border-radius: 4px;
+      border: 1px dashed var(--accent);
+      background: transparent;
+      color: var(--accent);
+      cursor: pointer;
+      margin-bottom: 0.4rem;
+      transition: background 0.15s, color 0.15s;
+    }
+    .paste-mode-btn:hover { background: rgba(215, 195, 160, 0.12); }
+    .paste-confirmed { font-size: 0.72rem; color: #6dbf7e; margin-left: 0.5rem; }
+
+    /* ── Entry cards ─────────────────────────────── */
+    .entry-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      margin-bottom: 0.45rem;
+    }
+
+    .entry-head {
+      display: flex;
+      align-items: center;
+      padding: 0.5rem 0.75rem;
+      cursor: pointer;
+      user-select: none;
+      gap: 0.5rem;
+    }
+
+    .entry-title {
+      flex: 1;
+      font-size: 0.85rem;
+      color: var(--fg);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .entry-title.empty { color: var(--muted); font-style: italic; }
+
+    .entry-body {
+      padding: 0 0.75rem 0.75rem;
+    }
+
+    .entry-body[hidden] { display: none; }
+  </style>
+</head>
+<body>
+
+<!-- ── Login overlay ──────────────────────────────────────────── -->
+<div id="login-overlay">
+  <div class="login-box">
+    <p class="wordmark">SchmidtWorx</p>
+    <h1>Greg's Page Editor</h1>
+    <p>Enter your password to start editing</p>
+    <input type="password" id="pw-input" placeholder="Password" autocomplete="current-password">
+    <p class="login-error" id="login-error" aria-live="polite"></p>
+    <button class="btn btn-primary" id="login-btn">Sign In</button>
+  </div>
+</div>
+
+<!-- ── Top bar ────────────────────────────────────────────────── -->
+<div id="topbar">
+  <div class="topbar-logo">SchmidtWorx <span>/ Greg's Page</span></div>
+  <div id="status-msg">Loading…</div>
+  <button class="btn btn-publish" id="publish-btn" disabled>Publish</button>
+</div>
+
+<!-- ── Main layout ───────────────────────────────────────────── -->
+<div id="main">
+
+  <div id="editor-col">
+
+    <div class="divider">Page Introduction</div>
+
+    <!-- Intro card (open by default) -->
+    <div class="card" id="intro-card">
+      <div class="card-head" onclick="toggleCard(this)">
+        <div class="card-head-info">
+          <h3>Page Header &amp; Introduction</h3>
+          <div class="card-subtitle">The title, tagline, and opening paragraph</div>
+        </div>
+        <span class="chevron" style="transform:rotate(180deg)">▼</span>
+      </div>
+      <div class="card-body">
+        <div class="field">
+          <label for="hero-eyebrow">Byline <small>(small text above the title)</small></label>
+          <input type="text" id="hero-eyebrow" data-path="hero.eyebrow" placeholder="Gregory Schmidt · 1956–">
+        </div>
+        <div class="field">
+          <label for="hero-title">Page Title</label>
+          <input type="text" id="hero-title" data-path="hero.title" placeholder="Reflections">
+        </div>
+        <div class="field">
+          <label for="hero-tagline">Tagline <small>(one sentence under the title)</small></label>
+          <input type="text" id="hero-tagline" data-path="hero.tagline">
+        </div>
+        <div class="field">
+          <label for="ctx-heading">Context Heading</label>
+          <input type="text" id="ctx-heading" data-path="context.heading">
+        </div>
+        <div class="field">
+          <label for="ctx-body">Context Body</label>
+          <textarea id="ctx-body" data-path="context.body" rows="3"></textarea>
+        </div>
+        <div class="field">
+          <label for="footer-text">Footer Note <small>(closing line at the bottom of the page)</small></label>
+          <input type="text" id="footer-text" data-path="footer">
+        </div>
+      </div>
+    </div>
+
+    <div class="divider">Your Sections</div>
+
+    <div id="sections-list"></div>
+
+    <button class="btn btn-ghost" onclick="addSection()">+ Add New Section</button>
+
+  </div>
+
+  <div id="preview-col">
+    <div id="preview-label">Live Preview — updates as you type</div>
+    <iframe id="preview-frame" title="Live page preview" sandbox="allow-same-origin allow-scripts"></iframe>
+  </div>
+
+</div>
+
+<script>
+// ── State ──────────────────────────────────────────────────────
+let state = null;
+let currentSha = null;
+let password = '';
+let isDirty = false;
+let previewTimer = null;
+
+const API = '/api/content';
+
+// ── Utilities ──────────────────────────────────────────────────
+const $  = id => document.getElementById(id);
+const esc = s => String(s ?? '')
+  .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+  .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+
+function getPath(obj, path) {
+  return path.split('.').reduce((o, k) => o?.[k], obj);
+}
+function setPath(obj, path, val) {
+  const parts = path.split('.');
+  const key = parts.pop();
+  parts.reduce((o, k) => o[k], obj)[key] = val;
+}
+
+function toRoman(n) {
+  const v=[1000,900,500,400,100,90,50,40,10,9,5,4,1];
+  const s=['M','CM','D','CD','C','XC','L','XL','X','IX','V','IV','I'];
+  let r='';
+  for(let i=0;i<v.length;i++) while(n>=v[i]){r+=s[i];n-=v[i];}
+  return r;
+}
+
+// ── Auth ───────────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', () => {
+  const saved = sessionStorage.getItem('sw_editor_pw');
+  if (saved) { password = saved; loadContent(); }
+
+  $('pw-input').addEventListener('keypress', e => { if (e.key === 'Enter') doLogin(); });
+  $('login-btn').addEventListener('click', doLogin);
+  $('publish-btn').addEventListener('click', publish);
+});
+
+async function doLogin() {
+  password = $('pw-input').value.trim();
+  if (!password) return;
+  $('login-btn').disabled = true;
+  $('login-btn').textContent = 'Checking…';
+  $('login-error').textContent = '';
+  await loadContent();
+}
+
+async function loadContent() {
+  try {
+    const res = await fetch(API, { headers: { 'X-Editor-Password': password } });
+
+    if (res.status === 401) {
+      sessionStorage.removeItem('sw_editor_pw');
+      showLoginError('Incorrect password. Try again.');
+      return;
+    }
+    if (!res.ok) throw new Error('Server error ' + res.status);
+
+    const data = await res.json();
+    state = data.content;
+    currentSha = data.sha;
+
+    sessionStorage.setItem('sw_editor_pw', password);
+    $('login-overlay').style.display = 'none';
+    renderEditor();
+    setStatus('ready', 'All changes saved');
+    schedulePreview(0);
+
+  } catch (err) {
+    showLoginError('Could not connect — try refreshing the page.');
+  }
+}
+
+function showLoginError(msg) {
+  $('login-error').textContent = msg;
+  const btn = $('login-btn');
+  btn.disabled = false;
+  btn.textContent = 'Sign In';
+}
+
+// ── Status & Publish ───────────────────────────────────────────
+function setStatus(type, msg) {
+  const el = $('status-msg');
+  el.textContent = msg;
+  el.className = type;
+  const pub = $('publish-btn');
+  if (type === 'unsaved') { pub.disabled = false; isDirty = true; }
+  else if (type === 'saving') { pub.disabled = true; }
+  else if (type === 'saved') {
+    pub.disabled = true; isDirty = false;
+    const ts = new Date().toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' });
+    setTimeout(() => { if (!isDirty) setStatus('ready', `All changes saved · Last published ${ts}`); }, 3000);
+  } else if (type === 'error') { pub.disabled = false; }
+  else { pub.disabled = true; isDirty = false; }
+}
+
+
+async function publish() {
+  if (!state) return;
+  setStatus('saving', 'Publishing…');
+  try {
+    const res = await fetch(API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Editor-Password': password },
+      body: JSON.stringify({ content: state, sha: currentSha }),
+    });
+    if (!res.ok) {
+      const e = await res.json().catch(() => ({}));
+      throw new Error(e.error || 'HTTP ' + res.status);
+    }
+    const data = await res.json();
+    currentSha = data.newJsonSha;
+    setStatus('saved', 'Published! Live on the site in ~30 seconds');
+  } catch (err) {
+    setStatus('error', 'Publish failed: ' + err.message);
+  }
+}
+
+// ── Preview ────────────────────────────────────────────────────
+function schedulePreview(delay = 900) {
+  clearTimeout(previewTimer);
+  previewTimer = setTimeout(updatePreview, delay);
+}
+
+async function updatePreview() {
+  if (!state) return;
+  try {
+    const res = await fetch(API + '?preview=true', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Editor-Password': password },
+      body: JSON.stringify({ content: state }),
+    });
+    if (!res.ok) return;
+    const html = await res.text();
+    $('preview-frame').srcdoc = html;
+  } catch { /* silent */ }
+}
+
+// ── Editor render ──────────────────────────────────────────────
+function renderEditor() {
+  // Bind simple path-based inputs
+  document.querySelectorAll('[data-path]').forEach(el => {
+    el.value = getPath(state, el.dataset.path) ?? '';
+    el.addEventListener('input', () => {
+      setPath(state, el.dataset.path, el.value);
+      setStatus('unsaved', 'Unsaved changes — remember to Publish');
+      schedulePreview();
+    });
+  });
+  renderSections();
+}
+
+// ── Sections ───────────────────────────────────────────────────
+function renderSections() {
+  const list = $('sections-list');
+  list.innerHTML = '';
+  (state.sections ?? []).forEach((sec, i) => {
+    list.appendChild(buildSectionCard(sec, i));
+  });
+}
+
+function buildSectionCard(sec, idx) {
+  const card = document.createElement('div');
+  card.className = 'card section-card';
+  card.dataset.secIdx = idx;
+
+  const roman = toRoman(idx + 1);
+  const entCount = sec.entries?.length ?? 0;
+  const title = sec.title || 'Untitled Section';
+
+  card.innerHTML = `
+    <div class="card-head" onclick="toggleCard(this)">
+      <div class="card-head-info">
+        <h3><span class="roman-badge">${roman}</span>${esc(title)}</h3>
+        <div class="card-subtitle">${entCount} entr${entCount === 1 ? 'y' : 'ies'}</div>
+      </div>
+      <div class="card-controls" onclick="event.stopPropagation()">
+        ${idx > 0 ? `<button class="btn-icon" title="Move up" onclick="moveSection(${idx},-1)">↑</button>` : ''}
+        ${idx < (state.sections.length-1) ? `<button class="btn-icon" title="Move down" onclick="moveSection(${idx},1)">↓</button>` : ''}
+        <button class="btn-remove" onclick="removeSection(${idx})">Remove</button>
+      </div>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body" hidden>
+      <div class="field">
+        <label>Section Title</label>
+        <input type="text" class="sec-title-input" value="${esc(sec.title ?? '')}"
+          placeholder="e.g., Faith and Family"
+          oninput="updateSec(${idx},'title',this.value)">
+      </div>
+      <div class="field">
+        <label>Short Description <small>(shown under the title in the list)</small></label>
+        <input type="text" value="${esc(sec.note ?? '')}"
+          placeholder="e.g., What I believe and who shaped me."
+          oninput="updateSec(${idx},'note',this.value)">
+      </div>
+      <div class="divider" style="margin-top:1rem">Entries</div>
+      <div class="entries-list" id="entries-${idx}"></div>
+      <button class="btn btn-ghost-sm" onclick="addEntry(${idx})" style="margin-top:0.5rem">+ Add Entry</button>
+    </div>`;
+
+  const entriesList = card.querySelector(`#entries-${idx}`);
+  (sec.entries ?? []).forEach((e, ei) => {
+    entriesList.appendChild(buildEntryCard(e, idx, ei));
+  });
+
+  return card;
+}
+
+function buildEntryCard(entry, secIdx, entIdx) {
+  const card = document.createElement('div');
+  card.className = 'entry-card';
+
+  const title = entry.summary || '';
+  const isEmpty = !title;
+
+  card.innerHTML = `
+    <div class="entry-head" onclick="toggleEntry(this)">
+      <span class="entry-title${isEmpty ? ' empty' : ''}">${isEmpty ? 'Untitled entry' : esc(title)}</span>
+      <div class="card-controls" onclick="event.stopPropagation()">
+        ${entIdx > 0 ? `<button class="btn-icon" title="Move up" onclick="moveEntry(${secIdx},${entIdx},-1)">↑</button>` : ''}
+        ${entIdx < (state.sections[secIdx].entries.length-1) ? `<button class="btn-icon" title="Move down" onclick="moveEntry(${secIdx},${entIdx},1)">↓</button>` : ''}
+        <button class="btn-remove" onclick="removeEntry(${secIdx},${entIdx})">Remove</button>
+      </div>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="entry-body" hidden>
+      <div class="field">
+        <label>Entry Title <small>(the clickable line in the collapsible)</small></label>
+        <input type="text" value="${esc(entry.summary ?? '')}"
+          placeholder="e.g., On becoming a father"
+          oninput="updateEntry(${secIdx},${entIdx},'summary',this.value)">
+      </div>
+      <div class="field">
+        <label>Content</label>
+        <p class="field-hint">Blank line = new paragraph. Single line break = line break within a paragraph.</p>
+        <button class="paste-mode-btn" onclick="normalizePaste(${secIdx}, ${entIdx}, this)">⟳ Normalize line breaks</button>
+        <textarea id="entry-body-${secIdx}-${entIdx}" class="tall" placeholder="Write your reflection here…"
+          oninput="updateEntry(${secIdx},${entIdx},'body',this.value)">${esc(entry.body ?? '')}</textarea>
+      </div>
+    </div>`;
+
+  return card;
+}
+
+// ── Toggle helpers ─────────────────────────────────────────────
+function toggleCard(head) {
+  const body = head.nextElementSibling;
+  const ch = head.querySelector('.chevron');
+  if (!body) return;
+  const opening = body.hasAttribute('hidden');
+  if (opening) { body.removeAttribute('hidden'); if(ch) ch.style.transform='rotate(180deg)'; }
+  else          { body.setAttribute('hidden',''); if(ch) ch.style.transform=''; }
+}
+
+function toggleEntry(head) {
+  const body = head.nextElementSibling;
+  const ch = head.querySelector('.chevron');
+  if (!body) return;
+  const opening = body.hasAttribute('hidden');
+  if (opening) { body.removeAttribute('hidden'); if(ch) ch.style.transform='rotate(180deg)'; }
+  else          { body.setAttribute('hidden',''); if(ch) ch.style.transform=''; }
+}
+
+// ── Section mutations ──────────────────────────────────────────
+function updateSec(idx, field, val) {
+  state.sections[idx][field] = val;
+  const card = document.querySelector(`[data-sec-idx="${idx}"]`);
+  if (card && field === 'title') {
+    const h3 = card.querySelector('.card-head h3');
+    if (h3) h3.innerHTML = `<span class="roman-badge">${toRoman(idx+1)}</span>${esc(val || 'Untitled Section')}`;
+  }
+  markDirty();
+}
+
+function addSection() {
+  if (!state.sections) state.sections = [];
+  state.sections.push({ title: '', note: '', entries: [] });
+  markDirty();
+  renderSections();
+  // Open the new section and focus its title
+  setTimeout(() => {
+    const cards = document.querySelectorAll('[data-sec-idx]');
+    const last = cards[cards.length - 1];
+    if (!last) return;
+    last.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    const body = last.querySelector('.card-body');
+    const ch = last.querySelector('.card-head .chevron');
+    if (body?.hasAttribute('hidden')) {
+      body.removeAttribute('hidden');
+      if (ch) ch.style.transform = 'rotate(180deg)';
+    }
+    last.querySelector('.sec-title-input')?.focus();
+  }, 60);
+}
+
+function removeSection(idx) {
+  const name = state.sections[idx].title || 'this section';
+  if (!confirm(`Remove "${name}" and all its entries?`)) return;
+  state.sections.splice(idx, 1);
+  markDirty();
+  renderSections();
+}
+
+function moveSection(idx, dir) {
+  const s = state.sections;
+  const ni = idx + dir;
+  if (ni < 0 || ni >= s.length) return;
+  [s[idx], s[ni]] = [s[ni], s[idx]];
+  markDirty();
+  renderSections();
+}
+
+// ── Entry mutations ────────────────────────────────────────────
+function updateEntry(secIdx, entIdx, field, val) {
+  state.sections[secIdx].entries[entIdx][field] = val;
+  if (field === 'summary') {
+    const card = document.querySelector(`[data-sec-idx="${secIdx}"]`);
+    const entries = card?.querySelectorAll('.entry-card');
+    if (entries?.[entIdx]) {
+      const span = entries[entIdx].querySelector('.entry-title');
+      if (span) {
+        span.textContent = val || 'Untitled entry';
+        span.className = 'entry-title' + (val ? '' : ' empty');
+      }
+    }
+  }
+  markDirty();
+}
+
+function addEntry(secIdx) {
+  if (!state.sections[secIdx].entries) state.sections[secIdx].entries = [];
+  state.sections[secIdx].entries.push({ summary: '', body: '' });
+  markDirty();
+  renderSections();
+  // Ensure parent section is open, then scroll to and open new entry
+  setTimeout(() => {
+    const secCard = document.querySelector(`[data-sec-idx="${secIdx}"]`);
+    if (!secCard) return;
+    const secBody = secCard.querySelector('.card-body');
+    const secCh = secCard.querySelector('.card-head .chevron');
+    if (secBody?.hasAttribute('hidden')) {
+      secBody.removeAttribute('hidden');
+      if (secCh) secCh.style.transform = 'rotate(180deg)';
+    }
+    const entries = secCard.querySelectorAll('.entry-card');
+    const last = entries[entries.length - 1];
+    if (!last) return;
+    last.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    const eb = last.querySelector('.entry-body');
+    const ech = last.querySelector('.entry-head .chevron');
+    if (eb?.hasAttribute('hidden')) {
+      eb.removeAttribute('hidden');
+      if (ech) ech.style.transform = 'rotate(180deg)';
+    }
+    last.querySelector('input')?.focus();
+  }, 60);
+}
+
+function removeEntry(secIdx, entIdx) {
+  const name = state.sections[secIdx].entries[entIdx].summary || 'this entry';
+  if (!confirm(`Remove "${name}"?`)) return;
+  state.sections[secIdx].entries.splice(entIdx, 1);
+  markDirty();
+  renderSections();
+}
+
+function moveEntry(secIdx, entIdx, dir) {
+  const e = state.sections[secIdx].entries;
+  const ni = entIdx + dir;
+  if (ni < 0 || ni >= e.length) return;
+  [e[entIdx], e[ni]] = [e[ni], e[entIdx]];
+  markDirty();
+  renderSections();
+}
+
+function markDirty() {
+  setStatus('unsaved', 'Unsaved changes — remember to Publish');
+  schedulePreview();
+}
+
+// ── Paste normalization ────────────────────────────────────────
+function normalizePaste(secIdx, entIdx, btn) {
+  const ta = document.getElementById(`entry-body-${secIdx}-${entIdx}`);
+  if (!ta) return;
+  const before = ta.value;
+  ta.value = ta.value
+    .replace(/\r\n/g, '\n')
+    .replace(/\r/g, '\n')
+    .replace(/\n{3,}/g, '\n\n')
+    .replace(/(?<!\n)\n(?!\n)/g, '\n\n')
+    .trim();
+  updateEntry(secIdx, entIdx, 'body', ta.value);
+  const confirmSpan = document.createElement('span');
+  confirmSpan.className = 'paste-confirmed';
+  confirmSpan.textContent = ta.value !== before ? '✓ Normalized' : '✓ Already clean';
+  btn.after(confirmSpan);
+  setTimeout(() => confirmSpan.remove(), 2500);
+}
+</script>
+</body>
+</html>
