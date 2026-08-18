@@ -1116,14 +1116,21 @@ details[open] .entry-teaser {
 /* A quiet flag on the collapsed summary for entries that hold more than
    the 1995 typescript alone — a handwritten original, an earlier draft,
    or (for "My Father") a piece never published at all. Visible before
-   the <details> is ever opened, so it isn't an easter egg. */
+   the <details> is ever opened, so it isn't an easter egg. Same small
+   pill treatment as .quote-card-note on the Inspiration page. */
 .entry-flag {
+    display: inline-flex;
+    align-self: flex-start;
+    align-items: center;
+    padding: 0.22rem 0.5rem;
+    border-radius: 999px;
+    border: 1px solid var(--ink-faintest);
     font-family: var(--mono);
-    font-size: 0.66rem;
-    font-weight: 600;
-    letter-spacing: 0.16em;
+    font-size: 0.64rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--accent-strong);
+    color: var(--ink-faint);
 }
 
 /* The strip of original pages at the foot of an open entry. */
