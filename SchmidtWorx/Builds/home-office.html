@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home Office Built-In | SchmidtWorx</title>
+  <meta name="description" content="Build documentation for the 2026 home office built-in: a gutted bedroom closet rebuilt as a lit, printer-hiding built-in." />
+  <meta property="og:title" content="Home Office Built-In | SchmidtWorx" />
+  <meta property="og:description" content="Build documentation for the 2026 home office built-in: a gutted bedroom closet rebuilt as a lit, printer-hiding built-in." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://schmidtworx.com/Builds/home-office.html" />
+  <meta property="og:image" content="https://schmidtworx.com/og-image.png" />
+  <meta property="og:site_name" content="SchmidtWorx" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Home Office Built-In | SchmidtWorx" />
+  <meta name="twitter:description" content="Build documentation for the 2026 home office built-in: a gutted bedroom closet rebuilt as a lit, printer-hiding built-in." />
+  <meta name="twitter:image" content="https://schmidtworx.com/og-image.png" />
+  <link rel="icon" href="/favicon.ico" sizes="32x32" />
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&amp;family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" />
+  <link rel="stylesheet" href="/style.css" />
+  <style>
+
+    /* Clip overflow at the container level */
+    .container { overflow-x: hidden; }
+
+    /* ── Before/After Slider (shared styles) ─────────────── */
+    .before-after {
+      position: relative;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      user-select: none;
+      cursor: ew-resize;
+      aspect-ratio: 16 / 9;
+      touch-action: none;
+    }
+
+    /* Still image slider */
+    .ba-after,
+    .ba-before {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center center;
+    }
+
+    .ba-before {
+      clip-path: inset(0 50% 0 0);
+    }
+
+    /* Video slider */
+    .bav-after,
+    .bav-before {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .bav-before {
+      clip-path: inset(0 50% 0 0);
+    }
+
+    .ba-divider {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 2px;
+      background: var(--accent-strong);
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+
+    .ba-handle {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--accent-strong);
+      border: 3px solid #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 16px rgba(0, 0, 0, 0.55);
+      pointer-events: none;
+    }
+
+    .ba-label {
+      position: absolute;
+      bottom: 1rem;
+      padding: 0.3rem 0.8rem;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: rgba(18, 20, 22, 0.78);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(8px);
+      pointer-events: none;
+    }
+
+    .ba-label-before { left: 1rem; }
+    .ba-label-after  { right: 1rem; }
+
+    /* ── Phase timeline ──────────────────────────────────── */
+    .phases {
+      display: grid;
+      gap: 2.75rem;
+      min-width: 0;
+    }
+
+    .phase { min-width: 0; }
+
+    .phase-header {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .phase-number {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      white-space: nowrap;
+    }
+
+    .phase-title {
+      margin: 0;
+      font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--fg);
+    }
+
+    .phase-desc {
+      margin: 0 0 1rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+      max-width: 58ch;
+    }
+
+    /* ── Horizontal photo strip ──────────────────────────── */
+    .photo-strip {
+      display: flex;
+      gap: 0.75rem;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 0.75rem;
+      min-width: 0;
+      width: 100%;
+    }
+
+    .photo-strip::-webkit-scrollbar { height: 3px; }
+    .photo-strip::-webkit-scrollbar-track { background: rgba(255,255,255,0.04); }
+    .photo-strip::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 2px; }
+
+    .strip-photo {
+      flex: 0 0 auto;
+      width: 288px;
+      height: 216px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      scroll-snap-align: start;
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .strip-photo:hover {
+      transform: translateY(-3px);
+      border-color: var(--border-strong);
+      box-shadow: 0 8px 28px rgba(0,0,0,0.35);
+    }
+
+    .strip-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+
+    .strip-caption {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 0.6rem 0.8rem 0.5rem;
+      background: linear-gradient(transparent, rgba(0,0,0,0.75));
+      font-size: 0.76rem;
+      color: var(--accent);
+      letter-spacing: 0.02em;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .strip-photo:hover .strip-caption { opacity: 1; }
+
+    /* ── Future Vision card ──────────────────────────────── */
+    .vision-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .vision-item {
+      padding: 1rem 1.1rem;
+      border: 1px solid var(--border);
+      border-radius: calc(var(--radius) - 4px);
+      background: rgba(215, 195, 160, 0.04);
+    }
+
+    .vision-item-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 0 0 0.35rem;
+    }
+
+    .vision-item-desc {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    /* ── Mobile overrides ────────────────────────────────── */
+    @media (max-width: 600px) {
+      .before-after { aspect-ratio: 4 / 3; }
+
+      .phase-header { flex-wrap: wrap; gap: 0.25rem; }
+
+      .photo-strip {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
+        overflow-x: visible;
+        overflow-y: visible;
+        scroll-snap-type: none;
+        padding-bottom: 0;
+        width: 100%;
+      }
+
+      .strip-photo { width: 100%; height: 44vw; border-radius: 10px; }
+      .strip-caption { opacity: 1; }
+
+      .vision-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── Lightbox ────────────────────────────────────────── */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(0,0,0,0.92);
+      backdrop-filter: blur(14px);
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lightbox.open { display: flex; }
+
+    .lightbox-inner {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      max-width: 90vw;
+    }
+
+    .lightbox img {
+      max-width: 90vw;
+      max-height: 80vh;
+      object-fit: contain;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      display: block;
+    }
+
+    .lightbox-caption { color: var(--muted); font-size: 0.9rem; text-align: center; margin: 0; }
+
+    .lightbox-close {
+      position: absolute;
+      top: -3.25rem; right: 0;
+      width: 2.5rem; height: 2.5rem;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.06);
+      color: var(--fg);
+      cursor: pointer;
+      font-size: 1.4rem; line-height: 1;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+    .lightbox-close:hover { background: rgba(255,255,255,0.12); border-color: var(--border-strong); }
+
+    .lightbox-nav {
+      position: fixed; top: 50%; transform: translateY(-50%);
+      width: 3rem; height: 3rem;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: rgba(18,20,22,0.8);
+      color: var(--fg); cursor: pointer; font-size: 1.5rem;
+      display: flex; align-items: center; justify-content: center;
+      backdrop-filter: blur(8px);
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+    .lightbox-nav:hover { background: rgba(18,20,22,1); border-color: var(--border-strong); }
+    .lightbox-prev { left: 1.25rem; }
+    .lightbox-next { right: 1.25rem; }
+
+    .lightbox-counter {
+      position: fixed; top: 1.25rem; left: 50%; transform: translateX(-50%);
+      font-size: 0.8rem; letter-spacing: 0.08em; color: var(--muted);
+      background: rgba(18,20,22,0.7);
+      padding: 0.3rem 0.9rem; border-radius: 999px;
+      border: 1px solid var(--border); backdrop-filter: blur(8px);
+    }
+
+    .phase + .phase { border-top: 1px solid var(--border); padding-top: 2.75rem; }
+
+    @media (max-width: 719px) {
+      .strip-photo { width: 240px; height: 180px; }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="nav-container">
+        <a class="site-title" href="/index.html" aria-label="SchmidtWorx home">
+            <span class="site-title-mark">Sw</span>
+            <strong class="site-title-name">SCHMIDTWORX</strong>
+            <span class="site-title-sub">Archive · Est. 2026</span>
+        </a>
+        <button class="hamburger" id="hamburger" type="button" aria-expanded="false" aria-controls="menu"
+            aria-label="Open navigation">
+            <span aria-hidden="true">☰</span>
+        </button>
+    </div>
+
+    <nav id="menu" aria-label="Primary navigation">
+        <a class="nav-link" href="/index.html">Home</a>
+    </nav>
+</header>
+
+  <main class="container page-shell">
+
+    <nav aria-label="Breadcrumb" class="breadcrumb">
+      <ol>
+        <li><a href="/index.html">Home</a></li>
+        <li><a href="/index.html#michael">Michael Schmidt</a></li>
+        <li><a href="/Builds/index.html">Builds</a></li>
+        <li aria-current="page">Home Office</li>
+      </ol>
+    </nav>
+
+    <!-- ── Hero ──────────────────────────────────────────── -->
+    <section class="hero">
+      <p class="eyebrow">Built Work · Completed 2026</p>
+      <h1>Home Office Built-In</h1>
+      <p class="tagline">
+        A spare bedroom became an office, but the closet kept giving it away, and a large
+        printer sat on the floor in everyone's way. Gutted the closet and built a
+        floor-to-header built-in in its place: a base cabinet that hides the printer with
+        permanent power inside it, curved verticals cut on a CNC, a back wall built twice,
+        and 24V lighting routed into the shelf edges. It also spends all day as a video-call
+        backdrop, which was the plan from the beginning.
+      </p>
+    </section>
+
+    <!-- ── Before/after slider ───────────────────────────── -->
+    <section class="section-card" style="padding: 1.5rem; gap: 1.1rem; display: grid;">
+      <div>
+        <p class="section-kicker" style="margin:0 0 0.4rem;">The Transformation</p>
+        <h2 class="section-heading" style="margin:0 0 0.3rem;">Before &amp; After</h2>
+        <p style="color:var(--muted); margin:0; font-size:0.9rem;">Drag the handle to compare.</p>
+      </div>
+
+      <div class="before-after" id="baStill">
+        <div class="ba-after"  style="background-image: url('/assets/HomeOffice/finished-daylight.jpg'); background-position: center center;"></div>
+        <div class="ba-before" id="baStillBefore" style="background-image: url('/assets/HomeOffice/20260212_172404.jpg'); background-position: center center;"></div>
+        <div class="ba-divider" id="baStillDivider"></div>
+        <div class="ba-handle"  id="baStillHandle">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 5L2 9L6 13M12 5L16 9L12 13" stroke="#121416" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <span class="ba-label ba-label-before">Before</span>
+        <span class="ba-label ba-label-after">After</span>
+      </div>
+    </section>
+
+    <!-- ── Phase timeline ────────────────────────────────── -->
+    <section class="section-card" style="padding: 1.5rem 1.25rem; gap: 0; display: grid;">
+      <div style="margin-bottom: 2.25rem;">
+        <p class="section-kicker" style="margin:0 0 0.4rem;">Project Walkthrough</p>
+        <h2 class="section-heading" style="margin:0;">Phase by Phase</h2>
+      </div>
+
+      <div class="phases">
+
+        <!-- Phase 01 -->
+        <div class="phase">
+          <div class="phase-header">
+            <span class="phase-number">Phase 01</span>
+            <h3 class="phase-title">A Closet Pretending to Be an Office</h3>
+          </div>
+          <p class="phase-desc">
+            The room was a bedroom before it was an office, and the closet made sure
+            everyone knew it. A wide opening, a rod, a shelf, and nothing about it that
+            belonged in a room where work happens. The printer is the other half of the
+            problem: it is large, it is not attractive, and it lived on the floor on a
+            scrap of plywood with its cord running across the carpet to the nearest
+            outlet. Gutting the closet was the easy decision. What replaced it had to do
+            three things at once: stop reading as a closet, swallow the printer whole,
+            and still be somewhere you would want to look.
+          </p>
+          <div class="photo-strip">
+            <div class="strip-photo" data-src="/assets/HomeOffice/20260212_172404.jpg" data-caption="The closet gutted, printer on the floor on scrap plywood, cord running across the carpet, February 2026">
+              <img src="/assets/HomeOffice/20260212_172404.jpg" alt="Empty gutted closet opening with a large printer sitting on the floor and a power cord across the carpet" loading="lazy">
+              <span class="strip-caption">The closet gutted, printer on the floor on scrap plywood, cord running across the carpet, February 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phase 02 -->
+        <div class="phase">
+          <div class="phase-header">
+            <span class="phase-number">Phase 02</span>
+            <h3 class="phase-title">The Base Cabinet</h3>
+          </div>
+          <p class="phase-desc">
+            Two carcasses built as a single run, sized so the deepest thing that had to
+            disappear would fit with room to spare. Doors hung flat and full-overlay so
+            the front would read as one surface rather than a row of boxes.
+            <br><br>
+            A word about the material, since it is the part most people would leave out.
+            The visible faces are oak plywood, and where every side of a piece would show,
+            it is solid oak, so nothing needed edge banding. Everywhere else, and
+            especially once material started running short, the answer was cheaper
+            plywood doubled up behind oak ply with banded edges. It looks like a solid
+            oak build. It is not one. It is a frugal build wearing oak where oak gets
+            seen, which is a decision with a long history in this family.
+          </p>
+          <div class="photo-strip">
+            <div class="strip-photo" data-src="/assets/HomeOffice/20260405_092307.jpg" data-caption="Base cabinet carcasses framed up in the opening, April 2026">
+              <img src="/assets/HomeOffice/20260405_092307.jpg" alt="Two plywood cabinet carcasses under construction inside the closet opening" loading="lazy">
+              <span class="strip-caption">Base cabinet carcasses framed up in the opening, April 2026</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/HomeOffice/20260420_065851.jpg" data-caption="Top decked and doors hung, still bare plywood, April 2026">
+              <img src="/assets/HomeOffice/20260420_065851.jpg" alt="Completed base cabinet with four flat plywood doors and a solid top surface" loading="lazy">
+              <span class="strip-caption">Top decked and doors hung, still bare plywood, April 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phase 03 -->
+        <div class="phase">
+          <div class="phase-header">
+            <span class="phase-number">Phase 03</span>
+            <h3 class="phase-title">Power, and the Printer</h3>
+          </div>
+          <p class="phase-desc">
+            The only power in the opening was the closet light switch, so the switch
+            became the source for everything. Constant power off the line side runs to a
+            receptacle inside the cabinet, which is where the printer plugs in and stays
+            plugged in — no reaching, no unplugging, no cord leaving the box. The switched
+            leg feeds a second outlet that the 24V lighting supplies plug into, so the
+            wall switch that used to run a bare closet bulb now runs the entire built-in's
+            lighting, and anything else added later can borrow from either side.
+            <br><br>
+            The test fit is the photo worth keeping. Printer in, doors open, and the
+            furring strips already on the back wall for the paneling that comes next.
+          </p>
+          <div class="photo-strip">
+            <div class="strip-photo" data-src="/assets/HomeOffice/20260426_111546.jpg" data-caption="Printer test-fit inside the cabinet with the doors open, furring strips up on the back wall, April 2026">
+              <img src="/assets/HomeOffice/20260426_111546.jpg" alt="Printer sitting inside the base cabinet with doors open, vertical furring strips mounted on the wall above" loading="lazy">
+              <span class="strip-caption">Printer test-fit inside the cabinet with the doors open, furring strips up on the back wall, April 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phase 04 -->
+        <div class="phase">
+          <div class="phase-header">
+            <span class="phase-number">Phase 04</span>
+            <h3 class="phase-title">The Back Wall, Twice</h3>
+          </div>
+          <p class="phase-desc">
+            The first back wall went up and the seams landed in open field, straight
+            across the middle of the opening where there was nothing to break them up.
+            From three feet away it looked like what it was: sheets of plywood butted
+            together.
+            <br><br>
+            The fix came out of a second problem. Material was running short, so rather
+            than buy more, the answer was to build a new ledge with a raised floor
+            higher up the opening. That did two things at once: it cut down how much
+            vertical back wall there was left to cover, and it let the remaining seams
+            fall exactly where the vertical dividers would eventually stand. The seams
+            are still there. They are just behind something now.
+            <br><br>
+            This is the part of the build worth remembering — the constraint produced
+            the geometry that solved the flaw.
+          </p>
+          <div class="photo-strip">
+            <div class="strip-photo" data-src="/assets/HomeOffice/20260503_203104.jpg" data-caption="First back wall, seams running across open field in the middle of the opening, May 2026">
+              <img src="/assets/HomeOffice/20260503_203104.jpg" alt="Plywood back wall panels installed with visible horizontal seams across the middle" loading="lazy">
+              <span class="strip-caption">First back wall, seams running across open field in the middle of the opening, May 2026</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/HomeOffice/20260527_194027.jpg" data-caption="The redo underway: new raised ledge and floor framed in, replacement back panel staged, May 2026">
+              <img src="/assets/HomeOffice/20260527_194027.jpg" alt="Partially rebuilt interior with a new raised floor frame and a large plywood panel leaning in place" loading="lazy">
+              <span class="strip-caption">The redo underway: new raised ledge and floor framed in, replacement back panel staged, May 2026</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/HomeOffice/20260607_154146.jpg" data-caption="Second back wall in three panels, seams landing where the verticals will stand, June 2026">
+              <img src="/assets/HomeOffice/20260607_154146.jpg" alt="Finished plywood back wall in three clean panels above the new raised floor" loading="lazy">
+              <span class="strip-caption">Second back wall in three panels, seams landing where the verticals will stand, June 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phase 05 -->
+        <div class="phase">
+          <div class="phase-header">
+            <span class="phase-number">Phase 05</span>
+            <h3 class="phase-title">The Curve</h3>
+          </div>
+          <p class="phase-desc">
+            The vertical dividers were originally going to run the full depth of the
+            opening, straight out to the front edge. Mocked up that way, each bay turned
+            into a deep, dark slot and the whole thing looked like storage instead of a
+            built-in. The fix was to cut a soft stocking profile into each vertical so it
+            sweeps back from the front edge and opens the bays up.
+            <br><br>
+            Every other cut on this project was made with a handheld router. This stock
+            was too thick for that to end well, so a friend with a CNC router made the
+            two cuts. It is the only part of the build with outside hands on it.
+          </p>
+          <div class="photo-strip">
+            <div class="strip-photo" data-src="/assets/HomeOffice/20260605_165506.jpg" data-caption="First curved vertical set in place, the stocking profile cut on the CNC, June 2026">
+              <img src="/assets/HomeOffice/20260605_165506.jpg" alt="Plywood vertical divider with a long curved profile installed inside the built-in" loading="lazy">
+              <span class="strip-caption">First curved vertical set in place, the stocking profile cut on the CNC, June 2026</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/HomeOffice/20260614_171120.jpg" data-caption="Both verticals in, curves mirrored, structure complete before finishing, June 2026">
+              <img src="/assets/HomeOffice/20260614_171120.jpg" alt="Built-in interior with two mirrored curved vertical dividers framing three bays" loading="lazy">
+              <span class="strip-caption">Both verticals in, curves mirrored, structure complete before finishing, June 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phase 06 -->
+        <div class="phase">
+          <div class="phase-header">
+            <span class="phase-number">Phase 06</span>
+            <h3 class="phase-title">Lighting the Shelves</h3>
+          </div>
+          <p class="phase-desc">
+            The shelves are lit from inside their own front edge. A channel is routed
+            down the length of the shelf edge, a 24V LED strip is set into the channel,
+            and a silicone diffuser cover presses in over the top. No visible strip, no
+            row of dots, no aluminum extrusion stuck on afterward — just a continuous
+            line of light sitting flush in the wood. Color and brightness run off a
+            remote.
+            <br><br>
+            The piece in these photos never made it into the build. It was cut for a run
+            across the bottom, and once it was in place it looked wrong and got pulled.
+            The method is what survived, and it is the same method in every lit shelf
+            on the wall.
+          </p>
+          <div class="photo-strip">
+            <div class="strip-photo" data-src="/assets/HomeOffice/20260809_170445.jpg" data-caption="Channel routed into the shelf edge with the LED strip seated inside, August 2026">
+              <img src="/assets/HomeOffice/20260809_170445.jpg" alt="Long wooden strip with a routed channel containing an LED tape" loading="lazy">
+              <span class="strip-caption">Channel routed into the shelf edge with the LED strip seated inside, August 2026</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/HomeOffice/20260809_170820.jpg" data-caption="Silicone diffuser cover pressed in over the strip, flush with the wood">
+              <img src="/assets/HomeOffice/20260809_170820.jpg" alt="Same wooden strip with a white silicone diffuser cover installed flush" loading="lazy">
+              <span class="strip-caption">Silicone diffuser cover pressed in over the strip, flush with the wood</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/HomeOffice/20260809_171117.jpg" data-caption="Lit in the dark: one continuous line, no dotting, no visible hardware">
+              <img src="/assets/HomeOffice/20260809_171117.jpg" alt="The finished light channel glowing as a smooth continuous line in a dark garage" loading="lazy">
+              <span class="strip-caption">Lit in the dark: one continuous line, no dotting, no visible hardware</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phase 07 -->
+        <div class="phase">
+          <div class="phase-header">
+            <span class="phase-number">Phase 07</span>
+            <h3 class="phase-title">Finished</h3>
+          </div>
+          <p class="phase-desc">
+            Stained, lit, and loaded. The bays hold what bays hold. The center is
+            deliberately open at desk height with a single framed piece behind it,
+            because the whole wall was always going to be a video-call backdrop and
+            that is the part the camera sees. It works better than expected — people
+            on calls ask whether it is a virtual background.
+            <br><br>
+            Handles are not on yet. They are coming.
+          </p>
+          <div class="photo-strip">
+            <div class="strip-photo" data-src="/assets/HomeOffice/20260620_150406.jpg" data-caption="Stained and empty: the woodwork with nothing on it, June 2026">
+              <img src="/assets/HomeOffice/20260620_150406.jpg" alt="Finished stained built-in with curved verticals and no shelves or decor yet" loading="lazy">
+              <span class="strip-caption">Stained and empty: the woodwork with nothing on it, June 2026</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/HomeOffice/20260718_131532.jpg" data-caption="Shelves in, lights on, styled, July 2026">
+              <img src="/assets/HomeOffice/20260718_131532.jpg" alt="Finished built-in with lit shelves, plants, books and framed art in the center bay" loading="lazy">
+              <span class="strip-caption">Shelves in, lights on, styled, July 2026</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/HomeOffice/20260802_200647.jpg" data-caption="At night with the room lights down, the shelf lighting doing the work, August 2026">
+              <img src="/assets/HomeOffice/20260802_200647.jpg" alt="Built-in at night with warm shelf lighting glowing against dark walls" loading="lazy">
+              <span class="strip-caption">At night with the room lights down, the shelf lighting doing the work, August 2026</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/HomeOffice/20260718_145218.jpg" data-caption="From the desk: the built-in as it appears on camera, with the mirror catching it from the side">
+              <img src="/assets/HomeOffice/20260718_145218.jpg" alt="Wider view of the home office showing the desk, monitors, and the lit built-in behind" loading="lazy">
+              <span class="strip-caption">From the desk: the built-in as it appears on camera, with the mirror catching it from the side</span>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /phases -->
+    </section>
+
+    <!-- ── The last five percent ─────────────────────────── -->
+    <section class="section-card" style="padding: 1.5rem; gap: 1rem; display: grid;">
+      <div>
+        <p class="section-kicker" style="margin:0 0 0.4rem;">What's Left</p>
+        <h2 class="section-heading" style="margin:0 0 0.35rem;">The Last Five Percent</h2>
+        <p style="color:var(--muted); margin:0; font-size:0.9rem;">
+          Finished enough to use every day. Not finished.
+        </p>
+      </div>
+      <div class="vision-grid">
+        <div class="vision-item">
+          <p class="vision-item-title">Handles</p>
+          <p class="vision-item-desc">The doors are still bare fronts. Pulls are picked out in theory and not on the cabinet in practice. This is the honest last item.</p>
+        </div>
+        <div class="vision-item">
+          <p class="vision-item-title">Lighting Control</p>
+          <p class="vision-item-desc">The shelf lighting runs off its own remote. Every other light in the house answers to Home Assistant. Bringing this one in line is the obvious next move.</p>
+        </div>
+        <div class="vision-item">
+          <p class="vision-item-title">The List Only I Can See</p>
+          <p class="vision-item-desc">Every amateur build comes with a running list of things the builder notices and nobody else ever will. That list exists for this one too, and it is staying off the page.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>One problem at a time. Some of them I made myself.</p>
+    </footer>
+
+  </main>
+
+  <!-- ── Lightbox ───────────────────────────────────────── -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
+    <span class="lightbox-counter" id="lightboxCounter">1 / 1</span>
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close">×</button>
+    <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Previous">‹</button>
+    <div class="lightbox-inner">
+      <img id="lightboxImg" src="" alt="">
+      <p class="lightbox-caption" id="lightboxCaption"></p>
+    </div>
+    <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Next">›</button>
+  </div>
+
+  <script src="/scripts/menu.js"></script>
+  <script>
+    /* ── Still image before/after slider ─────────────── */
+    (function () {
+      const slider  = document.getElementById('baStill');
+      const before  = document.getElementById('baStillBefore');
+      const divider = document.getElementById('baStillDivider');
+      const handle  = document.getElementById('baStillHandle');
+      let dragging  = false;
+
+      function move(clientX) {
+        const r   = slider.getBoundingClientRect();
+        const pct = Math.max(0.03, Math.min(0.97, (clientX - r.left) / r.width));
+        before.style.clipPath = `inset(0 ${((1 - pct) * 100).toFixed(2)}% 0 0)`;
+        divider.style.left = handle.style.left = (pct * 100).toFixed(2) + '%';
+      }
+
+      slider.addEventListener('mousedown',  e => { dragging = true; move(e.clientX); });
+      slider.addEventListener('touchstart', e => { dragging = true; move(e.touches[0].clientX); }, { passive: true });
+      window.addEventListener('mousemove',  e => { if (dragging) move(e.clientX); });
+      window.addEventListener('touchmove',  e => { if (dragging) move(e.touches[0].clientX); }, { passive: true });
+      window.addEventListener('mouseup',    () => dragging = false);
+      window.addEventListener('touchend',   () => dragging = false);
+    })();
+
+
+    /* ── Lightbox ─────────────────────────────────────── */
+    (function () {
+      const lb      = document.getElementById('lightbox');
+      const lbImg   = document.getElementById('lightboxImg');
+      const lbCap   = document.getElementById('lightboxCaption');
+      const lbCount = document.getElementById('lightboxCounter');
+      let photos = [], idx = 0;
+
+      function buildList() {
+        photos = Array.from(document.querySelectorAll('.strip-photo')).map(el => ({
+          src:     el.dataset.src,
+          caption: el.dataset.caption,
+          alt:     el.querySelector('img').alt
+        }));
+      }
+
+      function show(i) {
+        idx = (i + photos.length) % photos.length;
+        lbImg.src = photos[idx].src;
+        lbImg.alt = photos[idx].alt;
+        lbCap.textContent = photos[idx].caption;
+        lbCount.textContent = `${idx + 1} / ${photos.length}`;
+      }
+
+      function open(i) { buildList(); show(i); lb.classList.add('open'); document.body.style.overflow = 'hidden'; }
+      function close()  { lb.classList.remove('open'); document.body.style.overflow = ''; }
+
+      document.querySelectorAll('.strip-photo').forEach((el, i) => {
+        el.addEventListener('click', () => open(i));
+        el.setAttribute('tabindex', '0');
+        el.setAttribute('role', 'button');
+        el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(i); } });
+      });
+
+      document.getElementById('lightboxClose').addEventListener('click', close);
+      document.getElementById('lightboxPrev').addEventListener('click', () => show(idx - 1));
+      document.getElementById('lightboxNext').addEventListener('click', () => show(idx + 1));
+      lb.addEventListener('click', e => { if (e.target === lb) close(); });
+
+      document.addEventListener('keydown', e => {
+        if (!lb.classList.contains('open')) return;
+        if (e.key === 'Escape')     close();
+        if (e.key === 'ArrowLeft')  show(idx - 1);
+        if (e.key === 'ArrowRight') show(idx + 1);
+      });
+    })();
+  </script>
+
+</body>
+</html>
