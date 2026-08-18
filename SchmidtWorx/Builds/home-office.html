@@ -212,35 +212,7 @@
     .strip-photo:hover .strip-caption { opacity: 1; }
 
     /* ── Future Vision card ──────────────────────────────── */
-    .vision-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem;
-      margin-top: 1rem;
-    }
 
-    .vision-item {
-      padding: 1rem 1.1rem;
-      border: 1px solid var(--border);
-      border-radius: calc(var(--radius) - 4px);
-      background: rgba(215, 195, 160, 0.04);
-    }
-
-    .vision-item-title {
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin: 0 0 0.35rem;
-    }
-
-    .vision-item-desc {
-      font-size: 0.88rem;
-      color: var(--muted);
-      margin: 0;
-      line-height: 1.5;
-    }
 
     /* ── Mobile overrides ────────────────────────────────── */
     @media (max-width: 600px) {
@@ -262,7 +234,6 @@
       .strip-photo { width: 100%; height: 44vw; border-radius: 10px; }
       .strip-caption { opacity: 1; }
 
-      .vision-grid { grid-template-columns: 1fr; }
     }
 
     /* ── Lightbox ────────────────────────────────────────── */
@@ -432,16 +403,18 @@
             The room was a bedroom before it was an office, and the closet made sure
             everyone knew it. A wide opening, a rod, a shelf, and nothing about it that
             belonged in a room where work happens. The printer is the other half of the
-            problem: it is large, it is not attractive, and it lived on the floor on a
-            scrap of plywood with its cord running across the carpet to the nearest
-            outlet. Gutting the closet was the easy decision. What replaced it had to do
+            problem: it is large, it is not attractive, and it lived on the floor with its
+            cord running across the carpet to the nearest outlet. The plywood in this
+            photo is not a stand — it is a rough mock-up thrown together on the spot to
+            confirm the printer would actually fit inside what was being planned.
+            Gutting the closet was the easy decision. What replaced it had to do
             three things at once: stop reading as a closet, swallow the printer whole,
             and still be somewhere you would want to look.
           </p>
           <div class="photo-strip">
-            <div class="strip-photo" data-src="/assets/HomeOffice/20260212_172404.jpg" data-caption="The closet gutted, printer on the floor on scrap plywood, cord running across the carpet, February 2026">
-              <img src="/assets/HomeOffice/20260212_172404.jpg" alt="Empty gutted closet opening with a large printer sitting on the floor and a power cord across the carpet" loading="lazy">
-              <span class="strip-caption">The closet gutted, printer on the floor on scrap plywood, cord running across the carpet, February 2026</span>
+            <div class="strip-photo" data-src="/assets/HomeOffice/20260212_172404.jpg" data-caption="The closet gutted, printer on the floor, and a rough mock-up checking it would fit, February 2026">
+              <img src="/assets/HomeOffice/20260212_172404.jpg" alt="Gutted closet opening with a large printer on the floor beside a rough plywood mock-up" loading="lazy">
+              <span class="strip-caption">The closet gutted, printer on the floor, and a rough mock-up checking it would fit, February 2026</span>
             </div>
           </div>
         </div>
@@ -457,13 +430,9 @@
             disappear would fit with room to spare. Doors hung flat and full-overlay so
             the front would read as one surface rather than a row of boxes.
             <br><br>
-            A word about the material, since it is the part most people would leave out.
-            The visible faces are oak plywood, and where every side of a piece would show,
-            it is solid oak, so nothing needed edge banding. Everywhere else, and
-            especially once material started running short, the answer was cheaper
-            plywood doubled up behind oak ply with banded edges. It looks like a solid
-            oak build. It is not one. It is a frugal build wearing oak where oak gets
-            seen, which is a decision with a long history in this family.
+            The cabinet is the foundation for everything above it, so it had to be right
+            before anything else could start: level, flush to the opening, and deep
+            enough that the doors close on the printer with nothing sticking out.
           </p>
           <div class="photo-strip">
             <div class="strip-photo" data-src="/assets/HomeOffice/20260405_092307.jpg" data-caption="Base cabinet carcasses framed up in the opening, April 2026">
@@ -554,9 +523,12 @@
             built-in. The fix was to cut a soft stocking profile into each vertical so it
             sweeps back from the front edge and opens the bays up.
             <br><br>
-            Every other cut on this project was made with a handheld router. This stock
-            was too thick for that to end well, so a friend with a CNC router made the
-            two cuts. It is the only part of the build with outside hands on it.
+            The rest of the build came together with ordinary shop tools — mitre saw,
+            table saw, a Kreg rip-cut guide for breaking down sheets, and pocket-hole and
+            hinge jigs for the joinery and the doors. The curve was the one cut none of
+            them could make. The stock was too thick to run safely with a handheld router,
+            so a friend with a CNC router cut the two profiles. It is the only part of the
+            build with outside hands on it.
           </p>
           <div class="photo-strip">
             <div class="strip-photo" data-src="/assets/HomeOffice/20260605_165506.jpg" data-caption="First curved vertical set in place, the stocking profile cut on the CNC, June 2026">
@@ -617,8 +589,6 @@
             because the whole wall was always going to be a video-call backdrop and
             that is the part the camera sees. It works better than expected — people
             on calls ask whether it is a virtual background.
-            <br><br>
-            Handles are not on yet. They are coming.
           </p>
           <div class="photo-strip">
             <div class="strip-photo" data-src="/assets/HomeOffice/20260620_150406.jpg" data-caption="Stained and empty: the woodwork with nothing on it, June 2026">
@@ -629,13 +599,13 @@
               <img src="/assets/HomeOffice/20260718_131532.jpg" alt="Finished built-in with lit shelves, plants, books and framed art in the center bay" loading="lazy">
               <span class="strip-caption">Shelves in, lights on, styled, July 2026</span>
             </div>
-            <div class="strip-photo" data-src="/assets/HomeOffice/20260802_200647.jpg" data-caption="At night with the room lights down, the shelf lighting doing the work, August 2026">
-              <img src="/assets/HomeOffice/20260802_200647.jpg" alt="Built-in at night with warm shelf lighting glowing against dark walls" loading="lazy">
-              <span class="strip-caption">At night with the room lights down, the shelf lighting doing the work, August 2026</span>
-            </div>
             <div class="strip-photo" data-src="/assets/HomeOffice/20260718_145218.jpg" data-caption="From the desk: the built-in as it appears on camera, with the mirror catching it from the side">
               <img src="/assets/HomeOffice/20260718_145218.jpg" alt="Wider view of the home office showing the desk, monitors, and the lit built-in behind" loading="lazy">
               <span class="strip-caption">From the desk: the built-in as it appears on camera, with the mirror catching it from the side</span>
+            </div>
+            <div class="strip-photo" data-src="/assets/HomeOffice/20260802_200647.jpg" data-caption="At night with the room lights down, the shelf lighting doing the work, August 2026">
+              <img src="/assets/HomeOffice/20260802_200647.jpg" alt="Built-in at night with warm shelf lighting glowing against dark walls" loading="lazy">
+              <span class="strip-caption">At night with the room lights down, the shelf lighting doing the work, August 2026</span>
             </div>
           </div>
         </div>
@@ -643,30 +613,6 @@
       </div><!-- /phases -->
     </section>
 
-    <!-- ── The last five percent ─────────────────────────── -->
-    <section class="section-card" style="padding: 1.5rem; gap: 1rem; display: grid;">
-      <div>
-        <p class="section-kicker" style="margin:0 0 0.4rem;">What's Left</p>
-        <h2 class="section-heading" style="margin:0 0 0.35rem;">The Last Five Percent</h2>
-        <p style="color:var(--muted); margin:0; font-size:0.9rem;">
-          Finished enough to use every day. Not finished.
-        </p>
-      </div>
-      <div class="vision-grid">
-        <div class="vision-item">
-          <p class="vision-item-title">Handles</p>
-          <p class="vision-item-desc">The doors are still bare fronts. Pulls are picked out in theory and not on the cabinet in practice. This is the honest last item.</p>
-        </div>
-        <div class="vision-item">
-          <p class="vision-item-title">Lighting Control</p>
-          <p class="vision-item-desc">The shelf lighting runs off its own remote. Every other light in the house answers to Home Assistant. Bringing this one in line is the obvious next move.</p>
-        </div>
-        <div class="vision-item">
-          <p class="vision-item-title">The List Only I Can See</p>
-          <p class="vision-item-desc">Every amateur build comes with a running list of things the builder notices and nobody else ever will. That list exists for this one too, and it is staying off the page.</p>
-        </div>
-      </div>
-    </section>
 
     <footer>
       <p>One problem at a time. Some of them I made myself.</p>
