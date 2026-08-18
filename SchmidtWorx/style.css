@@ -1113,6 +1113,19 @@ details[open] .entry-teaser {
     color: var(--ink-muted);
 }
 
+/* A quiet flag on the collapsed summary for entries that hold more than
+   the 1995 typescript alone — a handwritten original, an earlier draft,
+   or (for "My Father") a piece never published at all. Visible before
+   the <details> is ever opened, so it isn't an easter egg. */
+.entry-flag {
+    font-family: var(--mono);
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent-strong);
+}
+
 /* The strip of original pages at the foot of an open entry. */
 .scan-strip {
     margin-top: 1.7rem;
