@@ -1,11 +1,11 @@
 {
   "meta": {
-    "title": "For Cooper — Michael Schmidt — SchmidtWorx",
+    "title": "For Cooper \u2014 Michael Schmidt \u2014 SchmidtWorx",
     "description": "Things Mike Schmidt figured out and wants to pass forward. For Cooper, and anyone else who finds it useful.",
     "url": "https://schmidtworx.com/Reflections/michael-schmidt-forward.html"
   },
   "hero": {
-    "eyebrow": "Michael Schmidt · 1981–",
+    "eyebrow": "Michael Schmidt \u00b7 1981\u2013",
     "title": "For Cooper",
     "tagline": "What I'd want you to know. And anyone else who finds it useful."
   },
@@ -64,15 +64,15 @@
       },
       {
         "title": "What I See When I Look at You",
-        "body": "When I look at you, I see everything I can no longer see in myself. My trajectory has mostly announced itself — I know roughly the shape of what I am, what I'm good at, where my edges are. Yours hasn't. You could love anything. You could be extraordinary at something that doesn't exist yet. The number of doors still open for you is one of the most beautiful things I have ever been close to. I watch you and I feel it constantly."
+        "body": "When I look at you, I see everything I can no longer see in myself. My trajectory has mostly announced itself \u2014 I know roughly the shape of what I am, what I'm good at, where my edges are. Yours hasn't. You could love anything. You could be extraordinary at something that doesn't exist yet. The number of doors still open for you is one of the most beautiful things I have ever been close to. I watch you and I feel it constantly."
       },
       {
         "title": "Watching You Play",
-        "body": "I did not expect it to feel the way it did. Watching you compete — the effort, the focus, the way you just play — something in me goes quiet. Just proud. I didn't know it would hit me that hard. I'm still a little surprised by it every time."
+        "body": "I did not expect it to feel the way it did. Watching you compete \u2014 the effort, the focus, the way you just play \u2014 something in me goes quiet. Just proud. I didn't know it would hit me that hard. I'm still a little surprised by it every time."
       },
       {
         "title": "What I Can't Wait to Teach You",
-        "body": "There's a difference between teaching someone what to think and teaching someone how to think. Most education confuses the two. I want to teach you the second one — how to examine an argument, how to hold a position and still question it, how to tell the difference between a belief and a feeling. The day you make a genuinely good argument against something I've told you will be one of the best days I can imagine."
+        "body": "There's a difference between teaching someone what to think and teaching someone how to think. Most education confuses the two. I want to teach you the second one \u2014 how to examine an argument, how to hold a position and still question it, how to tell the difference between a belief and a feeling. The day you make a genuinely good argument against something I've told you will be one of the best days I can imagine."
       },
       {
         "title": "The Worry I Carry",
@@ -97,25 +97,25 @@
       },
       {
         "id": "nbW3avTBK1g",
-        "title": "The Death Crawl — Facing the Giants",
+        "title": "The Death Crawl \u2014 Facing the Giants",
         "start": 0,
         "note": ""
       },
       {
         "id": "6E8cDw4EHMA",
-        "title": "How Winning Is Done — Rocky Balboa",
+        "title": "How Winning Is Done \u2014 Rocky Balboa",
         "start": 0,
         "note": ""
       },
       {
         "id": "zBMgvcN-1mc",
-        "title": "Because Mickey Loves Ya — Rocky V",
+        "title": "Because Mickey Loves Ya \u2014 Rocky V",
         "start": 0,
         "note": ""
       },
       {
         "id": "-gYpCIbZjUQ",
-        "title": "You Should Be a Monster — Jordan Peterson",
+        "title": "You Should Be a Monster \u2014 Jordan Peterson",
         "start": 96,
         "note": ""
       },
@@ -136,8 +136,14 @@
         "title": "Carpe Diem!",
         "start": 0,
         "note": ""
+      },
+      {
+        "id": "tX8TgVR33KM",
+        "title": "Check In on Those Around You \u2014 Norwich City",
+        "start": 0,
+        "note": ""
       }
     ]
   },
-  "footer": "Learn from the mistakes of others. You can’t live long enough to make them all yourself. -- Eleanor Roosevelt:"
+  "footer": "Learn from the mistakes of others. You can\u2019t live long enough to make them all yourself. -- Eleanor Roosevelt:"
 }
