@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
 update-header.py
-Reads components/header.html and inlines it into every .html page in the site.
+Reads components/header.html and inlines it into every .html page in the site,
+and into the page templates embedded in functions/api/*.js.
 Run this any time you change the header:
     python3 scripts/update-header.py
 """
@@ -44,6 +45,28 @@ def main():
     print(f"✓ Updated {len(updated)} file(s):")
     for f in updated:
         print(f"  {f}")
+
+    # The editor Functions (functions/api/*.js) render pages from a template that
+    # embeds its own copy of the header. Keep those copies in sync too, otherwise
+    # the next publish from an editor would bring back a stale header.
+    fn_dir = os.path.join(ROOT, "functions", "api")
+    fn_updated = []
+    if os.path.isdir(fn_dir):
+        for fname in sorted(os.listdir(fn_dir)):
+            if not fname.endswith(".js"):
+                continue
+            fpath = os.path.join(fn_dir, fname)
+            content = open(fpath).read()
+            if PLACEHOLDER.search(content):
+                new_content = PLACEHOLDER.sub(lambda m: header_html, content)
+                if new_content != content:
+                    open(fpath, "w").write(new_content)
+                    fn_updated.append(fpath.replace(ROOT + "/", ""))
+
+    if fn_updated:
+        print(f"\n✓ Updated {len(fn_updated)} editor function(s):")
+        for f in fn_updated:
+            print(f"  {f}")
 
     if skipped:
         print(f"\n⚠ Skipped {len(skipped)} file(s) (no <header> block found):")

@@ -141,7 +141,14 @@ ${renderParagraphs(e.body)}
     <meta name="twitter:title" content="${esc(meta.title)}" />
     <meta name="twitter:description" content="${esc(meta.description)}" />
     <meta name="twitter:image" content="https://schmidtworx.com/web-app-manifest-512x512.png" />
-    <link rel="stylesheet" href="/style.css" />
+  <link rel="icon" href="/favicon.ico" sizes="32x32" />
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&amp;family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" />
+  <link rel="stylesheet" href="/style.css" />
 </head>
 
 <body>
@@ -150,8 +157,9 @@ ${renderParagraphs(e.body)}
     <header>
     <div class="nav-container">
         <a class="site-title" href="/index.html" aria-label="SchmidtWorx home">
-            <span class="site-title-mark">Archive</span>
-            <span class="site-title-text">SchmidtWorx</span>
+            <span class="site-title-mark">Sw</span>
+            <strong class="site-title-name">SCHMIDTWORX</strong>
+            <span class="site-title-sub">Archive · Est. 2026</span>
         </a>
         <button class="hamburger" id="hamburger" type="button" aria-expanded="false" aria-controls="menu"
             aria-label="Open navigation">
@@ -161,8 +169,6 @@ ${renderParagraphs(e.body)}
 
     <nav id="menu" aria-label="Primary navigation">
         <a class="nav-link" href="/index.html">Home</a>
-        <a class="nav-link" href="/Reflections/index.html">Reflections</a>
-        <a class="nav-link" href="/LettersAndRecordings/index.html">Recordings and Artifacts</a>
     </nav>
 </header>
     <!-- Header ends here -- Populate Body starting right below -->

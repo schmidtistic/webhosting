@@ -144,6 +144,17 @@ def main():
                 mm = re.search(r'<header>.*?</header>', t, re.S)
                 if mm and norm(mm.group(0)) != ref:
                     drift.append(os.path.relpath(p, ROOT))
+            # editor Functions embed a copy of the header in their page templates
+            fn_dir = os.path.join(ROOT, 'functions', 'api')
+            if os.path.isdir(fn_dir):
+                for fn in sorted(os.listdir(fn_dir)):
+                    if not fn.endswith('.js'):
+                        continue
+                    fp = os.path.join(fn_dir, fn)
+                    t = open(fp, encoding='utf-8', errors='replace').read()
+                    mm = re.search(r'<header>.*?</header>', t, re.S)
+                    if mm and norm(mm.group(0)) != ref:
+                        drift.append(os.path.relpath(fp, ROOT))
 
     # unreferenced assets (informational)
     blob = ''.join(open(f, encoding='utf-8', errors='replace').read()
