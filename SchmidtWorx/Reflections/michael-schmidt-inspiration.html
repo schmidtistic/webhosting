@@ -181,6 +181,26 @@
       font-size: 0.94rem;
     }
 
+    /* Optional pointer from a margin note to a related page. */
+    .featured-note-link {
+      display: inline-block;
+      margin-top: 0.8rem;
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--quote-tone);
+      text-decoration: none;
+      border-bottom: 1px solid color-mix(in srgb, var(--quote-tone) 38%, transparent);
+    }
+
+    .featured-note-link:hover,
+    .featured-note-link:focus-visible {
+      border-bottom-color: var(--quote-tone);
+    }
+
+    .featured-note-link[hidden] { display: none; }
+
     /* ── Filters and toolbar ──────────────────────────── */
     .quotes-toolbar {
       display: flex;
@@ -470,6 +490,7 @@
           <aside class="featured-note-panel" id="featured-note-panel" hidden>
             <p class="featured-note-label">Margin Note</p>
             <p class="featured-note" id="featured-note"></p>
+            <a class="featured-note-link" id="featured-note-link" hidden></a>
           </aside>
         </div>
       </article>
@@ -520,7 +541,8 @@
       { text: "A man who lacks purpose distracts himself with pleasure.", author: "Viktor Frankl", category: "CHARACTER", note: "" },
       { text: "Nobody loves a warrior until an enemy is at the gate.", author: "Anonymous", category: "COURAGE", note: "" },
       { text: "Time heals all wounds, but it is also the great destroyer. Time is relative but also relentless. There is time for every purpose under heaven, but there is never enough. Time flies, crawls, and races. Seconds can be both split and stretched. Like the tide, time waits for no man, but in dramatic moments it also stands still.", author: "Scientific American Editors, “What Time Is It?” (2012)", category: "KNOWLEDGE", note: "Every clause contradicts itself and every contradiction is true. That’s the part that stops me." },
-      { text: "You cannot swim for new horizons until you have the courage to lose sight of the shore.", author: "William Faulkner", category: "COURAGE", note: "" }
+      { text: "You cannot swim for new horizons until you have the courage to lose sight of the shore.", author: "William Faulkner", category: "COURAGE", note: "" },
+      { text: "Prepare the child for the road, not the road for the child. Tough times never last, but tough people do.", author: "Proverb, and Robert H. Schuller", category: "CHARACTER", note: "These two belong together.  The first is my job right now.  I\u2019m trying to prepare you for the road, not prepare the road for you, because I won\u2019t always be in the room.  The second is who I want you to be, and I hope I\u2019m setting the example for it.", link: { href: "/Reflections/michael-schmidt-forward.html#the-worry-i-carry", label: "Read more: The Worry I Carry" } }
     ];
 
     var categoryMeta = {
@@ -546,6 +568,7 @@
     var featuredAuthor = document.getElementById("featured-author");
     var featuredNotePanel = document.getElementById("featured-note-panel");
     var featuredNote = document.getElementById("featured-note");
+    var featuredNoteLink = document.getElementById("featured-note-link");
     var countEl = document.getElementById("quotes-count");
     var filtersEl = document.getElementById("quote-filters");
     var shelvesEl = document.getElementById("quote-shelves");
@@ -737,6 +760,13 @@
       featuredRoot.classList.toggle("has-note", hasNote);
       featuredNotePanel.hidden = !hasNote;
       featuredNote.textContent = hasNote ? quote.note : "";
+
+      var hasLink = hasNote && quote.link && quote.link.href;
+      featuredNoteLink.hidden = !hasLink;
+      if (hasLink) {
+        featuredNoteLink.href = quote.link.href;
+        featuredNoteLink.textContent = quote.link.label + " \u2192";
+      }
 
       if (options.animate !== false) {
         featuredRoot.classList.remove("is-refreshing");

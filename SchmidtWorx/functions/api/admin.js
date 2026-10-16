@@ -90,6 +90,16 @@ function esc(str) {
     .replace(/'/g, '&#39;');
 }
 
+// Anchor id from a note title, e.g. "The Worry I Carry" -> "the-worry-i-carry".
+// Lets other pages deep-link to a note (the Inspiration quotes do this).
+function slugify(str) {
+  return String(str ?? '')
+    .toLowerCase()
+    .replace(/&/g, ' and ')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
 function renderParagraphs(text, indent = '            ') {
   if (!text?.trim()) return '';
   return text.trim()
@@ -125,8 +135,10 @@ ${bodyHTML}
     const bodyHTML = n.body?.trim()
       ? `\n${renderParagraphs(n.body, '          ')}`
       : '';
+    const noteId = slugify(n.title);
+    const idAttr = noteId ? ` id="${noteId}"` : '';
     return `
-        <li>
+        <li${idAttr}>
           <strong>${esc(n.title)}</strong>${bodyHTML}
         </li>`;
   }).join('');
