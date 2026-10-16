@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Inspiration | Michael Schmidt  |  SchmidtWorx</title>
+  <title>Inspiration | Michael Schmidt | SchmidtWorx</title>
   <meta name="description" content="Words, ideas, and passages that moved Michael Schmidt. Things worth keeping." />
 
   <!-- Open Graph -->
@@ -23,7 +24,8 @@
   <link rel="manifest" href="/site.webmanifest" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&amp;family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&amp;family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" />
   <link rel="stylesheet" href="/style.css" />
 
   <style>
@@ -31,8 +33,13 @@
        Flat surfaces, restrained chrome, type-first. Theme tones
        (--quote-tone) carry the only color signal that varies per quote. */
 
-    .inspiration-page .hero { margin-bottom: 0.2rem; }
-    .inspiration-stage { margin-top: 0.2rem; }
+    .inspiration-page .hero {
+      margin-bottom: 0.2rem;
+    }
+
+    .inspiration-stage {
+      margin-top: 0.2rem;
+    }
 
     /* ── Featured quote — the page's centerpiece ──────── */
     .featured-quote {
@@ -54,19 +61,29 @@
       position: absolute;
       inset: 0 0 auto 0;
       height: 2px;
-      background: linear-gradient(90deg, rgba(255,255,255,0), var(--quote-tone) 18%, var(--quote-tone) 82%, rgba(255,255,255,0));
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0), var(--quote-tone) 18%, var(--quote-tone) 82%, rgba(255, 255, 255, 0));
       opacity: 0.85;
     }
 
-    .featured-quote > * { position: relative; z-index: 1; }
+    .featured-quote>* {
+      position: relative;
+      z-index: 1;
+    }
 
     .featured-quote.is-refreshing {
       animation: featured-refresh 0.45s ease;
     }
 
     @keyframes featured-refresh {
-      0%   { transform: translateY(10px); opacity: 0.84; }
-      100% { transform: translateY(0);    opacity: 1; }
+      0% {
+        transform: translateY(10px);
+        opacity: 0.84;
+      }
+
+      100% {
+        transform: translateY(0);
+        opacity: 1;
+      }
     }
 
     .featured-head {
@@ -135,8 +152,14 @@
       background: color-mix(in srgb, var(--quote-tone) 6%, transparent);
     }
 
-    .featured-shell { display: grid; gap: 1.1rem; }
-    .featured-main  { max-width: 100%; }
+    .featured-shell {
+      display: grid;
+      gap: 1.1rem;
+    }
+
+    .featured-main {
+      max-width: 100%;
+    }
 
     .featured-text {
       margin: 0;
@@ -199,7 +222,9 @@
       border-bottom-color: var(--quote-tone);
     }
 
-    .featured-note-link[hidden] { display: none; }
+    .featured-note-link[hidden] {
+      display: none;
+    }
 
     /* ── Filters and toolbar ──────────────────────────── */
     .quotes-toolbar {
@@ -325,7 +350,7 @@
       position: absolute;
       inset: 0 0 auto 0;
       height: 2px;
-      background: linear-gradient(90deg, rgba(255,255,255,0), var(--quote-tone) 18%, var(--quote-tone) 82%, rgba(255,255,255,0));
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0), var(--quote-tone) 18%, var(--quote-tone) 82%, rgba(255, 255, 255, 0));
       opacity: 0.78;
     }
 
@@ -342,12 +367,22 @@
     }
 
     @keyframes spotlight {
-      0%   { box-shadow: 0 0 0 0   rgba(212, 167, 106, 0); }
-      30%  { box-shadow: 0 0 0 4px rgba(212, 167, 106, 0.18); }
-      100% { box-shadow: 0 0 0 0   rgba(212, 167, 106, 0); }
+      0% {
+        box-shadow: 0 0 0 0 rgba(212, 167, 106, 0);
+      }
+
+      30% {
+        box-shadow: 0 0 0 4px rgba(212, 167, 106, 0.18);
+      }
+
+      100% {
+        box-shadow: 0 0 0 0 rgba(212, 167, 106, 0);
+      }
     }
 
-    .quote-card.spotlit { animation: spotlight 1.4s ease; }
+    .quote-card.spotlit {
+      animation: spotlight 1.4s ease;
+    }
 
     .quote-card-meta {
       display: flex;
@@ -404,10 +439,21 @@
     }
 
     /* Theme tones — the only color that varies per quote */
-    [data-theme="KNOWLEDGE"] { --quote-tone: #dcc296; }
-    [data-theme="COURAGE"]   { --quote-tone: #d5a08c; }
-    [data-theme="CHARACTER"] { --quote-tone: #9fb7a2; }
-    [data-theme="WORK"]      { --quote-tone: var(--voice); }
+    [data-theme="KNOWLEDGE"] {
+      --quote-tone: #dcc296;
+    }
+
+    [data-theme="COURAGE"] {
+      --quote-tone: #d5a08c;
+    }
+
+    [data-theme="CHARACTER"] {
+      --quote-tone: #9fb7a2;
+    }
+
+    [data-theme="WORK"] {
+      --quote-tone: var(--voice);
+    }
 
     @media (min-width: 900px) {
       .featured-quote.has-note .featured-shell {
@@ -416,29 +462,35 @@
     }
 
     @media (max-width: 719px) {
-      .featured-quote { padding: 1.35rem; }
-      .featured-text  { max-width: 100%; }
+      .featured-quote {
+        padding: 1.35rem;
+      }
+
+      .featured-text {
+        max-width: 100%;
+      }
     }
   </style>
 </head>
+
 <body class="inspiration-page">
   <header>
     <div class="nav-container">
-        <a class="site-title" href="/index.html" aria-label="SchmidtWorx home">
-            <span class="site-title-mark">Sw</span>
-            <strong class="site-title-name">SCHMIDTWORX</strong>
-            <span class="site-title-sub">Archive · Est. 2026</span>
-        </a>
-        <button class="hamburger" id="hamburger" type="button" aria-expanded="false" aria-controls="menu"
-            aria-label="Open navigation">
-            <span aria-hidden="true">☰</span>
-        </button>
+      <a class="site-title" href="/index.html" aria-label="SchmidtWorx home">
+        <span class="site-title-mark">Sw</span>
+        <strong class="site-title-name">SCHMIDTWORX</strong>
+        <span class="site-title-sub">Archive · Est. 2026</span>
+      </a>
+      <button class="hamburger" id="hamburger" type="button" aria-expanded="false" aria-controls="menu"
+        aria-label="Open navigation">
+        <span aria-hidden="true">☰</span>
+      </button>
     </div>
 
     <nav id="menu" aria-label="Primary navigation">
-        <a class="nav-link" href="/index.html">Home</a>
+      <a class="nav-link" href="/index.html">Home</a>
     </nav>
-</header>
+  </header>
 
   <main class="container page-shell">
 
@@ -464,7 +516,8 @@
       <p class="section-kicker">Context</p>
       <h2 class="section-heading">Words worth keeping.</h2>
       <p>
-        Things that stopped me: on a page, in a book, in a speech. Not a curated list of the greatest quotes ever written. Just the ones that landed.
+        Things that stopped me: on a page, in a book, in a speech. Not a curated list of the greatest quotes ever
+        written. Just the ones that landed.
         Organized loosely by the quality they speak to.
       </p>
     </section>
@@ -478,7 +531,8 @@
               <span class="featured-position" id="featured-position"></span>
             </div>
           </div>
-          <button class="shuffle-btn" id="shuffle-btn" type="button" title="Spotlight a random entry">&#9645; Random Draw</button>
+          <button class="shuffle-btn" id="shuffle-btn" type="button" title="Spotlight a random entry">&#9645; Random
+            Draw</button>
         </div>
 
         <div class="featured-shell">
@@ -503,303 +557,305 @@
 
     <div class="quote-shelves" id="quote-shelves"></div>
 
-    <p class="quotes-hint" id="quotes-hint">Select a card to bring it forward. Cards marked Note include a personal annotation.</p>
+    <p class="quotes-hint" id="quotes-hint">Select a card to bring it forward. Cards marked Note include a personal
+      annotation.</p>
 
   </main>
 
   <script src="/scripts/menu.js"></script>
   <script>
-  (function () {
-    var quotes = [
-      { text: "Great questions are a much better indicator of future success than great answers.", author: "Ray Dalio", category: "KNOWLEDGE", note: "" },
-      { text: "Knowing how to think empowers you far beyond those who know only what to think.", author: "Neil deGrasse Tyson", category: "KNOWLEDGE", note: "I have always been intrigued by how people think. I especially think about it when I\u2019m conducting job interviews. I have seen people prepare for the \u201cright answers\u201d and you can tell they are polished. I like to give questions where there is no true \u201cright\u201d answer. I am more interested in watching someone walk through their thoughts \u2014 their personal workflows, their inputs and outputs, their virtues. I get much more from the way they think than \u201cWhat are your weaknesses?\u201d" },
-      { text: "Ignorance more frequently begets confidence than does knowledge.", author: "Charles Darwin", category: "KNOWLEDGE", note: "" },
-      { text: "Reasoning will never make a man correct an ill opinion, which by reasoning he never acquired.", author: "Jonathan Swift", category: "KNOWLEDGE", note: "" },
-      { text: "Words calculated to catch everyone may catch no one.", author: "Adlai Stevenson II", category: "KNOWLEDGE", note: "" },
-      { text: "I prefer to be true to myself, even at the hazard of incurring the ridicule of others, rather than to be false, and to incur my own abhorrence.", author: "Frederick Douglass", category: "COURAGE", note: "" },
-      { text: "To make peace, one must be an uncompromising leader. To make peace, one must also embody compromise.", author: "Benazir Bhutto", category: "COURAGE", note: "" },
-      { text: "You are remembered for the rules you break.", author: "Douglas MacArthur", category: "COURAGE", note: "" },
-      { text: "Blessed is he who expects nothing, for he shall never be disappointed.", author: "Alexander Pope", category: "COURAGE", note: "" },
-      { text: "Be more concerned with your character than your reputation, because your character is what you really are, while your reputation is merely what others think you are.", author: "John Wooden", category: "CHARACTER", note: "" },
-      { text: "If you have integrity, nothing else matters. If you don't have integrity, nothing else matters.", author: "Alan K. Simpson", category: "CHARACTER", note: "" },
-      { text: "You cannot fix a problem that you refuse to acknowledge.", author: "Margaret Heffernan", category: "CHARACTER", note: "" },
-      { text: "Please all, and you will please none.", author: "Aesop", category: "CHARACTER", note: "" },
-      { text: "Authenticity is the daily practice of letting go of who we think we're supposed to be and embracing who we are.", author: "Brené Brown", category: "CHARACTER", note: "" },
-      { text: "Constant kindness can accomplish much. As the sun makes ice melt, kindness causes misunderstanding, mistrust, and hostility to evaporate.", author: "Albert Schweitzer", category: "CHARACTER", note: "" },
-      { text: "Concentrate all your thoughts upon the work at hand. The sun's rays do not burn until brought to a focus.", author: "Alexander Graham Bell", category: "WORK", note: "" },
-      { text: "No one can arrive from being talented alone. God gives talent; work transforms talent into genius.", author: "Anna Pavlova", category: "WORK", note: "" },
-      { text: "There are two ways of exerting one's strength: one in pushing down, the other in pulling up.", author: "Booker T. Washington", category: "WORK", note: "" },
-      { text: "Great works are performed, not by strength, but by perseverance; yonder palace was raised by single stones, yet you see its height and spaciousness.", author: "Samuel Johnson", category: "WORK", note: "" },
-      { text: "We must play what is dealt to us, and the glory consists, not so much in winning, as in playing a poor hand well.", author: "Henry Wheeler Shaw", category: "WORK", note: "" },
-      { text: "I urge you to please notice when you are happy, and exclaim or murmur or think at some point, \u201cIf this isn\u2019t nice, I don\u2019t know what is.\u201d", author: "Kurt Vonnegut", category: "WORK", note: "" },
-      { text: "It's in the act of having to do things that you don't want to do that you learn something about moving past the self. Past the ego.", author: "bell hooks", category: "WORK", note: "" },
-      { text: "It is not the critic who counts. The credit belongs to the man who is actually in the arena, whose face is marred by dust and sweat and blood; who strives valiantly; who at the best knows in the end the triumph of high achievement, and who at the worst, if he fails, at least fails while daring greatly.", author: "Theodore Roosevelt", category: "COURAGE", note: "" },
-      { text: "Cowards die many times before their deaths; the valiant never taste of death but once.", author: "William Shakespeare, Julius Caesar", category: "COURAGE", note: "" },
-      { text: "Even pleasures can become punishments when taken too far.", author: "Seneca", category: "CHARACTER", note: "" },
-      { text: "The nation that insists on drawing a broad line between the fighting man and the thinking man is liable to find its fighting done by fools and its thinking done by cowards.", author: "Sir William Francis Butler", category: "KNOWLEDGE", note: "" },
-      { text: "When someone is drowning, that is not the time to teach them how to swim.", author: "Adele Faber", category: "CHARACTER", note: "" },
-      { text: "A man who lacks purpose distracts himself with pleasure.", author: "Viktor Frankl", category: "CHARACTER", note: "" },
-      { text: "Nobody loves a warrior until an enemy is at the gate.", author: "Anonymous", category: "COURAGE", note: "" },
-      { text: "Time heals all wounds, but it is also the great destroyer. Time is relative but also relentless. There is time for every purpose under heaven, but there is never enough. Time flies, crawls, and races. Seconds can be both split and stretched. Like the tide, time waits for no man, but in dramatic moments it also stands still.", author: "Scientific American Editors, “What Time Is It?” (2012)", category: "KNOWLEDGE", note: "Every clause contradicts itself and every contradiction is true. That’s the part that stops me." },
-      { text: "You cannot swim for new horizons until you have the courage to lose sight of the shore.", author: "William Faulkner", category: "COURAGE", note: "" },
-      { text: "Prepare the child for the road, not the road for the child. Tough times never last, but tough people do.", author: "Proverb, and Robert H. Schuller", category: "CHARACTER", note: "These two belong together.  The first is my job right now.  I\u2019m trying to prepare you for the road, not prepare the road for you, because I won\u2019t always be in the room.  The second is who I want you to be, and I hope I\u2019m setting the example for it.", link: { href: "/Reflections/michael-schmidt-forward.html#the-worry-i-carry", label: "Read more: The Worry I Carry" } }
-    ];
+    (function () {
+      var quotes = [
+        { text: "Great questions are a much better indicator of future success than great answers.", author: "Ray Dalio", category: "KNOWLEDGE", note: "" },
+        { text: "Knowing how to think empowers you far beyond those who know only what to think.", author: "Neil deGrasse Tyson", category: "KNOWLEDGE", note: "I have always been intrigued by how people think. I especially think about it when I\u2019m conducting job interviews. I have seen people prepare for the \u201cright answers\u201d and you can tell they are polished. I like to give questions where there is no true \u201cright\u201d answer. I am more interested in watching someone walk through their thoughts \u2014 their personal workflows, their inputs and outputs, their virtues. I get much more from the way they think than \u201cWhat are your weaknesses?\u201d" },
+        { text: "Ignorance more frequently begets confidence than does knowledge.", author: "Charles Darwin", category: "KNOWLEDGE", note: "" },
+        { text: "Reasoning will never make a man correct an ill opinion, which by reasoning he never acquired.", author: "Jonathan Swift", category: "KNOWLEDGE", note: "" },
+        { text: "Words calculated to catch everyone may catch no one.", author: "Adlai Stevenson II", category: "KNOWLEDGE", note: "" },
+        { text: "I prefer to be true to myself, even at the hazard of incurring the ridicule of others, rather than to be false, and to incur my own abhorrence.", author: "Frederick Douglass", category: "COURAGE", note: "" },
+        { text: "To make peace, one must be an uncompromising leader. To make peace, one must also embody compromise.", author: "Benazir Bhutto", category: "COURAGE", note: "" },
+        { text: "You are remembered for the rules you break.", author: "Douglas MacArthur", category: "COURAGE", note: "" },
+        { text: "Blessed is he who expects nothing, for he shall never be disappointed.", author: "Alexander Pope", category: "COURAGE", note: "" },
+        { text: "Be more concerned with your character than your reputation, because your character is what you really are, while your reputation is merely what others think you are.", author: "John Wooden", category: "CHARACTER", note: "" },
+        { text: "If you have integrity, nothing else matters. If you don't have integrity, nothing else matters.", author: "Alan K. Simpson", category: "CHARACTER", note: "" },
+        { text: "You cannot fix a problem that you refuse to acknowledge.", author: "Margaret Heffernan", category: "CHARACTER", note: "" },
+        { text: "Please all, and you will please none.", author: "Aesop", category: "CHARACTER", note: "" },
+        { text: "Authenticity is the daily practice of letting go of who we think we're supposed to be and embracing who we are.", author: "Brené Brown", category: "CHARACTER", note: "" },
+        { text: "Constant kindness can accomplish much. As the sun makes ice melt, kindness causes misunderstanding, mistrust, and hostility to evaporate.", author: "Albert Schweitzer", category: "CHARACTER", note: "" },
+        { text: "Concentrate all your thoughts upon the work at hand. The sun's rays do not burn until brought to a focus.", author: "Alexander Graham Bell", category: "WORK", note: "" },
+        { text: "No one can arrive from being talented alone. God gives talent; work transforms talent into genius.", author: "Anna Pavlova", category: "WORK", note: "" },
+        { text: "There are two ways of exerting one's strength: one in pushing down, the other in pulling up.", author: "Booker T. Washington", category: "WORK", note: "" },
+        { text: "Great works are performed, not by strength, but by perseverance; yonder palace was raised by single stones, yet you see its height and spaciousness.", author: "Samuel Johnson", category: "WORK", note: "" },
+        { text: "We must play what is dealt to us, and the glory consists, not so much in winning, as in playing a poor hand well.", author: "Henry Wheeler Shaw", category: "WORK", note: "" },
+        { text: "I urge you to please notice when you are happy, and exclaim or murmur or think at some point, \u201cIf this isn\u2019t nice, I don\u2019t know what is.\u201d", author: "Kurt Vonnegut", category: "WORK", note: "" },
+        { text: "It's in the act of having to do things that you don't want to do that you learn something about moving past the self. Past the ego.", author: "bell hooks", category: "WORK", note: "" },
+        { text: "It is not the critic who counts. The credit belongs to the man who is actually in the arena, whose face is marred by dust and sweat and blood; who strives valiantly; who at the best knows in the end the triumph of high achievement, and who at the worst, if he fails, at least fails while daring greatly.", author: "Theodore Roosevelt", category: "COURAGE", note: "" },
+        { text: "Cowards die many times before their deaths; the valiant never taste of death but once.", author: "William Shakespeare, Julius Caesar", category: "COURAGE", note: "" },
+        { text: "Even pleasures can become punishments when taken too far.", author: "Seneca", category: "CHARACTER", note: "" },
+        { text: "The nation that insists on drawing a broad line between the fighting man and the thinking man is liable to find its fighting done by fools and its thinking done by cowards.", author: "Sir William Francis Butler", category: "KNOWLEDGE", note: "" },
+        { text: "When someone is drowning, that is not the time to teach them how to swim.", author: "Adele Faber", category: "CHARACTER", note: "" },
+        { text: "A man who lacks purpose distracts himself with pleasure.", author: "Viktor Frankl", category: "CHARACTER", note: "" },
+        { text: "Nobody loves a warrior until an enemy is at the gate.", author: "Anonymous", category: "COURAGE", note: "" },
+        { text: "Time heals all wounds, but it is also the great destroyer. Time is relative but also relentless. There is time for every purpose under heaven, but there is never enough. Time flies, crawls, and races. Seconds can be both split and stretched. Like the tide, time waits for no man, but in dramatic moments it also stands still.", author: "Scientific American Editors, “What Time Is It?” (2012)", category: "KNOWLEDGE", note: "Every clause contradicts itself and every contradiction is true. That’s the part that stops me." },
+        { text: "You cannot swim for new horizons until you have the courage to lose sight of the shore.", author: "William Faulkner", category: "COURAGE", note: "" },
+        { text: "Prepare the child for the road, not the road for the child. Tough times never last, but tough people do.", author: "Proverb, and Robert H. Schuller", category: "CHARACTER", note: "These two belong together.  The first is my job as a parent.  I\u2019m trying to prepare you for the road, not prepare the road for you, because I won\u2019t always be in the room.  The second is who I want you to be, and I hope I\u2019m setting the example for it.", link: { href: "/Reflections/michael-schmidt-forward.html#the-worry-i-carry", label: "Read more: The Worry I Carry" } }
+      ];
 
-    var categoryMeta = {
-      KNOWLEDGE: { label: "Knowledge" },
-      COURAGE: { label: "Courage" },
-      CHARACTER: { label: "Character" },
-      WORK: { label: "Work" }
-    };
+      var categoryMeta = {
+        KNOWLEDGE: { label: "Knowledge" },
+        COURAGE: { label: "Courage" },
+        CHARACTER: { label: "Character" },
+        WORK: { label: "Work" }
+      };
 
-    var categoryOrder = [];
-    var currentFilter = "ALL";
-    // Pick a random quote on first load so the page doesn't always open with the same one.
-    var currentIndex = quotes.length ? Math.floor(Math.random() * quotes.length) : 0;
+      var categoryOrder = [];
+      var currentFilter = "ALL";
+      // Pick a random quote on first load so the page doesn't always open with the same one.
+      var currentIndex = quotes.length ? Math.floor(Math.random() * quotes.length) : 0;
 
-    quotes.forEach(function (quote) {
-      if (categoryOrder.indexOf(quote.category) === -1) categoryOrder.push(quote.category);
-    });
-
-    var featuredRoot = document.getElementById("featured-quote");
-    var featuredTheme = document.getElementById("featured-theme");
-    var featuredPosition = document.getElementById("featured-position");
-    var featuredText = document.getElementById("featured-text");
-    var featuredAuthor = document.getElementById("featured-author");
-    var featuredNotePanel = document.getElementById("featured-note-panel");
-    var featuredNote = document.getElementById("featured-note");
-    var featuredNoteLink = document.getElementById("featured-note-link");
-    var countEl = document.getElementById("quotes-count");
-    var filtersEl = document.getElementById("quote-filters");
-    var shelvesEl = document.getElementById("quote-shelves");
-    var hintEl = document.getElementById("quotes-hint");
-    var shuffleBtn = document.getElementById("shuffle-btn");
-
-    function getCategoryLabel(category) {
-      return categoryMeta[category] ? categoryMeta[category].label : category.replace(/_/g, " ");
-    }
-
-    function maybeRevealFeatured() {
-      var rect = featuredRoot.getBoundingClientRect();
-      if (rect.top < 96 || rect.top > window.innerHeight * 0.42) {
-        featuredRoot.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-    }
-
-    function getVisibleIndices() {
-      return quotes.reduce(function (acc, quote, index) {
-        if (currentFilter === "ALL" || quote.category === currentFilter) acc.push(index);
-        return acc;
-      }, []);
-    }
-
-    function ensureCurrentVisible() {
-      var visible = getVisibleIndices();
-      if (!visible.length) return [];
-      if (visible.indexOf(currentIndex) === -1) currentIndex = visible[0];
-      return visible;
-    }
-
-    function updateCounts(visible) {
-      if (!countEl) return;
-      if (currentFilter === "ALL") {
-        countEl.textContent = visible.length + (visible.length === 1 ? " entry" : " entries");
-      } else {
-        countEl.textContent = visible.length + (visible.length === 1 ? " entry" : " entries") + " in " + getCategoryLabel(currentFilter);
-      }
-    }
-
-    function renderFilters() {
-      filtersEl.innerHTML = "";
-
-      function buildButton(label, filter) {
-        var button = document.createElement("button");
-        button.type = "button";
-        button.className = "filter-btn" + (currentFilter === filter ? " active" : "");
-        button.dataset.filter = filter;
-        button.textContent = label;
-        button.addEventListener("click", function () {
-          currentFilter = filter;
-          renderAll();
-        });
-        return button;
-      }
-
-      filtersEl.appendChild(buildButton("All", "ALL"));
-      categoryOrder.forEach(function (category) {
-        filtersEl.appendChild(buildButton(getCategoryLabel(category), category));
-      });
-    }
-
-    function createCard(index) {
-      var quote = quotes[index];
-      var card = document.createElement("button");
-      var hasNote = quote.note && quote.note.trim().length > 0;
-
-      card.type = "button";
-      card.className = "quote-card";
-      card.dataset.index = index;
-      card.dataset.theme = quote.category;
-
-      var meta = document.createElement("div");
-      meta.className = "quote-card-meta";
-
-      var theme = document.createElement("span");
-      theme.textContent = getCategoryLabel(quote.category);
-      meta.appendChild(theme);
-
-      if (hasNote) {
-        var noteTag = document.createElement("span");
-        noteTag.className = "quote-card-note";
-        noteTag.textContent = "Note";
-        meta.appendChild(noteTag);
-      }
-
-      var preview = document.createElement("p");
-      preview.className = "quote-preview";
-      preview.textContent = "\"" + quote.text + "\"";
-
-      var author = document.createElement("p");
-      author.className = "quote-card-author";
-      author.textContent = quote.author;
-
-      card.appendChild(meta);
-      card.appendChild(preview);
-      card.appendChild(author);
-
-      card.addEventListener("click", function () {
-        currentIndex = index;
-        setFeatured(index, { animate: true, spotlight: false });
-        maybeRevealFeatured();
+      quotes.forEach(function (quote) {
+        if (categoryOrder.indexOf(quote.category) === -1) categoryOrder.push(quote.category);
       });
 
-      return card;
-    }
+      var featuredRoot = document.getElementById("featured-quote");
+      var featuredTheme = document.getElementById("featured-theme");
+      var featuredPosition = document.getElementById("featured-position");
+      var featuredText = document.getElementById("featured-text");
+      var featuredAuthor = document.getElementById("featured-author");
+      var featuredNotePanel = document.getElementById("featured-note-panel");
+      var featuredNote = document.getElementById("featured-note");
+      var featuredNoteLink = document.getElementById("featured-note-link");
+      var countEl = document.getElementById("quotes-count");
+      var filtersEl = document.getElementById("quote-filters");
+      var shelvesEl = document.getElementById("quote-shelves");
+      var hintEl = document.getElementById("quotes-hint");
+      var shuffleBtn = document.getElementById("shuffle-btn");
 
-    function renderShelves() {
-      var visible = ensureCurrentVisible();
-      shelvesEl.innerHTML = "";
-
-      categoryOrder.forEach(function (category) {
-        var items = visible.filter(function (index) {
-          return quotes[index].category === category;
-        });
-
-        if (!items.length) return;
-
-        var shelf = document.createElement("section");
-        shelf.className = "quote-shelf";
-        shelf.dataset.theme = category;
-
-        var head = document.createElement("div");
-        head.className = "quote-shelf-head";
-
-        var title = document.createElement("p");
-        title.className = "quote-shelf-title";
-        title.textContent = getCategoryLabel(category);
-
-        var count = document.createElement("p");
-        count.className = "quote-shelf-count";
-        count.textContent = items.length + (items.length === 1 ? " entry" : " entries");
-
-        head.appendChild(title);
-        head.appendChild(count);
-
-        var grid = document.createElement("div");
-        grid.className = "quote-card-grid";
-
-        items.forEach(function (index) {
-          grid.appendChild(createCard(index));
-        });
-
-        shelf.appendChild(head);
-        shelf.appendChild(grid);
-        shelvesEl.appendChild(shelf);
-      });
-
-      if (hintEl) {
-        var hasVisibleNote = visible.some(function (index) {
-          return quotes[index].note && quotes[index].note.trim().length > 0;
-        });
-        hintEl.style.display = hasVisibleNote ? "" : "none";
-      }
-    }
-
-    function updateActiveCards() {
-      Array.from(document.querySelectorAll(".quote-card")).forEach(function (card) {
-        var active = Number(card.dataset.index) === currentIndex;
-        card.classList.toggle("active", active);
-        card.setAttribute("aria-pressed", active ? "true" : "false");
-      });
-    }
-
-    function spotlightActiveCard() {
-      var activeCard = document.querySelector('.quote-card[data-index="' + currentIndex + '"]');
-      if (!activeCard) return;
-      activeCard.classList.remove("spotlit");
-      void activeCard.offsetWidth;
-      activeCard.classList.add("spotlit");
-      activeCard.addEventListener("animationend", function () {
-        activeCard.classList.remove("spotlit");
-      }, { once: true });
-    }
-
-    function setFeatured(index, options) {
-      options = options || {};
-      var visible = ensureCurrentVisible();
-      var quote = quotes[index];
-      var visiblePosition = visible.indexOf(index);
-      var hasNote = quote.note && quote.note.trim().length > 0;
-
-      featuredRoot.dataset.theme = quote.category;
-      featuredTheme.textContent = getCategoryLabel(quote.category);
-      featuredPosition.textContent = (visiblePosition + 1) + " of " + visible.length;
-      featuredText.textContent = "\u201c" + quote.text + "\u201d";
-      featuredAuthor.textContent = quote.author;
-
-      featuredRoot.classList.toggle("has-note", hasNote);
-      featuredNotePanel.hidden = !hasNote;
-      featuredNote.textContent = hasNote ? quote.note : "";
-
-      var hasLink = hasNote && quote.link && quote.link.href;
-      featuredNoteLink.hidden = !hasLink;
-      if (hasLink) {
-        featuredNoteLink.href = quote.link.href;
-        featuredNoteLink.textContent = quote.link.label + " \u2192";
+      function getCategoryLabel(category) {
+        return categoryMeta[category] ? categoryMeta[category].label : category.replace(/_/g, " ");
       }
 
-      if (options.animate !== false) {
-        featuredRoot.classList.remove("is-refreshing");
-        void featuredRoot.offsetWidth;
-        featuredRoot.classList.add("is-refreshing");
+      function maybeRevealFeatured() {
+        var rect = featuredRoot.getBoundingClientRect();
+        if (rect.top < 96 || rect.top > window.innerHeight * 0.42) {
+          featuredRoot.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
       }
 
-      updateActiveCards();
-      if (options.spotlight) spotlightActiveCard();
-    }
+      function getVisibleIndices() {
+        return quotes.reduce(function (acc, quote, index) {
+          if (currentFilter === "ALL" || quote.category === currentFilter) acc.push(index);
+          return acc;
+        }, []);
+      }
 
-    function renderAll() {
-      var visible = ensureCurrentVisible();
-      renderFilters();
-      renderShelves();
-      updateCounts(visible);
-      setFeatured(currentIndex, { animate: false, spotlight: false });
-    }
+      function ensureCurrentVisible() {
+        var visible = getVisibleIndices();
+        if (!visible.length) return [];
+        if (visible.indexOf(currentIndex) === -1) currentIndex = visible[0];
+        return visible;
+      }
 
-    if (shuffleBtn) {
-      shuffleBtn.addEventListener("click", function () {
+      function updateCounts(visible) {
+        if (!countEl) return;
+        if (currentFilter === "ALL") {
+          countEl.textContent = visible.length + (visible.length === 1 ? " entry" : " entries");
+        } else {
+          countEl.textContent = visible.length + (visible.length === 1 ? " entry" : " entries") + " in " + getCategoryLabel(currentFilter);
+        }
+      }
+
+      function renderFilters() {
+        filtersEl.innerHTML = "";
+
+        function buildButton(label, filter) {
+          var button = document.createElement("button");
+          button.type = "button";
+          button.className = "filter-btn" + (currentFilter === filter ? " active" : "");
+          button.dataset.filter = filter;
+          button.textContent = label;
+          button.addEventListener("click", function () {
+            currentFilter = filter;
+            renderAll();
+          });
+          return button;
+        }
+
+        filtersEl.appendChild(buildButton("All", "ALL"));
+        categoryOrder.forEach(function (category) {
+          filtersEl.appendChild(buildButton(getCategoryLabel(category), category));
+        });
+      }
+
+      function createCard(index) {
+        var quote = quotes[index];
+        var card = document.createElement("button");
+        var hasNote = quote.note && quote.note.trim().length > 0;
+
+        card.type = "button";
+        card.className = "quote-card";
+        card.dataset.index = index;
+        card.dataset.theme = quote.category;
+
+        var meta = document.createElement("div");
+        meta.className = "quote-card-meta";
+
+        var theme = document.createElement("span");
+        theme.textContent = getCategoryLabel(quote.category);
+        meta.appendChild(theme);
+
+        if (hasNote) {
+          var noteTag = document.createElement("span");
+          noteTag.className = "quote-card-note";
+          noteTag.textContent = "Note";
+          meta.appendChild(noteTag);
+        }
+
+        var preview = document.createElement("p");
+        preview.className = "quote-preview";
+        preview.textContent = "\"" + quote.text + "\"";
+
+        var author = document.createElement("p");
+        author.className = "quote-card-author";
+        author.textContent = quote.author;
+
+        card.appendChild(meta);
+        card.appendChild(preview);
+        card.appendChild(author);
+
+        card.addEventListener("click", function () {
+          currentIndex = index;
+          setFeatured(index, { animate: true, spotlight: false });
+          maybeRevealFeatured();
+        });
+
+        return card;
+      }
+
+      function renderShelves() {
         var visible = ensureCurrentVisible();
-        if (!visible.length) return;
-        var candidates = visible.filter(function (index) { return index !== currentIndex; });
-        var pool = candidates.length ? candidates : visible;
-        currentIndex = pool[Math.floor(Math.random() * pool.length)];
-        setFeatured(currentIndex, { animate: true, spotlight: true });
-        featuredRoot.scrollIntoView({ behavior: "smooth", block: "nearest" });
-      });
-    }
+        shelvesEl.innerHTML = "";
 
-    renderAll();
-  })();
+        categoryOrder.forEach(function (category) {
+          var items = visible.filter(function (index) {
+            return quotes[index].category === category;
+          });
+
+          if (!items.length) return;
+
+          var shelf = document.createElement("section");
+          shelf.className = "quote-shelf";
+          shelf.dataset.theme = category;
+
+          var head = document.createElement("div");
+          head.className = "quote-shelf-head";
+
+          var title = document.createElement("p");
+          title.className = "quote-shelf-title";
+          title.textContent = getCategoryLabel(category);
+
+          var count = document.createElement("p");
+          count.className = "quote-shelf-count";
+          count.textContent = items.length + (items.length === 1 ? " entry" : " entries");
+
+          head.appendChild(title);
+          head.appendChild(count);
+
+          var grid = document.createElement("div");
+          grid.className = "quote-card-grid";
+
+          items.forEach(function (index) {
+            grid.appendChild(createCard(index));
+          });
+
+          shelf.appendChild(head);
+          shelf.appendChild(grid);
+          shelvesEl.appendChild(shelf);
+        });
+
+        if (hintEl) {
+          var hasVisibleNote = visible.some(function (index) {
+            return quotes[index].note && quotes[index].note.trim().length > 0;
+          });
+          hintEl.style.display = hasVisibleNote ? "" : "none";
+        }
+      }
+
+      function updateActiveCards() {
+        Array.from(document.querySelectorAll(".quote-card")).forEach(function (card) {
+          var active = Number(card.dataset.index) === currentIndex;
+          card.classList.toggle("active", active);
+          card.setAttribute("aria-pressed", active ? "true" : "false");
+        });
+      }
+
+      function spotlightActiveCard() {
+        var activeCard = document.querySelector('.quote-card[data-index="' + currentIndex + '"]');
+        if (!activeCard) return;
+        activeCard.classList.remove("spotlit");
+        void activeCard.offsetWidth;
+        activeCard.classList.add("spotlit");
+        activeCard.addEventListener("animationend", function () {
+          activeCard.classList.remove("spotlit");
+        }, { once: true });
+      }
+
+      function setFeatured(index, options) {
+        options = options || {};
+        var visible = ensureCurrentVisible();
+        var quote = quotes[index];
+        var visiblePosition = visible.indexOf(index);
+        var hasNote = quote.note && quote.note.trim().length > 0;
+
+        featuredRoot.dataset.theme = quote.category;
+        featuredTheme.textContent = getCategoryLabel(quote.category);
+        featuredPosition.textContent = (visiblePosition + 1) + " of " + visible.length;
+        featuredText.textContent = "\u201c" + quote.text + "\u201d";
+        featuredAuthor.textContent = quote.author;
+
+        featuredRoot.classList.toggle("has-note", hasNote);
+        featuredNotePanel.hidden = !hasNote;
+        featuredNote.textContent = hasNote ? quote.note : "";
+
+        var hasLink = hasNote && quote.link && quote.link.href;
+        featuredNoteLink.hidden = !hasLink;
+        if (hasLink) {
+          featuredNoteLink.href = quote.link.href;
+          featuredNoteLink.textContent = quote.link.label + " \u2192";
+        }
+
+        if (options.animate !== false) {
+          featuredRoot.classList.remove("is-refreshing");
+          void featuredRoot.offsetWidth;
+          featuredRoot.classList.add("is-refreshing");
+        }
+
+        updateActiveCards();
+        if (options.spotlight) spotlightActiveCard();
+      }
+
+      function renderAll() {
+        var visible = ensureCurrentVisible();
+        renderFilters();
+        renderShelves();
+        updateCounts(visible);
+        setFeatured(currentIndex, { animate: false, spotlight: false });
+      }
+
+      if (shuffleBtn) {
+        shuffleBtn.addEventListener("click", function () {
+          var visible = ensureCurrentVisible();
+          if (!visible.length) return;
+          var candidates = visible.filter(function (index) { return index !== currentIndex; });
+          var pool = candidates.length ? candidates : visible;
+          currentIndex = pool[Math.floor(Math.random() * pool.length)];
+          setFeatured(currentIndex, { animate: true, spotlight: true });
+          featuredRoot.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        });
+      }
+
+      renderAll();
+    })();
   </script>
 </body>
+
 </html>
