@@ -63,32 +63,32 @@ live site references any of it. `_to_delete/` is gitignored.
 
 ### Admin editor (live)
 
-`editor/index.html` and `editor/admin.html` are password-gated, JSON-driven editors for two
-pages: Greg's page (`Reflections/gregory-schmidt.html`, sourced from
-`data/gregory-schmidt.json`) and the "For Cooper" forward page
+`editor/admin.html` is a password-gated, JSON-driven editor for Mike's "For Cooper" forward page
 (`Reflections/michael-schmidt-forward.html`, sourced from `data/michael-schmidt-forward.json`).
-Each editor POSTs to a Cloudflare Pages Function — `functions/api/content.js` (Greg's editor)
-and `functions/api/admin.js` (Mike's admin editor) — which commits the edited JSON straight to
-`main` via the GitHub API.
+It POSTs to a Cloudflare Pages Function, `functions/api/admin.js`, which commits the edited
+JSON straight to `main` via the GitHub API.
 
 This works because **the site is hosted on Cloudflare Pages, not GitHub Pages** — Cloudflare
-Pages Functions serve the `/api/*` routes the editors POST to; GitHub Pages has no equivalent.
-Requires these env vars set in the Cloudflare Pages dashboard: `GITHUB_PAT`, `EDITOR_PASSWORD`
-(Greg's editor), `ADMIN_PASSWORD` (Mike's admin editor).
+Pages Functions serve the `/api/*` routes the editor POSTs to; GitHub Pages has no equivalent.
+Requires these env vars set in the Cloudflare Pages dashboard: `GITHUB_PAT`, `ADMIN_PASSWORD`.
 
-Once an editor publishes a page, its HTML is generated output for that page only — don't
-hand-edit `gregory-schmidt.html` or `michael-schmidt-forward.html` directly in VS Code; the
-JSON is the source of truth. Layout/structural changes go through the renderer in
-`content.js`/`admin.js`, then coordinate with Claude.
+Once the editor publishes a page, its HTML is generated output for that page only — don't
+hand-edit `michael-schmidt-forward.html` directly in VS Code; the JSON is the source of truth.
+Layout/structural changes go through the renderer in `admin.js`, then coordinate with Claude.
 
-To add another page to Mike's admin editor: add an entry to the `PAGES` registry at the top of
+To add another page to the admin editor: add an entry to the `PAGES` registry at the top of
 `admin.js`, write a renderer function for it, and create its JSON data file. The editor UI
 would need a page-picker dropdown added at the top.
 
-⚠️ This whole system (editor UI, Functions, JSON data files) was mistakenly deleted on
-2026-08-16 (commit `b94f0ae`, "web cleanup") under the wrong assumption that the site ran on
-GitHub Pages and `/api/*` couldn't work. It was restored from that commit's parent on
-2026-08-17. Don't re-delete it on the same reasoning — verify the hosting target first.
+**Greg's page is not editor-driven.** `Reflections/gregory-schmidt.html` is hand-authored HTML,
+laid out like Ron's and Kenneth's, and is edited directly. His JSON editor (`editor/index.html`,
+`functions/api/content.js`, `data/gregory-schmidt.json`) was retired on 2026-10-22 and moved to
+`_to_delete/greg-editor/`; `EDITOR_PASSWORD` is no longer used and can be removed from Cloudflare.
+
+⚠️ This system was mistakenly deleted once on 2026-08-16 (commit `b94f0ae`, "web cleanup")
+under the wrong assumption that the site ran on GitHub Pages and `/api/*` couldn't work. It
+was restored on 2026-08-17. Don't delete `admin.js` or `admin.html` on the same reasoning —
+verify the hosting target first.
 
 ### Header component pattern
 
