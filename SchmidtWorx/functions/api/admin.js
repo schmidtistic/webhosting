@@ -1,8 +1,8 @@
-// Cloudflare Pages Function — handles /api/admin
+// Cloudflare Pages Function: handles /api/admin
 //
 // Required environment variables (CF Pages → Settings → Environment variables):
-//   GITHUB_PAT      — fine-grained GitHub token, repo "webhosting", contents: write
-//   ADMIN_PASSWORD  — Mike's admin password
+//   GITHUB_PAT:     fine-grained GitHub token, repo "webhosting", contents: write
+//   ADMIN_PASSWORD: Mike's admin password
 
 const REPO_OWNER = 'schmidtistic';
 const REPO_NAME  = 'webhosting';
@@ -14,7 +14,7 @@ const CORS = {
   'Access-Control-Allow-Headers': 'Content-Type, X-Editor-Password',
 };
 
-// ── Page registry — add new pages here ──────────────────────────────────────
+// ── Page registry: add new pages here ──────────────────────────────────────
 
 const PAGES = {
   forward: {
@@ -24,7 +24,7 @@ const PAGES = {
     defaultContent() {
       return {
         meta: {
-          title: 'For Cooper — Michael Schmidt — SchmidtWorx',
+          title: 'For Cooper – Michael Schmidt | SchmidtWorx',
           description: 'Things Mike Schmidt figured out and wants to pass forward. For Cooper, and anyone else who finds it useful.',
           url: 'https://schmidtworx.com/Reflections/michael-schmidt-forward.html',
         },
@@ -168,6 +168,7 @@ ${bodyHTML}
   <meta property="og:description" content="${esc(meta.description)}" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="${esc(meta.url)}" />
+  <link rel="canonical" href="${esc(meta.url)}" />
   <meta property="og:image" content="https://schmidtworx.com/SWLogo.png" />
   <meta property="og:site_name" content="SchmidtWorx" />
   <meta name="twitter:card" content="summary" />
@@ -404,7 +405,7 @@ export async function onRequest(context) {
 
   const cfg = PAGES[page];
 
-  // GET — load current content from GitHub
+  // GET: load current content from GitHub
   if (request.method === 'GET') {
     const res = await ghGet(cfg.jsonPath, env.GITHUB_PAT);
 
@@ -418,7 +419,7 @@ export async function onRequest(context) {
     return jsonRes({ content, sha: file.sha });
   }
 
-  // POST — preview or publish
+  // POST: preview or publish
   if (request.method === 'POST') {
     let body;
     try { body = await request.json(); } catch {
@@ -428,7 +429,7 @@ export async function onRequest(context) {
     const { content, sha } = body;
     if (!content) return jsonRes({ error: 'Missing content' }, 400);
 
-    // Preview — render HTML, no commit
+    // Preview: render HTML, no commit
     if (url.searchParams.get('preview') === 'true') {
       const html = cfg.render(content, true);
       return new Response(html, {
@@ -436,7 +437,7 @@ export async function onRequest(context) {
       });
     }
 
-    // Publish — commit JSON then rendered HTML
+    // Publish: commit JSON then rendered HTML
     const jsonStr = JSON.stringify(content, null, 2);
     const jsonPut = await ghPut(cfg.jsonPath, jsonStr, sha, cfg.commitMessage, env.GITHUB_PAT);
     if (!jsonPut.ok) {

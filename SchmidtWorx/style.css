@@ -7,14 +7,14 @@
     --bg-soft: rgba(236, 230, 216, 0.04);
     --bg-panel: rgba(19, 22, 27, 0.78);
 
-    /* Ink — primary text, with progressively dimmer tiers */
+    /* Ink: primary text, with progressively dimmer tiers */
     --fg: #ece6d8;
     --ink-muted: rgba(236, 230, 216, 0.72);
     --ink-faint: rgba(236, 230, 216, 0.5);
     --ink-faintest: rgba(236, 230, 216, 0.12);
     --muted: var(--ink-muted);
 
-    /* Accents — same palette as the spine page */
+    /* Accents: same palette as the spine page */
     --gold: #d4a76a;
     --gold-warm: #b8763a;
     --voice: #96b9cb;
@@ -38,7 +38,7 @@
     --reading-width: 720px;
     --radius: 14px;
 
-    /* Type — Fraunces for heads and prose, Inter for body UI,
+    /* Type: Fraunces for heads and prose, Inter for body UI,
        JetBrains Mono for technical labels and meta. */
     --serif: "Fraunces", "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
     --sans: "Inter", "Avenir Next", Avenir, "Segoe UI", system-ui, -apple-system, sans-serif;
@@ -82,7 +82,7 @@ body {
     text-rendering: optimizeLegibility;
 }
 
-/* The grid overlay and secondary radial gradients are removed —
+/* The grid overlay and secondary radial gradients are removed:
    the spine page uses a quieter background and we want interior
    pages to feel like part of the same canvas. */
 
@@ -757,7 +757,7 @@ li + li {
     border: 0;
 }
 
-/* Video facade — a full-resolution poster standing in for the YouTube iframe
+/* Video facade: a full-resolution poster standing in for the YouTube iframe
    until the visitor clicks. Behaviour lives in scripts/video-facade.js; the
    reason it exists is in that file's header comment. */
 .video-facade-button {
@@ -966,7 +966,7 @@ footer {
     border-color: var(--accent);
 }
 
-/* ── View Switcher — Reflections / For Cooper ───────── */
+/* ── View Switcher: Reflections / For Cooper ───────── */
 .view-switcher {
     display: flex;
     flex-wrap: nowrap;
@@ -1114,7 +1114,7 @@ details[open] .entry-teaser {
 }
 
 /* A quiet flag on the collapsed summary for entries that hold more than
-   the 1995 typescript alone — a handwritten original, an earlier draft,
+   the 1995 typescript alone: a handwritten original, an earlier draft,
    or (for "My Father") a piece never published at all. Visible before
    the <details> is ever opened, so it isn't an easter egg. Same small
    pill treatment as .quote-card-note on the Inspiration page. */
@@ -1178,7 +1178,7 @@ details[open] .entry-teaser {
     height: auto;
     border-radius: 2px;
     /* The sheet sits on the page rather than in it: a hard contact edge
-       plus a soft cast shadow. No filter, no tinting — the paper is
+       plus a soft cast shadow. No filter, no tinting: the paper is
        already warm against the background. */
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.55), 0 12px 26px rgba(0, 0, 0, 0.45);
     outline: 1px solid rgba(0, 0, 0, 0.4);

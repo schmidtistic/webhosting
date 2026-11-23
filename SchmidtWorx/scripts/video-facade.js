@@ -1,10 +1,10 @@
-/* Video facade — swaps a poster image for the real YouTube iframe on click.
+/* Video facade: swaps a poster image for the real YouTube iframe on click.
  *
  * Why this exists: these players live inside collapsed <details> elements. An
  * iframe that loads while its container has no layout box makes the YouTube
  * player initialise at zero size, so it fetches the smallest poster it has and
  * then upscales that blurry image once the section is expanded. Loading a
- * fixed, full-resolution thumbnail ourselves sidesteps the problem entirely —
+ * fixed, full-resolution thumbnail ourselves sidesteps the problem entirely,
  * and the page stops booting a player per video on every visit.
  *
  * Markup:
@@ -49,7 +49,7 @@
         var img = document.createElement('img');
         // maxresdefault is 1280x720 and exists for anything uploaded at 720p or
         // above. When it doesn't, YouTube serves a 120x90 placeholder with a
-        // 404, so fall back to hqdefault (480x360 — 4:3, but object-fit: cover
+        // 404, so fall back to hqdefault (480x360, 4:3, but object-fit: cover
         // crops the letterbox bars back off).
         img.src = POSTER + id + '/maxresdefault.jpg';
         img.alt = '';

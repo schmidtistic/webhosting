@@ -4,9 +4,9 @@ description: gh CLI auth and remote URL config for this repo
 type: reference
 ---
 
-`gh` is installed at `/opt/homebrew/bin/gh` — not in default shell PATH, always use full path.
+`gh` is installed at `/opt/homebrew/bin/gh`: not in default shell PATH, always use full path.
 
-Auth is stored in macOS keyring (account: schmidtistic). Persists across sessions — no re-login needed.
+Auth is stored in macOS keyring (account: schmidtistic). Persists across sessions: no re-login needed.
 
 Remote origin was changed from SSH to HTTPS: `https://github.com/schmidtistic/webhosting.git`
 

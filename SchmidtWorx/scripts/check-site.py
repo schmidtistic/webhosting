@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
-check-site.py — pre-merge sanity check for the static site.
+check-site.py: pre-merge sanity check for the static site.
 
     python3 scripts/check-site.py
 
 Checks every .html page for:
   * internal href/src/data-src targets that don't exist on disk
-  * case-only mismatches (these work on macOS, break on GitHub Pages)
+  * case-only mismatches (these work on macOS, break on case-sensitive hosts such as Cloudflare Pages)
   * #anchor targets with no matching id
   * duplicate element ids
   * unclosed / mismatched tags
@@ -17,7 +17,7 @@ Attribute scanning skips <script> and <style> blocks, so URLs built by string
 concatenation in JS are not mistaken for broken links.
 
 Exits non-zero if anything in the first six categories fails.
-Unreferenced assets are reported but do not fail the run — section-divider
+Unreferenced assets are reported but do not fail the run: section-divider
 sheets in the -pages/ folders are unreferenced on purpose.
 """
 

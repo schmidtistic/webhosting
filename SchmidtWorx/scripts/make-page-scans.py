@@ -10,15 +10,15 @@ Convention
 For a source document at `assets/<Name>.pdf`, every page is rendered into
 `assets/<Name>-pages/`:
 
-    pNN.jpg         1200px wide, quality 82  — what the page viewer opens
-    pNN-thumb.jpg    320px wide, quality 80  — what the strip shows
+    pNN.jpg         1200px wide, quality 82: what the page viewer opens
+    pNN-thumb.jpg    320px wide, quality 80: what the strip shows
 
 NN is the page's 1-based position **in that PDF**, zero-padded to two
 digits. That is the whole naming rule. Because the number is the PDF page
 number, any thumbnail on the site can be checked against the source by
 opening the PDF to that page.
 
-Nothing else belongs in a `-pages/` folder — it is generated output and is
+Nothing else belongs in a `-pages/` folder: it is generated output and is
 safe to delete and rebuild at any time.
 
 If a source PDF is re-scanned or edited, re-run this script for it and then
@@ -58,7 +58,7 @@ def build(pdf_path):
     if not os.path.isfile(pdf_path):
         sys.exit(f"no such file: {pdf_path}")
     if shutil.which("pdftoppm") is None:
-        sys.exit("pdftoppm not found — install poppler (brew install poppler)")
+        sys.exit("pdftoppm not found: install poppler (brew install poppler)")
 
     name = os.path.splitext(os.path.basename(pdf_path))[0]
     out = os.path.join(os.path.dirname(os.path.abspath(pdf_path)), name + "-pages")

@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /editor/
+Disallow: /api/
+Disallow: /data/
+Disallow: /memory/
+Disallow: /scripts/
+
+Sitemap: https://schmidtworx.com/sitemap.xml

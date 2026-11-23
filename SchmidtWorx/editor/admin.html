@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Editor — SchmidtWorx</title>
+  <title>Admin Editor | SchmidtWorx</title>
   <style>
     :root {
       --bg: #121416;
@@ -281,7 +281,7 @@
     <div class="card card-lessons" id="card-lessons">
       <div class="card-head" onclick="toggleCard(this)">
         <div class="card-head-info">
-          <h3>Lessons — What I Know</h3>
+          <h3>Lessons: What I Know</h3>
           <div class="card-subtitle" id="lessons-subtitle">0 entries</div>
         </div>
         <span class="chevron">▼</span>
@@ -315,7 +315,7 @@
     <div class="card card-notes" id="card-notes">
       <div class="card-head" onclick="toggleCard(this)">
         <div class="card-head-info">
-          <h3>Notes — What I See</h3>
+          <h3>Notes: What I See</h3>
           <div class="card-subtitle" id="notes-subtitle">0 notes</div>
         </div>
         <span class="chevron">▼</span>
@@ -398,7 +398,7 @@
   </div>
 
   <div id="preview-col">
-    <div id="preview-label">Live Preview — updates as you type</div>
+    <div id="preview-label">Live Preview: updates as you type</div>
     <iframe id="preview-frame" title="Live page preview" sandbox="allow-same-origin allow-scripts"></iframe>
   </div>
 
@@ -467,7 +467,7 @@ async function loadContent() {
     setStatus('ready', 'All changes saved');
     schedulePreview(0);
   } catch (err) {
-    showLoginError('Could not connect — try refreshing the page.');
+    showLoginError('Could not connect. Try refreshing the page.');
   }
 }
 
@@ -534,7 +534,7 @@ async function updatePreview() {
 }
 
 function markDirty() {
-  setStatus('unsaved', 'Unsaved changes — remember to Publish');
+  setStatus('unsaved', 'Unsaved changes. Remember to Publish');
   schedulePreview();
 }
 
@@ -609,7 +609,7 @@ function buildLessonCard(entry, idx) {
 }
 
 function normalizePaste(btn) {
-  // Walk the DOM to find the textarea in the same .field — no ID lookup
+  // Walk the DOM to find the textarea in the same .field, no ID lookup
   const field = btn.closest('.field') || btn.parentElement;
   const ta = field?.querySelector('textarea');
   if (!ta) {
@@ -796,11 +796,11 @@ function buildVideoCard(video, idx) {
       <div class="field">
         <label>Display Title</label>
         <input type="text" value="${esc(video.title ?? '')}"
-          placeholder="e.g., The Death Crawl — Facing the Giants"
+          placeholder="e.g., The Death Crawl: Facing the Giants"
           oninput="updateVideo(${idx},'title',this.value)">
       </div>
       <div class="field">
-        <label>Your Note <small>(optional — why this one matters)</small></label>
+        <label>Your Note <small>(optional: why this one matters)</small></label>
         <textarea placeholder="Leave blank to show no note…"
           oninput="updateVideo(${idx},'note',this.value)">${esc(video.note ?? '')}</textarea>
       </div>
