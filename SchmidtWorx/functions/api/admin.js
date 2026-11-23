@@ -288,10 +288,12 @@ ${bodyHTML}
       <p class="eyebrow">${esc(hero.eyebrow)}</p>
       <h1>${esc(hero.title)}</h1>
       <p class="tagline">${esc(hero.tagline)}</p>
-      <nav class="view-switcher" aria-label="Switch perspective">
-        <a class="view-tab" href="michael-schmidt.html">Reflections</a>
-        <a class="view-tab is-active" href="michael-schmidt-forward.html" aria-current="page">For Cooper</a>
-        <a class="view-tab" href="michael-schmidt-inspiration.html">Inspiration</a>
+      <nav class="view-switcher" aria-label="Michael's sections">
+        <a class="view-tab is-active" href="/Reflections/michael-schmidt-forward.html" aria-current="page">For Cooper</a>
+        <a class="view-tab" href="/Reflections/michael-schmidt.html">Reflections</a>
+        <a class="view-tab" href="/Reflections/michael-schmidt-inspiration.html">Inspiration</a>
+        <a class="view-tab" href="/Recorded/michael-schmidt.html">Recorded</a>
+        <a class="view-tab" href="/Builds/index.html">Builds</a>
       </nav>
     </section>
 
@@ -327,6 +329,11 @@ ${noteItems}
       <p>${esc(videos.intro)}</p>
       <div id="video-grid" class="video-grid"></div>
     </section>
+
+    <nav class="spine-nav" aria-label="Along the spine">
+      <a class="spine-link prev" href="/Reflections/gregory-schmidt.html"><span class="spine-dir">&larr; Previous on the spine</span><span class="spine-name">Gregory</span></a>
+      <a class="spine-link next" href="/index.html#future"><span class="spine-dir">Next on the spine &rarr;</span><span class="spine-name">For those who come after</span></a>
+    </nav>
 ${footerHTML}
   </main>
 ${scriptTag}

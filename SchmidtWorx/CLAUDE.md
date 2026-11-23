@@ -55,13 +55,13 @@ page's `<head>`.
 ### Content sections
 
 - `Reflections/`: Written essays and reflections (collapsible `<details>` pattern)
-- `LettersAndRecordings/`: "Recordings and Artifacts" in the nav. Mixed-media personal archive: recordings, video montages, readings read aloud, scanned documents and ephemera, and links into `Builds/`. Audio/video is just one slice: physical artifacts (report cards, letters, photos, etc.) are first-class citizens here too.
+- `Recorded/`: "Recorded" on the page and home card. Mixed-media personal archive: recordings, video montages, readings read aloud, scanned documents and ephemera, and links into `Builds/`. Audio/video is just one slice: physical artifacts (report cards, letters, photos, etc.) are first-class citizens here too.
 - `Builds/`: Per-build pages for physical projects (home theater, smart home, home gym, deck, etc.). Reached from the "Spaces and Systems Built" card on the home page (`index.html` links to `Builds/index.html`).
-- Only `Builds/` has an `index.html` listing page. `Reflections/` and `LettersAndRecordings/`
+- Only `Builds/` has an `index.html` listing page. `Reflections/` and `Recorded/`
   have no index: the home page links straight to the per-author pages. Don't add an index
   for them without also wiring it into `index.html`.
 
-**Naming note:** the folder `LettersAndRecordings/` predates the current section name. On disk it's `LettersAndRecordings/`; in the nav and page titles it reads "Recordings and Artifacts." Don't invent a new section for artifact-style content: add it here.
+**Naming note:** this section was `LettersAndRecordings/` ("Spoken", "Recordings and Artifacts") until November 2026.  `_redirects` sends the old URLs to `/Recorded/` with a 301, so keep that file.
 
 ### Retired code
 
@@ -141,7 +141,7 @@ source, but Facebook, LinkedIn and iMessage will not render SVG previews).
 
 Reflections pages use nested `<details>`/`<summary>` elements with custom +/− icons for collapsible essays. Cards use the `.section-card` and `.archive-card` classes defined in `style.css`.
 
-Per-person pages in `LettersAndRecordings/` (e.g., `michael-schmidt.html`) organize content into Roman-numeral subsections by medium, currently I. Personal Messages, II. Documentary Interviews, III. Readings, IV. Videos and Montages. New artifact types (scanned documents, ephemera, etc.) should be added as additional Roman-numeral sections on the same page rather than spawning new top-level sections. Individual entries inside each section use the `details-card` / `<details><summary>` pattern.
+Per-person pages in `Recorded/` (e.g., `michael-schmidt.html`) organize content into Roman-numeral subsections by medium, currently I. Personal Messages, II. Documentary Interviews, III. Readings, IV. Videos and Montages. New artifact types (scanned documents, ephemera, etc.) should be added as additional Roman-numeral sections on the same page rather than spawning new top-level sections. Individual entries inside each section use the `details-card` / `<details><summary>` pattern.
 
 ### Site basics
 
@@ -270,3 +270,12 @@ clicked so the counter reads within one document.
 Deliberately **no sepia or tinting**. The paper is already warm against the dark
 background. What makes a scan read as an object is the contact edge, the cast shadow
 and a half-degree rotation, all in CSS.
+
+### Michael's section navigation
+
+Michael's five pages share one tab bar in a fixed order: For Cooper, Reflections, Inspiration,
+Recorded, Builds (`Builds/index.html` only).  The markup is identical on every page apart from
+`is-active`; For Cooper gets it from the renderer in `functions/api/admin.js`, so change both.
+Every person page ends with a `.spine-nav` (previous and next along the spine, Kenneth to Michael,
+Michael to the home page's `#future`).  Entries carry an `entry-meta` "Written YYYY" line.
+`Reflections/michael-schmidt.html` is `noindex`, and `scripts/make-sitemap.py` leaves noindex pages out.

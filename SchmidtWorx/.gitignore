@@ -11,5 +11,5 @@
 _to_delete/
 
 # Generated page scans are rebuilt by scripts/make-page-scans.py
-# (kept in the repo deliberately — uncomment to stop tracking them)
+# (kept in the repo deliberately, uncomment to stop tracking them)
 # assets/*-pages/

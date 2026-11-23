@@ -1323,3 +1323,80 @@ details[open] .entry-teaser {
         gap: 0.75rem;
     }
 }
+
+/* Michael's five sections: two rows on narrow screens instead of a hidden scroll */
+@media (max-width: 719px) {
+    .view-switcher {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        overflow: hidden;
+    }
+    .view-tab {
+        grid-column: span 2;
+        padding: 0.6rem 0.4rem;
+        letter-spacing: 0.08em;
+        border-bottom: 1px solid var(--border);
+    }
+    .view-tab:nth-child(n+4) {
+        grid-column: span 3;
+        border-bottom: none;
+    }
+    .view-tab + .view-tab {
+        border-left: none;
+    }
+    .view-tab:nth-child(2),
+    .view-tab:nth-child(3),
+    .view-tab:nth-child(5) {
+        border-left: 1px solid var(--border);
+    }
+}
+
+/* Previous / next along the generational spine */
+.spine-nav {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin: 3rem 0 1rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+}
+
+.spine-link {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    max-width: 48%;
+    color: var(--fg);
+    text-decoration: none;
+    border-bottom: none;
+}
+
+.spine-link.next {
+    margin-left: auto;
+    text-align: right;
+}
+
+.spine-dir {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.spine-name {
+    font-size: 1.2rem;
+    transition: color 0.2s ease;
+}
+
+.spine-link:hover .spine-name {
+    color: var(--accent);
+}
+
+@media (max-width: 719px) {
+    .spine-dir {
+        font-size: 0.62rem;
+        letter-spacing: 0.1em;
+    }
+}

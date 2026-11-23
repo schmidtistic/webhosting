@@ -15,7 +15,7 @@ SchmidtWorx preserves writings, recordings, and artifacts from the Schmidt famil
 | `SchmidtWorx/` | The entire website, served as the web root |
 | `SchmidtWorx/index.html` | Home page (self-contained, with its own styles and nav) |
 | `SchmidtWorx/Reflections/` | Written essays and reflections, organized by author, plus the For Cooper and Inspiration pages |
-| `SchmidtWorx/LettersAndRecordings/` | "Recordings and Artifacts": recordings, documentary interviews, readings, videos, scanned documents |
+| `SchmidtWorx/Recorded/` | Recordings, documentary interviews, readings, videos, scanned documents |
 | `SchmidtWorx/Builds/` | One page per physical build (theater, smart home, gym, deck, and so on) |
 | `SchmidtWorx/assets/` | Photos, video, audio, and preserved PDFs with their rendered page scans |
 | `SchmidtWorx/components/` | `header.html`, the single source of truth for the site nav |

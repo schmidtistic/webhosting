@@ -7,7 +7,7 @@ make-sitemap.py: regenerate sitemap.xml from the site's pages.
 Every page's URL is read from its <meta property="og:url"> tag (which must match
 its canonical link). lastmod comes from the page's last git commit date, falling
 back to the file's modification time. Pages left out on purpose: _to_delete/,
-components/, editor/ and 404.html.
+components/, editor/, 404.html and any page marked noindex.
 
 Run it after adding, renaming or removing a page, then commit sitemap.xml.
 """
@@ -21,6 +21,7 @@ import subprocess
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SKIP_PREFIXES = ("_to_delete", "components", "editor")
 SKIP_FILES = {"404.html"}
+NOINDEX = re.compile(r'<meta name="robots" content="[^"]*noindex')
 HOME = "https://schmidtworx.com/"
 OG_URL = re.compile(r'<meta property="og:url" content="([^"]+)"')
 
@@ -44,7 +45,11 @@ def main():
     for rel in sorted(glob.glob("**/*.html", recursive=True)):
         if rel.startswith(SKIP_PREFIXES) or rel in SKIP_FILES:
             continue
-        m = OG_URL.search(open(rel, encoding="utf-8", errors="ignore").read())
+        html = open(rel, encoding="utf-8", errors="ignore").read()
+        if NOINDEX.search(html):
+            print("skipped (noindex): " + rel)
+            continue
+        m = OG_URL.search(html)
         if not m:
             print("skipped (no og:url): " + rel)
             continue
