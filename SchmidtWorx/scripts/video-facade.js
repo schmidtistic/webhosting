@@ -11,16 +11,19 @@
  *   <div class="video-wrapper video-facade"
  *        data-video-id="9Psy1oRpZ6A"
  *        data-title="Message to Cooper"></div>
+ *
+ * Optional data-start="22" starts playback at that many seconds in.
  */
 (function () {
     'use strict';
 
     var POSTER = 'https://i.ytimg.com/vi/';
 
-    function buildIframe(id, title) {
+    function buildIframe(id, title, start) {
         var iframe = document.createElement('iframe');
         iframe.src = 'https://www.youtube.com/embed/' + id +
-            '?autoplay=1&rel=0&playsinline=1';
+            '?autoplay=1&rel=0&playsinline=1' +
+            (start ? '&start=' + start : '');
         iframe.title = title;
         iframe.allow = 'accelerometer; autoplay; clipboard-write; ' +
             'encrypted-media; gyroscope; picture-in-picture; web-share';
@@ -29,17 +32,18 @@
         return iframe;
     }
 
-    function activate(wrapper, id, title) {
+    function activate(wrapper, id, title, start) {
         wrapper.classList.remove('video-facade');
         wrapper.classList.add('video-playing');
         wrapper.textContent = '';
-        wrapper.appendChild(buildIframe(id, title));
+        wrapper.appendChild(buildIframe(id, title, start));
     }
 
     function mount(wrapper) {
         var id = wrapper.getAttribute('data-video-id');
         if (!id) return;
         var title = wrapper.getAttribute('data-title') || 'Video';
+        var start = parseInt(wrapper.getAttribute('data-start'), 10) || 0;
 
         var button = document.createElement('button');
         button.type = 'button';
@@ -68,7 +72,7 @@
         button.appendChild(img);
         button.appendChild(badge);
         button.addEventListener('click', function () {
-            activate(wrapper, id, title);
+            activate(wrapper, id, title, start);
         });
 
         wrapper.appendChild(button);
