@@ -273,8 +273,8 @@ and a half-degree rotation, all in CSS.
 
 ### Michael's section navigation
 
-Michael's five pages share one tab bar in a fixed order: For Cooper, Reflections, Inspiration,
-Recorded, Builds (`Builds/index.html` only).  The markup is identical on every page apart from
+Michael's five pages share one tab bar in a fixed order: For Cooper, Recorded, Inspiration, Reflections,
+Builds (`Builds/index.html` only); the home page cards follow the same order.  The markup is identical on every page apart from
 `is-active`; For Cooper gets it from the renderer in `functions/api/admin.js`, so change both.
 Every person page ends with a `.spine-nav` (previous and next along the spine, Kenneth to Michael,
 Michael to the home page's `#future`).  Entries carry an `entry-meta` "Written YYYY" line.

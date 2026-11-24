@@ -290,9 +290,9 @@ ${bodyHTML}
       <p class="tagline">${esc(hero.tagline)}</p>
       <nav class="view-switcher" aria-label="Michael's sections">
         <a class="view-tab is-active" href="/Reflections/michael-schmidt-forward.html" aria-current="page">For Cooper</a>
-        <a class="view-tab" href="/Reflections/michael-schmidt.html">Reflections</a>
-        <a class="view-tab" href="/Reflections/michael-schmidt-inspiration.html">Inspiration</a>
         <a class="view-tab" href="/Recorded/michael-schmidt.html">Recorded</a>
+        <a class="view-tab" href="/Reflections/michael-schmidt-inspiration.html">Inspiration</a>
+        <a class="view-tab" href="/Reflections/michael-schmidt.html">Reflections</a>
         <a class="view-tab" href="/Builds/index.html">Builds</a>
       </nav>
     </section>
