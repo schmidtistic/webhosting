@@ -53,7 +53,7 @@
       border-radius: var(--radius);
       background: rgba(236, 230, 216, 0.06);
       overflow: hidden;
-      scroll-margin-top: 6rem;
+      scroll-margin-top: 9rem;
     }
 
     /* Slim colored top-rule signals which theme this quote belongs to. */
@@ -472,6 +472,50 @@
       }
     }
   
+    /* In-page jumps under the intro, so Moments is visible before the long
+       quote shelves. */
+    #words,
+    #moments {
+      scroll-margin-top: 9rem;
+    }
+
+    .page-jumps {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.6rem;
+      margin-top: 1.1rem;
+    }
+
+    .page-jumps-label {
+      font-family: var(--mono);
+      font-size: 0.66rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-right: 0.2rem;
+    }
+
+    .page-jump {
+      padding: 0.35rem 0.85rem;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--fg);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      transition: border-color 0.2s ease, color 0.2s ease;
+    }
+
+    .page-jump:hover,
+    .page-jump:focus-visible {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
     /* Moments: scenes that land.  Each card takes a YouTube facade
        (.video-wrapper.video-facade with data-video-id) once a clip is chosen;
        until then .moment-clip-pending holds its place. */
@@ -603,15 +647,20 @@
 
     <section id="context" class="section-card">
       <p class="section-kicker">Context</p>
-      <h2 class="section-heading">Words worth keeping.</h2>
+      <h2 class="section-heading">Words and moments worth keeping.</h2>
       <p>
-        Things that stopped me: on a page, in a book, in a speech. Not a curated list of the greatest quotes ever
+        Things that stopped me: on a page, in a book, in a speech, on a screen. Not a curated list of the greatest quotes ever
         written. Just the ones that landed.
         Organized loosely by the quality they speak to.
       </p>
+      <nav class="page-jumps" aria-label="On this page">
+        <span class="page-jumps-label">On this page</span>
+        <a class="page-jump" href="#words">Words <span aria-hidden="true">&darr;</span></a>
+        <a class="page-jump" href="#moments">Moments <span aria-hidden="true">&darr;</span></a>
+      </nav>
     </section>
 
-    <section class="inspiration-stage">
+    <section id="words" class="inspiration-stage">
       <article class="featured-quote" id="featured-quote">
         <div class="featured-head">
           <div>
@@ -652,10 +701,9 @@
     <section id="moments" class="moments">
       <div class="section-card">
         <p class="section-kicker">Moments</p>
-        <h2 class="section-heading">Scenes that land.</h2>
+        <h2 class="section-heading">Moments that stuck.</h2>
         <p>
-          My favorite scenes are the ones where somebody takes an action that shows how much they care, with no
-          words and no explanation.  The action alone shows how much the other person matters.
+          Movie scenes that stayed with me, for one reason or another.
         </p>
         <span class="moments-status">In progress</span>
       </div>
@@ -665,31 +713,31 @@
           <div class="moment-clip-pending">Clip to come</div>
           <p class="moment-film">E.T. the Extra-Terrestrial &middot; 1982</p>
           <h3 class="moment-scene">&ldquo;I&rsquo;ll be right here.&rdquo;</h3>
-          <p class="moment-why is-pending">Why this one gets me: still to write.</p>
+          <!-- Optional: <p class="moment-why">a line of your own</p> -->
         </li>
         <li class="moment-card">
           <div class="moment-clip-pending">Clip to come</div>
           <p class="moment-film">Rocky II &middot; 1979</p>
           <h3 class="moment-scene">&ldquo;Win.&rdquo;</h3>
-          <p class="moment-why is-pending">Why this one gets me: still to write.</p>
+          <!-- Optional: <p class="moment-why">a line of your own</p> -->
         </li>
         <li class="moment-card">
           <div class="moment-clip-pending">Clip to come</div>
           <p class="moment-film">Dances with Wolves &middot; 1990</p>
           <h3 class="moment-scene">Wind In His Hair on the ridge</h3>
-          <p class="moment-why is-pending">Why this one gets me: still to write.</p>
+          <!-- Optional: <p class="moment-why">a line of your own</p> -->
         </li>
         <li class="moment-card">
           <div class="moment-clip-pending">Clip to come</div>
           <p class="moment-film">Man of Steel &middot; 2013</p>
           <h3 class="moment-scene">A raised hand in the storm</h3>
-          <p class="moment-why is-pending">Why this one gets me: still to write.</p>
+          <!-- Optional: <p class="moment-why">a line of your own</p> -->
         </li>
         <li class="moment-card">
           <div class="moment-clip-pending">Clip to come</div>
           <p class="moment-film">Interstellar &middot; 2014</p>
           <h3 class="moment-scene">Cooper lets go</h3>
-          <p class="moment-why is-pending">Why this one gets me: still to write.</p>
+          <!-- Optional: <p class="moment-why">a line of your own</p> -->
         </li>
       </ul>
     </section>
