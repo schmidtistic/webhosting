@@ -471,6 +471,92 @@
         max-width: 100%;
       }
     }
+  
+    /* Moments: scenes that land.  Each card takes a YouTube facade
+       (.video-wrapper.video-facade with data-video-id) once a clip is chosen;
+       until then .moment-clip-pending holds its place. */
+    .moments {
+      margin-top: 3.5rem;
+    }
+
+    .moments-status {
+      display: block;
+      width: fit-content;
+      margin-top: 0.9rem;
+      padding: 0.3rem 0.7rem;
+      border: 1px dashed var(--border);
+      border-radius: 999px;
+      font-family: var(--mono);
+      font-size: 0.66rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .moments-grid {
+      list-style: none;
+      margin: 1.5rem 0 0;
+      padding: 0;
+      display: grid;
+      gap: 1.25rem;
+    }
+
+    @media (min-width: 720px) {
+      .moments-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    .moment-card,
+    .moment-card + .moment-card {
+      margin: 0;
+    }
+
+    .moment-card {
+      padding: 1.1rem 1.1rem 1.3rem;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+    }
+
+    .moment-card .video-wrapper {
+      margin-top: 0;
+    }
+
+    .moment-clip-pending {
+      display: grid;
+      place-items: center;
+      aspect-ratio: 16 / 9;
+      border: 1px dashed var(--border);
+      border-radius: 16px;
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .moment-film {
+      margin: 1rem 0 0.3rem;
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .moment-scene {
+      margin: 0 0 0.6rem;
+      font-size: 1.25rem;
+    }
+
+    .moment-why {
+      margin: 0;
+    }
+
+    .moment-why.is-pending {
+      color: var(--muted);
+      font-style: italic;
+    }
   </style>
 </head>
 
@@ -563,6 +649,51 @@
     <p class="quotes-hint" id="quotes-hint">Select a card to bring it forward. Cards marked Note include a personal
       annotation.</p>
 
+    <section id="moments" class="moments">
+      <div class="section-card">
+        <p class="section-kicker">Moments</p>
+        <h2 class="section-heading">Scenes that land.</h2>
+        <p>
+          My favorite scenes are the ones where somebody takes an action that shows how much they care, with no
+          words and no explanation.  The action alone shows how much the other person matters.
+        </p>
+        <span class="moments-status">In progress</span>
+      </div>
+
+      <ul class="moments-grid">
+        <li class="moment-card">
+          <div class="moment-clip-pending">Clip to come</div>
+          <p class="moment-film">E.T. the Extra-Terrestrial &middot; 1982</p>
+          <h3 class="moment-scene">&ldquo;I&rsquo;ll be right here.&rdquo;</h3>
+          <p class="moment-why is-pending">Why this one gets me: still to write.</p>
+        </li>
+        <li class="moment-card">
+          <div class="moment-clip-pending">Clip to come</div>
+          <p class="moment-film">Rocky II &middot; 1979</p>
+          <h3 class="moment-scene">&ldquo;Win.&rdquo;</h3>
+          <p class="moment-why is-pending">Why this one gets me: still to write.</p>
+        </li>
+        <li class="moment-card">
+          <div class="moment-clip-pending">Clip to come</div>
+          <p class="moment-film">Dances with Wolves &middot; 1990</p>
+          <h3 class="moment-scene">Wind In His Hair on the ridge</h3>
+          <p class="moment-why is-pending">Why this one gets me: still to write.</p>
+        </li>
+        <li class="moment-card">
+          <div class="moment-clip-pending">Clip to come</div>
+          <p class="moment-film">Man of Steel &middot; 2013</p>
+          <h3 class="moment-scene">A raised hand in the storm</h3>
+          <p class="moment-why is-pending">Why this one gets me: still to write.</p>
+        </li>
+        <li class="moment-card">
+          <div class="moment-clip-pending">Clip to come</div>
+          <p class="moment-film">Interstellar &middot; 2014</p>
+          <h3 class="moment-scene">Cooper lets go</h3>
+          <p class="moment-why is-pending">Why this one gets me: still to write.</p>
+        </li>
+      </ul>
+    </section>
+
     <nav class="spine-nav" aria-label="Along the spine">
       <a class="spine-link prev" href="/Reflections/gregory-schmidt.html"><span class="spine-dir">&larr; Previous on the spine</span><span class="spine-name">Gregory</span></a>
       <a class="spine-link next" href="/index.html#future"><span class="spine-dir">Next on the spine &rarr;</span><span class="spine-name">For those who come after</span></a>
@@ -571,6 +702,7 @@
   </main>
 
   <script src="/scripts/menu.js"></script>
+  <script src="/scripts/video-facade.js"></script>
   <script>
     (function () {
       var quotes = [
