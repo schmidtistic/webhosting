@@ -332,7 +332,7 @@ ${noteItems}
 
     <nav class="spine-nav" aria-label="Along the spine">
       <a class="spine-link prev" href="/Reflections/gregory-schmidt.html"><span class="spine-dir">&larr; Previous on the spine</span><span class="spine-name">Gregory</span></a>
-      <a class="spine-link next" href="/index.html#future"><span class="spine-dir">Next on the spine &rarr;</span><span class="spine-name">For those who come after</span></a>
+      <a class="spine-link next" href="/Reflections/cooper-schmidt.html"><span class="spine-dir">Next on the spine &rarr;</span><span class="spine-name">Cooper</span></a>
     </nav>
 ${footerHTML}
   </main>

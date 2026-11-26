@@ -276,6 +276,6 @@ and a half-degree rotation, all in CSS.
 Michael's five pages share one tab bar in a fixed order: For Cooper, Recorded, Inspiration, Reflections,
 Builds (`Builds/index.html` only); the home page cards follow the same order.  The markup is identical on every page apart from
 `is-active`; For Cooper gets it from the renderer in `functions/api/admin.js`, so change both.
-Every person page ends with a `.spine-nav` (previous and next along the spine, Kenneth to Michael,
-Michael to the home page's `#future`).  Entries carry an `entry-meta` "Written YYYY" line.
-`Reflections/michael-schmidt.html` is `noindex`, and `scripts/make-sitemap.py` leaves noindex pages out.
+Every person page ends with a `.spine-nav` (previous and next along the spine: Kenneth, Ronald, Gregory,
+Michael, Cooper, then the home page's `#future`).  Entries carry an `entry-meta` "Written YYYY" line.
+`Reflections/michael-schmidt.html` and `Reflections/cooper-schmidt.html` are `noindex` (Cooper is a minor; keep his page out of search), and `scripts/make-sitemap.py` leaves noindex pages out.
